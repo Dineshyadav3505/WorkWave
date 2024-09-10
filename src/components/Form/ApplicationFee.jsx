@@ -12,7 +12,7 @@ const ApplicationFee = ({
     <div className="mt-6">
       <div className=" relative">
         <Heading label="Application Fee" />
-        <div className=" absolute top-0 right-4">
+        <div className=" absolute top-2 right-4">
           <button type="button" onClick={handleAdd} className="p-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"

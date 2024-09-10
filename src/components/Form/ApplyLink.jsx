@@ -3,17 +3,16 @@ import Heading from "@/components/Form/Heading";
 import Input from "@/components/Form/Input";
 
 const ApplyLink = ({
-  Limits,
+  links, 
   handleChange,
   handleAdd,
   handleRemove,
-
 }) => {
   return (
     <div className="mt-6">
-      <div className=" relative">
+      <div className="relative">
         <Heading label="Apply Link" />
-        <div className=" absolute top-0 right-4">
+        <div className="absolute top-2 right-4">
           <button type="button" onClick={handleAdd} className="p-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -48,27 +47,25 @@ const ApplyLink = ({
           </button>
         </div>
       </div>
-      {Limits.map((limit, index) => (
+      {links.map((link, index) => (
         <div key={index} className="flex gap-3 mb-2">
           <Input
             type="text"
-            name={`ageLimitLabel${index}`}
-            id={`ageLimitLabel${index}`}
+            name={`applyLinkLabel${index}`}
+            id={`applyLinkLabel${index}`}
             label="Label"
-            value={limit.label}
-            onChange={(e) =>
-              handleChange(index, "label", e.target.value)
-            }
+            value={link.label}
+            onChange={(e) => handleChange(index, "label", e.target.value)}
+  
           />
           <Input
             type="text"
-            name={`ageLimitDate${index}`}
-            id={`ageLimitDate${index}`}
-            label="age"
-            value={limit.date}
-            onChange={(e) =>
-              handleChange(index, "date", e.target.value)
-            }
+            name={`applyLinkURL${index}`}
+            id={`applyLinkURL${index}`}
+            label="Link"
+            value={link.link}
+            onChange={(e) => handleChange(index, "link", e.target.value)}
+
           />
         </div>
       ))}
