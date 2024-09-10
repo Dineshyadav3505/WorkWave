@@ -8,8 +8,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'text-dark': '#6153cc',
+        'text-light': '#44ffd1',
+        'second-text-dark':'#AAB0B9',
+        'second-text-light':'#AAB0B9',
+        'bg-dark': '#F4F5F8',
+        'bg-light': '#F4F5F8',
+        'bg-button-light':'#01756A',
+        'bg-button-dark':'#01756A',
+        'text-button-light':'#FFFFFF',
+        'text-button-dark':'#FFFFFF',
       },
     },
   },

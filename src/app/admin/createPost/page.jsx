@@ -1,447 +1,249 @@
 "use client";
-import React, { useState } from 'react';
-import Input from '@/components/Input';
-import Button from '@/components/Button';
+import AgeSection from "@/components/Form/AgeSection";
+import ApplicationFee from "@/components/Form/ApplicationFee";
+import Heading from "@/components/Form/Heading";
+import ImportantDate from "@/components/Form/ImportantDate";
+import Input from "@/components/Form/Input";
+import React, { useState } from "react";
 
-const JobPostForm = () => {
-  const [formData, setFormData] = useState({
-    postName: '',
-    description: '',
-    image: null,
-    notificationLink: '',
-    importantDates: [{ label: '', date: '' }],
-    applicationFee: [{ label: '', amount: '' }],
-    ageLimit: [{ label: '', age: '' }],
-    applyLink: [{ label: '', link: '' }],
-    resultLink: [{ label: '', link: '' }],
-    admitCardLink: [{ label: '', link: '' }],
-    answerkeyLink: [{ label: '', link: '' }],
-    AdmissionLink: [{ label: '', link: '' }],
-    multiChild: [{ postname: '', qualifications: [''] }],
-    multiGrandChild: [{ title: '', titleChild: [{ titleChildName: '', titleGrandChild: [''] }] }],
-    multiGrandChild2: [{ title: '', titleChild: [{ titleChildName: '', titleGrandChild: [{ label: '', post: '' }] }] }],
-    state: '',
-    beginDate: '',
-    lastDate: '',
-  });
+const Page = () => {
+  const [image, setImage] = useState(null);
+  const [postName, setPostName] = useState("");
+  const [notificationLink, setNotificationLink] = useState("");
+  const [description, setDescription] = useState("");
+  const [importantDates, setImportantDates] = useState([
+    { label: "", date: "" },
+  ]);
+  const [applicationFees, setApplicationFees] = useState([
+    { label: "", date: "" },
+  ]);
+  const [ageLimits, setAgeLimits] = useState([{ label: "", date: "" }]);
+  const [multiGrandChild, setMultiGrandChild] = useState([
+    { title: "", titleChild: [{ titleChildName: "", titleGrandChild: [""] }] },
+  ]);
 
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === 'file' ? files[0] : value,
-    }));
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
-  const handleArrayChange = (e, index, field) => {
-    const { name, value } = e.target;
-    const updatedArray = [...formData[field]];
-    updatedArray[index][name] = value;
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: updatedArray,
-    }));
+  const handlePostNameChange = (e) => {
+    setPostName(e.target.value);
   };
 
-  const addArrayItem = (field) => {
-    const newItem = field === 'importantDates' ? { label: '', date: '' } :
-                    field === 'applicationFee' ? { label: '', amount: '' } :
-                    field === 'ageLimit' ? { label: '', age: '' } :
-                    field === 'applyLink' ? { label: '', link: '' } :
-                    field === 'resultLink' ? { label: '', link: '' } :
-                    field === 'admitCardLink' ? { label: '', link: '' } :
-                    field === 'answerkeyLink' ? { label: '', link: '' } :
-                    field === 'AdmissionLink' ? { label: '', link: '' } :
-                    field === 'multiChild' ? { postname: '', qualifications: [''] } :
-                    field === 'multiGrandChild' ? { title: '', titleChild: [{ titleChildName: '', titleGrandChild: [''] }] } :
-                    field === 'multiGrandChild2' ? { title: '', titleChild: [{ titleChildName: '', titleGrandChild: [{ label: '', post: '' }] }] } :
-                    null;
+  const handleNotificationLinkChange = (e) => {
+    setNotificationLink(e.target.value);
+  };
 
-    if (newItem) {
-      setFormData((prevData) => ({
-        ...prevData,
-        [field]: [...prevData[field], newItem],
-      }));
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  // Handlers for important dates
+  const handleImportantDateChange = (index, field, value) => {
+    const newDates = [...importantDates];
+    newDates[index][field] = value;
+    setImportantDates(newDates);
+  };
+
+  const handleAddImportantDate = () => {
+    setImportantDates([...importantDates, { label: "", date: "" }]);
+  };
+
+  const handleRemoveImportantDate = () => {
+    if (importantDates.length > 1) {
+      setImportantDates(importantDates.slice(0, -1));
     }
   };
 
-  const handleSubmit = async (e) => {
+  // Handlers for application fees
+  const handleApplicationFeeChange = (index, field, value) => {
+    const newFees = [...applicationFees];
+    newFees[index][field] = value;
+    setApplicationFees(newFees);
+  };
+
+  const handleAddApplicationFee = () => {
+    setApplicationFees([...applicationFees, { label: "", date: "" }]);
+  };
+
+  const handleRemoveApplicationFee = () => {
+    if (applicationFees.length > 1) {
+      setApplicationFees(applicationFees.slice(0, -1));
+    }
+  };
+
+  // Handlers for age limits
+  const handleAgeLimitChange = (index, field, value) => {
+    const newLimits = [...ageLimits];
+    newLimits[index][field] = value;
+    setAgeLimits(newLimits);
+  };
+
+  const handleAddAgeLimit = () => {
+    setAgeLimits([...ageLimits, { label: "", date: "" }]);
+  };
+
+  const handleRemoveAgeLimit = () => {
+    if (ageLimits.length > 1) {
+      setAgeLimits(ageLimits.slice(0, -1));
+    }
+  };
+  
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    const formDataToSend = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((item) => {
-          formDataToSend.append(`${key}[]`, JSON.stringify(item));
-        });
-      } else {
-        formDataToSend.append(key, value);
-      }
-    });
-
-    try {
-      const response = await fetch('/api/job-post', {
-        method: 'POST',
-        body: formDataToSend,
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Job post created successfully:', data);
-      } else {
-        console.error('Error creating job post:', data.message);
-      }
-    } catch (error) {
-      console.error('Unexpected error:', error);
-    }
+    // Handle form submission logic here
+    console.log("Image:", image);
+    console.log("Post Name:", postName);
+    console.log("Notification Link:", notificationLink);
+    console.log("Description:", description);
+    console.log("Important Dates:", importantDates);
+    console.log("Application Fees:", applicationFees);
+    console.log("Age Limits:", ageLimits);
+    console.log("Multi Grand Child:", multiGrandChild);
   };
 
   return (
-    <div className="py-32 px-2 flex flex-col items-center">
-        <h2 className='text-2xl '>Create a Post </h2>
-    <div className="flex justify-center items-center bg-slate-200">
-    <form onSubmit={handleSubmit} className="p-4 space-y-5">
-      <Input
-        type="text"
-        name="postName"
-        className=" w-full"
-        id="postName"
-        label="Post Name"
-        value={formData.postName}
-        onChange={handleChange}
-        required
-      />
-      <Input
-        type="textarea"
-        name="description"
-        id="description"
-        label="Description"
-        value={formData.description}
-        onChange={handleChange}
-        required
-      />
-      <Input
-        type="file"
-        name="image"
-        id="image"
-        label="Image"
-        onChange={handleChange}
-        required
-      />
-      <Input
-        type="text"
-        name="notificationLink"
-        id="notificationLink"
-        label="Notification Link"
-        value={formData.notificationLink}
-        onChange={handleChange}
-        required
-      />
-      <Input
-        type="date"
-        name="beginDate"
-        id="beginDate"
-        label="Begin Date"
-        value={formData.beginDate}
-        onChange={handleChange}
-        required
-      />
-      <Input
-        type="date"
-        name="lastDate"
-        id="lastDate"
-        label="Last Date"
-        value={formData.lastDate}
-        onChange={handleChange}
-        required
-      />
-      <Input
-        type="text"
-        name="state"
-        id="state"
-        label="State"
-        value={formData.state}
-        onChange={handleChange}
-      />
-
-      {/* Important Dates */}
-      <h3>Important Dates</h3>
-      {formData.importantDates.map((date, index) => (
-        <div key={index}>
+    <div className="min-h-screen w-full py-44">
+      <div className="mx-auto w-1/2">
+        <form onSubmit={handleSubmit}>
+          <Heading label="Post Information" />
+          <div className="flex items-center gap-3">
+            <Input
+              type="text"
+              name="postName"
+              id="postName"
+              label="Post Name"
+              value={postName}
+              onChange={handlePostNameChange}
+              required={true}
+            />
+            <Input
+              type="text"
+              name="notificationLink"
+              id="notificationLink"
+              label="Notification Link"
+              value={notificationLink}
+              onChange={handleNotificationLinkChange}
+              required={true}
+            />
+          </div>
           <Input
             type="text"
-            name="label"
-            id={`importantDateLabel${index}`}
-            label="Label"
-            value={date.label}
-            onChange={(e) => handleArrayChange(e, index, 'importantDates')}
+            name="description"
+            id="description"
+            label="Description"
+            value={description}
+            onChange={handleDescriptionChange}
+            required={true}
           />
           <Input
-            type="date"
-            name="date"
-            id={`importantDate${index}`}
-            label="Date"
-            value={date.date}
-            onChange={(e) => handleArrayChange(e, index, 'importantDates')}
+            type="file"
+            name="image"
+            id="image"
+            label="Upload Image"
+            onChange={handleImageChange}
+            required={true}
           />
-        </div>
-      ))}
-      <Button onClick={() => addArrayItem('importantDates')} />         
-      {/* Application Fee */}
-      <h3>Application Fee</h3>
-      {formData.applicationFee.map((fee, index) => (
-        <div key={index}>
-          <Input
-            type="text"
-            name="label"
-            id={`applicationFeeLabel${index}`}
-            label="Label"
-            value={fee.label}
-            onChange={(e) => handleArrayChange(e, index, 'applicationFee')}
-          />
-          <Input
-            type="number"
-            name="amount"
-            id={`applicationFeeAmount${index}`}
-            label="Amount"
-            value={fee.amount}
-            onChange={(e) => handleArrayChange(e, index, 'applicationFee')}
-          />
-        </div>
-      ))}
-      <button type="button" onClick={() => addArrayItem('applicationFee')}>
-        Add Application Fee
-      </button>
 
-      {/* Age Limit */}
-      <h3>Age Limit</h3>
-      {formData.ageLimit.map((age, index) => (
-        <div key={index}>
-          <Input
-            type="text"
-            name="label"
-            id={`ageLimitLabel${index}`}
-            label="Label"
-            value={age.label}
-            onChange={(e) => handleArrayChange(e, index, 'ageLimit')}
+          <ImportantDate
+          Limits={importantDates}
+          handleChange={handleImportantDateChange}
+          handleAdd={handleAddImportantDate}
+          handleRemove={handleRemoveImportantDate}
           />
-          <Input
-            type="number"
-            name="age"
-            id={`ageLimitAge${index}`}
-            label="Age"
-            value={age.age}
-            onChange={(e) => handleArrayChange(e, index, 'ageLimit')}
-          />
-        </div>
-      ))}
-      <button type="button" onClick={() => addArrayItem('ageLimit')}>
-        Add Age Limit
-      </button>
 
-      {/* Links (Apply, Result, Admit Card, Answer Key, Admission) */}
-      {['applyLink', 'resultLink', 'admitCardLink', 'answerkeyLink', 'AdmissionLink'].map((linkField) => (
-        <div key={linkField}>
-          <h3>{linkField.replace(/([A-Z])/g, ' $1').trim()} Links</h3>
-          {formData[linkField].map((link, index) => (
-            <div key={index}>
-              <Input
-                type="text"
-                name="label"
-                id={`${linkField}Label${index}`}
-                label="Label"
-                value={link.label}
-                onChange={(e) => handleArrayChange(e, index, linkField)}
-              />
-              <Input
-                type="text"
-                name="link"
-                id={`${linkField}Link${index}`}
-                label="Link"
-                value={link.link}
-                onChange={(e) => handleArrayChange(e, index, linkField)}
-              />
-            </div>
-          ))}
-          <button type="button" onClick={() => addArrayItem(linkField)}>
-            Add {linkField.replace(/([A-Z])/g, ' $1').trim()} Link
+          <ApplicationFee
+          Limits={applicationFees}
+          handleChange={handleApplicationFeeChange}
+          handleAdd={handleAddApplicationFee}
+          handleRemove={handleRemoveApplicationFee}
+          />
+
+          <AgeSection
+            Limits={ageLimits}
+            handleChange={handleAgeLimitChange}
+            handleAdd={handleAddAgeLimit}
+            handleRemove={handleRemoveAgeLimit}
+          />
+
+          
+
+          {/* Multi Grand Child Section
+          <div className="mt-6">
+            <Heading label="Multi Grand Child" />
+            {multiGrandChild.map((grandChild, grandChildIndex) => (
+              <div key={grandChildIndex} className="mt-4">
+                <Input
+                  type="text"
+                  name={`multiGrandChildTitle${grandChildIndex}`}
+                  id={`multiGrandChildTitle${grandChildIndex}`}
+                  label="Title"
+                  value={grandChild.title}
+                  onChange={(e) => {
+                    const newMultiGrandChild = [...multiGrandChild];
+                    newMultiGrandChild[grandChildIndex].title = e.target.value;
+                    setMultiGrandChild(newMultiGrandChild);
+                  }}
+                  required={true}
+                />
+                {grandChild.titleChild.map((child, childIndex) => (
+                  <div key={childIndex} className="mt-2">
+                    <Input
+                      type="text"
+                      name={`titleChildName${grandChildIndex}-${childIndex}`}
+                      id={`titleChildName${grandChildIndex}-${childIndex}`}
+                      label="Title Child Name"
+                      value={child.titleChildName}
+                      onChange={(e) => handleTitleChildChange(grandChildIndex, childIndex, "titleChildName", e.target.value)}
+                      required={true}
+                    />
+                    {child.titleGrandChild.map((grandChildName, grandChildIndex) => (
+                      <Input
+                        key={grandChildIndex}
+                        type="text"
+                        name={`titleGrandChild${grandChildIndex}`}
+                        id={`titleGrandChild${grandChildIndex}`}
+                        label="Title Grand Child"
+                        value={grandChildName}
+                        onChange={(e) => handleGrandChildChange(grandChildIndex, childIndex, grandChildIndex, e.target.value)}
+                        required={true}
+                      />
+                    ))}
+                    <button type="button" onClick={() => handleAddGrandChild(grandChildIndex, childIndex)} className="mt-2 bg-green-500 text-white px-4 py-2 rounded">
+                      Add Grand Child
+                    </button>
+                    <button type="button" onClick={() => handleRemoveGrandChild(grandChildIndex, childIndex)} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">
+                      Remove Last Grand Child
+                    </button>
+                  </div>
+                ))}
+                <button type="button" onClick={() => handleAddTitleChild(grandChildIndex)} className="mt-2 bg-green-500 text-white px-4 py-2 rounded">
+                  Add Title Child
+                </button>
+                <button type="button" onClick={() => handleRemoveTitleChild(grandChildIndex)} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">
+                  Remove Last Title Child
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={handleAddMultiGrandChild} className="mt-2 bg-green-500 text-white px-4 py-2 rounded">
+              Add Multi Grand Child
+            </button>
+            <button type="button" onClick={handleRemoveMultiGrandChild} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">
+              Remove Last Multi Grand Child
+            </button>
+          </div> */}
+
+          <button
+            type="submit"
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Submit
           </button>
-        </div>
-      ))}
-
-      {/* Multi Child */}
-      <h3>Multi Child</h3>
-      {formData.multiChild.map((child, index) => (
-        <div key={index}>
-          <Input
-            type="text"
-            name="postname"
-            id={`multiChildPostname${index}`}
-            label="Post Name"
-            value={child.postname}
-            onChange={(e) => handleArrayChange(e, index, 'multiChild')}
-          />
-          <Input
-            type="text"
-            name="qualifications"
-            id={`multiChildQualifications${index}`}
-            label="Qualifications (comma-separated)"
-            value={child.qualifications.join(', ')}
-            onChange={(e) => {
-              const qualifications = e.target.value.split(',').map((q) => q.trim());
-              setFormData((prevData) => {
-                const updatedMultiChild = [...prevData.multiChild];
-                updatedMultiChild[index].qualifications = qualifications;
-                return { ...prevData, multiChild: updatedMultiChild };
-              });
-            }}
-          />
-        </div>
-      ))}
-      <button type="button" onClick={() => addArrayItem('multiChild')}>
-        Add Multi Child
-      </button>
-
-      {/* Multi Grand Child */}
-      <h3>Multi Grand Child</h3>
-      {formData.multiGrandChild.map((grandChild, index) => (
-        <div key={index}>
-          <Input
-            type="text"
-            name="title"
-            id={`multiGrandChildTitle${index}`}
-            label="Title"
-            value={grandChild.title}
-            onChange={(e) => handleArrayChange(e, index, 'multiGrandChild')}
-          />
-          {grandChild.titleChild.map((titleChild, childIndex) => (
-            <div key={childIndex}>
-              <Input
-                type="text"
-                name="titleChildName"
-                id={`multiGrandChildTitleChildName${index}${childIndex}`}
-                label="Title Child Name"
-                value={titleChild.titleChildName}
-                onChange={(e) => {
-                  const updatedTitleChild = [...grandChild.titleChild];
-                  updatedTitleChild[childIndex].titleChildName = e.target.value;
-                  setFormData((prevData) => {
-                    const updatedMultiGrandChild = [...prevData.multiGrandChild];
-                    updatedMultiGrandChild[index].titleChild = updatedTitleChild;
-                    return { ...prevData, multiGrandChild: updatedMultiGrandChild };
-                  });
-                }}
-              />
-              <Input
-                type="text"
-                name="titleGrandChild"
-                id={`multiGrandChildTitleGrandChild${index}${childIndex}`}
-                label="Title Grand Child (comma-separated)"
-                value={titleChild.titleGrandChild.join(', ')}
-                onChange={(e) => {
-                  const titleGrandChild = e.target.value.split(',').map((g) => g.trim());
-                  setFormData((prevData) => {
-                    const updatedTitleChild = [...grandChild.titleChild];
-                    updatedTitleChild[childIndex].titleGrandChild = titleGrandChild;
-                    const updatedMultiGrandChild = [...prevData.multiGrandChild];
-                    updatedMultiGrandChild[index].titleChild = updatedTitleChild;
-                    return { ...prevData, multiGrandChild: updatedMultiGrandChild };
-                  });
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      ))}
-      <button type="button" onClick={() => addArrayItem('multiGrandChild')}>
-        Add Multi Grand Child
-      </button>
-
-      {/* Multi Grand Child 2 */}
-      <h3>Multi Grand Child 2</h3>
-      {formData.multiGrandChild2.map((grandChild2, index) => (
-        <div key={index}>
-          <Input
-            type="text"
-            name="title"
-            id={`multiGrandChild2Title${index}`}
-            label="Title"
-            value={grandChild2.title}
-            onChange={(e) => handleArrayChange(e, index, 'multiGrandChild2')}
-          />
-          {grandChild2.titleChild.map((titleChild, childIndex) => (
-            <div key={childIndex}>
-              <Input
-                type="text"
-                name="titleChildName"
-                id={`multiGrandChild2TitleChildName${index}${childIndex}`}
-                label="Title Child Name"
-                value={titleChild.titleChildName}
-                onChange={(e) => {
-                  const updatedTitleChild = [...grandChild2.titleChild];
-                  updatedTitleChild[childIndex].titleChildName = e.target.value;
-                  setFormData((prevData) => {
-                    const updatedMultiGrandChild2 = [...prevData.multiGrandChild2];
-                    updatedMultiGrandChild2[index].titleChild = updatedTitleChild;
-                    return { ...prevData, multiGrandChild2: updatedMultiGrandChild2 };
-                  });
-                }}
-              />
-              {titleChild.titleGrandChild.map((grandChild, grandChildIndex) => (
-                <div key={grandChildIndex}>
-                  <Input
-                    type="text"
-                    name="label"
-                    id={`multiGrandChild2TitleGrandChildLabel${index}${childIndex}${grandChildIndex}`}
-                    label="Label"
-                    value={grandChild.label}
-                    onChange={(e) => {
-                      const updatedGrandChild = [...titleChild.titleGrandChild];
-                      updatedGrandChild[grandChildIndex].label = e.target.value;
-                      setFormData((prevData) => {
-                        const updatedTitleChild = [...grandChild2.titleChild];
-                        updatedTitleChild[childIndex].titleGrandChild = updatedGrandChild;
-                        const updatedMultiGrandChild2 = [...prevData.multiGrandChild2];
-                        updatedMultiGrandChild2[index].titleChild = updatedTitleChild;
-                        return { ...prevData, multiGrandChild2: updatedMultiGrandChild2 };
-                      });
-                    }}
-                  />
-                  <Input
-                    type="text"
-                    name="post"
-                    id={`multiGrandChild2TitleGrandChildPost${index}${childIndex}${grandChildIndex}`}
-                    label="Post"
-                    value={grandChild.post}
-                    onChange={(e) => {
-                      const updatedGrandChild = [...titleChild.titleGrandChild];
-                      updatedGrandChild[grandChildIndex].post = e.target.value;
-                      setFormData((prevData) => {
-                        const updatedTitleChild = [...grandChild2.titleChild];
-                        updatedTitleChild[childIndex].titleGrandChild = updatedGrandChild;
-                        const updatedMultiGrandChild2 = [...prevData.multiGrandChild2];
-                        updatedMultiGrandChild2[index].titleChild = updatedTitleChild;
-                        return { ...prevData, multiGrandChild2: updatedMultiGrandChild2 };
-                      });
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      ))}
-      <button type="button" onClick={() => addArrayItem('multiGrandChild2')}>
-        Add Multi Grand Child 2
-      </button>
-
-      <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded">
-        Submit
-      </button>
-    </form>
-    </div>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default JobPostForm;
+export default Page;
