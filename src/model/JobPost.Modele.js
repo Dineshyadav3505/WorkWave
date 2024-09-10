@@ -37,11 +37,11 @@ const jobPostSchema = new Schema(
 
     applicationFee: [
       {
-        label: {
+        cast: {
           type: String,
           required: true,
         },
-        date: {
+        fees: {
           type: Date,
         },
       },
@@ -53,7 +53,7 @@ const jobPostSchema = new Schema(
           type: String,
           required: true,
         },
-        date: {
+        age: {
           type: Date,
         },
       },
@@ -110,7 +110,7 @@ const jobPostSchema = new Schema(
       },
     ],
 
-    answerkeyLink: [
+    answerKeyLink: [
       {
         label: {
           type: String,
@@ -144,18 +144,6 @@ const jobPostSchema = new Schema(
       },
     ],
 
-    multiChild: [
-      {
-        postname: {
-          type: String,
-        },
-        qualification: [
-          {
-            type: String,
-          },
-        ],
-      },
-    ],
 
     multiGrandChild: [
       {
@@ -171,31 +159,6 @@ const jobPostSchema = new Schema(
               {
                 type: String,
               },
-            ],
-          },
-        ],
-      },
-    ],
-
-    multiGrandChild2: [
-      {
-        title: {
-          type: String,
-        },
-        titleChild: [
-          {
-            titleChildName: {
-              type: String,
-            },
-            titleGrandChild: [
-                {
-                    label:{
-                        type: String,
-                    },
-                    post: {
-                        type: String,
-                    }
-                }
             ],
           },
         ],
