@@ -32,8 +32,11 @@ const Page = () => {
   const [admitCardLink, setAdmitCardLink] = useState([{ label: "", link: "" }]);
   const [answerKeyLink, setAnswerKeyLink] = useState([{ label: "", link: "" }]);
   const [admissionLink, setAdmissionLink] = useState([{ label: "", link: "" }]);
-  const [multiGrandChild, setMultiGrandChild] = useState([
-    { title: "", titleChild: [{ titleChildName: "", titleGrandChild: [""] }] },
+  const [informationSection, setInformationSection] = useState([
+    {
+      informationName: "",
+      informationArray: [{ informationLabel: "", informationDetails: [""] }],
+    },
   ]);
 
   const handleImageChange = (e) => {
@@ -48,11 +51,11 @@ const Page = () => {
     setNotificationLink(e.target.value);
   };
 
-  const handleNotificationStateChange = (e) => {
+  const handleStateChange = (e) => {
     setState(e.target.value);
   };
 
-  const handleNotificationPostChange = (e) => {
+  const handlePostChange = (e) => {
     setTotalPost(e.target.value);
   };
 
@@ -68,7 +71,6 @@ const Page = () => {
     setDescription(e.target.value);
   };
 
-  // Handlers for important dates
   const handleImportantDateChange = (index, field, value) => {
     const newDates = [...importantDates];
     newDates[index][field] = value;
@@ -85,7 +87,6 @@ const Page = () => {
     }
   };
 
-  // Handlers for application fees
   const handleApplicationFeeChange = (index, field, value) => {
     const newFees = [...applicationFees];
     newFees[index][field] = value;
@@ -102,7 +103,6 @@ const Page = () => {
     }
   };
 
-  // Handlers for age limits
   const handleAgeLimitChange = (index, field, value) => {
     const newLimits = [...ageLimits];
     newLimits[index][field] = value;
@@ -119,11 +119,20 @@ const Page = () => {
     }
   };
 
-  // Handlers for admit card links
-  const handleAdmitCardLink = (index, field, value) => {
+  const handleAdmitCardLinkChange = (index, field, value) => {
     const newLinks = [...admitCardLink];
     newLinks[index][field] = value;
     setAdmitCardLink(newLinks);
+  };
+
+  const handleAdmissionLinkChange = (index, field, value) => {
+    const newLinks = [...admissionLink];
+    newLinks[index][field] = value;
+    setAdmissionLink(newLinks);
+  };
+
+  const handleAddAdmitCardLink = () => {
+    setAdmitCardLink([...admitCardLink, { label: "", link: "" }]);
   };
 
   const handleRemoveAdmitCardLink = () => {
@@ -132,10 +141,14 @@ const Page = () => {
     }
   };
 
-  const handleAdmissionLink = (index, field, value) => {
-    const newLinks = [...admissionLink];
+  const handleAnswerKeyLinkChange = (index, field, value) => {
+    const newLinks = [...answerKeyLink];
     newLinks[index][field] = value;
-    setAdmissionLink(newLinks);
+    setAnswerKeyLink(newLinks);
+  };
+
+  const handleAddAdmissionLink = () => {
+    setAdmissionLink([...admissionLink, { label: "", link: "" }]);
   };
 
   const handleRemoveAdmissionLink = () => {
@@ -144,10 +157,8 @@ const Page = () => {
     }
   };
 
-  const handleAnswerKeyLink = (index, field, value) => {
-    const newLinks = [...answerKeyLink];
-    newLinks[index][field] = value;
-    setAnswerKeyLink(newLinks);
+  const handleAddAnswerKeyLink = (index, field, value) => {
+    setAnswerKeyLink([...answerKeyLink, { label: "", link: "" }]);
   };
 
   const handleRemoveAnswerKeyLink = () => {
@@ -156,10 +167,14 @@ const Page = () => {
     }
   };
 
-  const handleResultLink = (index, field, value) => {
+  const handleResultLinkChange = (index, field, value) => {
     const newLinks = [...resultLink];
     newLinks[index][field] = value;
     setResultLink(newLinks);
+  };
+
+  const handleAddResultLink = (index, field, value) => {
+    setResultLink([...resultLink, { label: "", link: "" }]);
   };
 
   const handleRemoveResultLink = () => {
@@ -168,10 +183,14 @@ const Page = () => {
     }
   };
 
-  const handleApplyLink = (index, field, value) => {
+  const handleApplyLinkChange = (index, field, value) => {
     const newLinks = [...applyLinks];
     newLinks[index][field] = value;
     setApplyLinks(newLinks);
+  };
+
+  const handleAddApplyLink = (index, field, value) => {
+    setApplyLinks([...applyLinks, { label: "", link: "" }]);
   };
 
   const handleRemoveApplyLink = () => {
@@ -200,12 +219,11 @@ const Page = () => {
     console.log("Answer Key Links:", answerKeyLink);
     console.log("Result Links:", resultLink);
     console.log("Apply Links:", applyLinks);
-    console.log("Multi Grand Child:", multiGrandChild);
   };
 
   return (
     <div className="min-h-screen w-full py-44">
-      <div className="mx-auto w-1/2">
+      <div className="mx-auto px-5 lg:w-1/2">
         <form onSubmit={handleSubmit}>
           <Heading label="Post Information" />
           <div className="flex items-center gap-3">
@@ -253,7 +271,7 @@ const Page = () => {
               id="state"
               label="State Name"
               value={state}
-              onChange={handleNotificationStateChange}
+              onChange={handleStateChange}
             />
             <Input
               type="text"
@@ -261,7 +279,7 @@ const Page = () => {
               id="totalPost"
               label="Total Post"
               value={totalPost}
-              onChange={handleNotificationPostChange}
+              onChange={handlePostChange}
               required={true}
             />
           </div>
@@ -271,7 +289,7 @@ const Page = () => {
               type="date"
               name="beginDate"
               id="beginDate"
-              label="State Name"
+              label="Begin Date"
               value={beginDate}
               onChange={handleBeginDateChange}
               required={true}
@@ -284,7 +302,6 @@ const Page = () => {
               label="Last Date"
               value={lastDate}
               onChange={handleLastDateChange}
-
             />
           </div>
 
@@ -310,37 +327,37 @@ const Page = () => {
           />
 
           <AdmitCardLink
-            Limits={admitCardLink}
-            handleChange={handleAdmitCardLink}
-            handleAdd={handleAdmitCardLink}
+            links={admitCardLink}
+            handleChange={handleAdmitCardLinkChange}
+            handleAdd={handleAddAdmitCardLink}
             handleRemove={handleRemoveAdmitCardLink}
           />
 
           <AdmissionLink
-            Limits={admissionLink}
-            handleChange={handleAdmissionLink}
-            handleAdd={handleAdmissionLink}
+            links={admissionLink}
+            handleChange={handleAdmissionLinkChange}
+            handleAdd={handleAddAdmissionLink}
             handleRemove={handleRemoveAdmissionLink}
           />
 
           <AnswerKeyLink
-            Limits={answerKeyLink}
-            handleChange={handleAnswerKeyLink}
-            handleAdd={handleAnswerKeyLink}
+            links={answerKeyLink}
+            handleChange={handleAnswerKeyLinkChange}
+            handleAdd={handleAddAnswerKeyLink}
             handleRemove={handleRemoveAnswerKeyLink}
           />
 
           <ResultLink
-            Limits={resultLink}
-            handleChange={handleResultLink}
-            handleAdd={handleResultLink}
+            links={resultLink}
+            handleChange={handleResultLinkChange}
+            handleAdd={handleAddResultLink}
             handleRemove={handleRemoveResultLink}
           />
 
           <ApplyLink
-            Limits={applyLinks}
-            handleChange={handleApplyLink}
-            handleAdd={handleApplyLink}
+            links={applyLinks}
+            handleChange={handleApplyLinkChange}
+            handleAdd={handleAddApplyLink}
             handleRemove={handleRemoveApplyLink}
           />
 
