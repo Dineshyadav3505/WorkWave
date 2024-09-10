@@ -1,4 +1,9 @@
 "use client";
+import AdmitCardLink from "@/components/Form/AdmitCardLink";
+import ApplyLink from "@/components/Form/ApplyLink";
+import AdmissionLink from "@/components/Form/AdmissionLink";
+import AnswerKeyLink from "@/components/Form/AnswerKeyLink";
+import ResultLink from "@/components/Form/ResultLink";
 import AgeSection from "@/components/Form/AgeSection";
 import ApplicationFee from "@/components/Form/ApplicationFee";
 import Heading from "@/components/Form/Heading";
@@ -11,13 +16,22 @@ const Page = () => {
   const [postName, setPostName] = useState("");
   const [notificationLink, setNotificationLink] = useState("");
   const [description, setDescription] = useState("");
+  const [state, setState] = useState("");
+  const [totalPost, setTotalPost] = useState("");
+  const [beginDate, setBeginDate] = useState("");
+  const [lastDate, setLastDate] = useState("");
   const [importantDates, setImportantDates] = useState([
     { label: "", date: "" },
   ]);
   const [applicationFees, setApplicationFees] = useState([
-    { label: "", date: "" },
+    { label: "", fee: "" },
   ]);
-  const [ageLimits, setAgeLimits] = useState([{ label: "", date: "" }]);
+  const [ageLimits, setAgeLimits] = useState([{ label: "", age: "" }]);
+  const [applyLinks, setApplyLinks] = useState([{ label: "", link: "" }]);
+  const [resultLink, setResultLink] = useState([{ label: "", link: "" }]);
+  const [admitCardLink, setAdmitCardLink] = useState([{ label: "", link: "" }]);
+  const [answerKeyLink, setAnswerKeyLink] = useState([{ label: "", link: "" }]);
+  const [admissionLink, setAdmissionLink] = useState([{ label: "", link: "" }]);
   const [multiGrandChild, setMultiGrandChild] = useState([
     { title: "", titleChild: [{ titleChildName: "", titleGrandChild: [""] }] },
   ]);
@@ -32,6 +46,22 @@ const Page = () => {
 
   const handleNotificationLinkChange = (e) => {
     setNotificationLink(e.target.value);
+  };
+
+  const handleNotificationStateChange = (e) => {
+    setState(e.target.value);
+  };
+
+  const handleNotificationPostChange = (e) => {
+    setTotalPost(e.target.value);
+  };
+
+  const handleBeginDateChange = (e) => {
+    setBeginDate(e.target.value);
+  };
+
+  const handleLastDateChange = (e) => {
+    setLastDate(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
@@ -63,7 +93,7 @@ const Page = () => {
   };
 
   const handleAddApplicationFee = () => {
-    setApplicationFees([...applicationFees, { label: "", date: "" }]);
+    setApplicationFees([...applicationFees, { label: "", fee: "" }]);
   };
 
   const handleRemoveApplicationFee = () => {
@@ -80,7 +110,7 @@ const Page = () => {
   };
 
   const handleAddAgeLimit = () => {
-    setAgeLimits([...ageLimits, { label: "", date: "" }]);
+    setAgeLimits([...ageLimits, { label: "", age: "" }]);
   };
 
   const handleRemoveAgeLimit = () => {
@@ -88,18 +118,88 @@ const Page = () => {
       setAgeLimits(ageLimits.slice(0, -1));
     }
   };
-  
 
+  // Handlers for admit card links
+  const handleAdmitCardLink = (index, field, value) => {
+    const newLinks = [...admitCardLink];
+    newLinks[index][field] = value;
+    setAdmitCardLink(newLinks);
+  };
+
+  const handleRemoveAdmitCardLink = () => {
+    if (admitCardLink.length > 1) {
+      setAdmitCardLink(admitCardLink.slice(0, -1));
+    }
+  };
+
+  const handleAdmissionLink = (index, field, value) => {
+    const newLinks = [...admissionLink];
+    newLinks[index][field] = value;
+    setAdmissionLink(newLinks);
+  };
+
+  const handleRemoveAdmissionLink = () => {
+    if (admissionLink.length > 1) {
+      setAdmissionLink(admissionLink.slice(0, -1));
+    }
+  };
+
+  const handleAnswerKeyLink = (index, field, value) => {
+    const newLinks = [...answerKeyLink];
+    newLinks[index][field] = value;
+    setAnswerKeyLink(newLinks);
+  };
+
+  const handleRemoveAnswerKeyLink = () => {
+    if (answerKeyLink.length > 1) {
+      setAnswerKeyLink(answerKeyLink.slice(0, -1));
+    }
+  };
+
+  const handleResultLink = (index, field, value) => {
+    const newLinks = [...resultLink];
+    newLinks[index][field] = value;
+    setResultLink(newLinks);
+  };
+
+  const handleRemoveResultLink = () => {
+    if (resultLink.length > 1) {
+      setResultLink(resultLink.slice(0, -1));
+    }
+  };
+
+  const handleApplyLink = (index, field, value) => {
+    const newLinks = [...applyLinks];
+    newLinks[index][field] = value;
+    setApplyLinks(newLinks);
+  };
+
+  const handleRemoveApplyLink = () => {
+    if (applyLinks.length > 1) {
+      setApplyLinks(applyLinks.slice(0, -1));
+    }
+  };
+
+  // Form submit handler
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log("Image:", image);
     console.log("Post Name:", postName);
     console.log("Notification Link:", notificationLink);
+    console.log("State:", state);
+    console.log("Total Post:", totalPost);
+    console.log("Begin Date:", beginDate);
+    console.log("Last Date:", lastDate);
     console.log("Description:", description);
     console.log("Important Dates:", importantDates);
     console.log("Application Fees:", applicationFees);
     console.log("Age Limits:", ageLimits);
+    console.log("Admit Card Links:", admitCardLink);
+    console.log("Admission Links:", admissionLink);
+    console.log("Answer Key Links:", answerKeyLink);
+    console.log("Result Links:", resultLink);
+    console.log("Apply Links:", applyLinks);
     console.log("Multi Grand Child:", multiGrandChild);
   };
 
@@ -146,18 +246,60 @@ const Page = () => {
             required={true}
           />
 
+          <div className="flex items-center gap-3">
+            <Input
+              type="text"
+              name="state"
+              id="state"
+              label="State Name"
+              value={state}
+              onChange={handleNotificationStateChange}
+            />
+            <Input
+              type="text"
+              name="totalPost"
+              id="totalPost"
+              label="Total Post"
+              value={totalPost}
+              onChange={handleNotificationPostChange}
+              required={true}
+            />
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Input
+              type="date"
+              name="beginDate"
+              id="beginDate"
+              label="State Name"
+              value={beginDate}
+              onChange={handleBeginDateChange}
+              required={true}
+            />
+
+            <Input
+              type="date"
+              name="lastDate"
+              id="lastDate"
+              label="Last Date"
+              value={lastDate}
+              onChange={handleLastDateChange}
+
+            />
+          </div>
+
           <ImportantDate
-          Limits={importantDates}
-          handleChange={handleImportantDateChange}
-          handleAdd={handleAddImportantDate}
-          handleRemove={handleRemoveImportantDate}
+            Limits={importantDates}
+            handleChange={handleImportantDateChange}
+            handleAdd={handleAddImportantDate}
+            handleRemove={handleRemoveImportantDate}
           />
 
           <ApplicationFee
-          Limits={applicationFees}
-          handleChange={handleApplicationFeeChange}
-          handleAdd={handleAddApplicationFee}
-          handleRemove={handleRemoveApplicationFee}
+            Limits={applicationFees}
+            handleChange={handleApplicationFeeChange}
+            handleAdd={handleAddApplicationFee}
+            handleRemove={handleRemoveApplicationFee}
           />
 
           <AgeSection
@@ -167,72 +309,40 @@ const Page = () => {
             handleRemove={handleRemoveAgeLimit}
           />
 
-          
+          <AdmitCardLink
+            Limits={admitCardLink}
+            handleChange={handleAdmitCardLink}
+            handleAdd={handleAdmitCardLink}
+            handleRemove={handleRemoveAdmitCardLink}
+          />
 
-          {/* Multi Grand Child Section
-          <div className="mt-6">
-            <Heading label="Multi Grand Child" />
-            {multiGrandChild.map((grandChild, grandChildIndex) => (
-              <div key={grandChildIndex} className="mt-4">
-                <Input
-                  type="text"
-                  name={`multiGrandChildTitle${grandChildIndex}`}
-                  id={`multiGrandChildTitle${grandChildIndex}`}
-                  label="Title"
-                  value={grandChild.title}
-                  onChange={(e) => {
-                    const newMultiGrandChild = [...multiGrandChild];
-                    newMultiGrandChild[grandChildIndex].title = e.target.value;
-                    setMultiGrandChild(newMultiGrandChild);
-                  }}
-                  required={true}
-                />
-                {grandChild.titleChild.map((child, childIndex) => (
-                  <div key={childIndex} className="mt-2">
-                    <Input
-                      type="text"
-                      name={`titleChildName${grandChildIndex}-${childIndex}`}
-                      id={`titleChildName${grandChildIndex}-${childIndex}`}
-                      label="Title Child Name"
-                      value={child.titleChildName}
-                      onChange={(e) => handleTitleChildChange(grandChildIndex, childIndex, "titleChildName", e.target.value)}
-                      required={true}
-                    />
-                    {child.titleGrandChild.map((grandChildName, grandChildIndex) => (
-                      <Input
-                        key={grandChildIndex}
-                        type="text"
-                        name={`titleGrandChild${grandChildIndex}`}
-                        id={`titleGrandChild${grandChildIndex}`}
-                        label="Title Grand Child"
-                        value={grandChildName}
-                        onChange={(e) => handleGrandChildChange(grandChildIndex, childIndex, grandChildIndex, e.target.value)}
-                        required={true}
-                      />
-                    ))}
-                    <button type="button" onClick={() => handleAddGrandChild(grandChildIndex, childIndex)} className="mt-2 bg-green-500 text-white px-4 py-2 rounded">
-                      Add Grand Child
-                    </button>
-                    <button type="button" onClick={() => handleRemoveGrandChild(grandChildIndex, childIndex)} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">
-                      Remove Last Grand Child
-                    </button>
-                  </div>
-                ))}
-                <button type="button" onClick={() => handleAddTitleChild(grandChildIndex)} className="mt-2 bg-green-500 text-white px-4 py-2 rounded">
-                  Add Title Child
-                </button>
-                <button type="button" onClick={() => handleRemoveTitleChild(grandChildIndex)} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">
-                  Remove Last Title Child
-                </button>
-              </div>
-            ))}
-            <button type="button" onClick={handleAddMultiGrandChild} className="mt-2 bg-green-500 text-white px-4 py-2 rounded">
-              Add Multi Grand Child
-            </button>
-            <button type="button" onClick={handleRemoveMultiGrandChild} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">
-              Remove Last Multi Grand Child
-            </button>
-          </div> */}
+          <AdmissionLink
+            Limits={admissionLink}
+            handleChange={handleAdmissionLink}
+            handleAdd={handleAdmissionLink}
+            handleRemove={handleRemoveAdmissionLink}
+          />
+
+          <AnswerKeyLink
+            Limits={answerKeyLink}
+            handleChange={handleAnswerKeyLink}
+            handleAdd={handleAnswerKeyLink}
+            handleRemove={handleRemoveAnswerKeyLink}
+          />
+
+          <ResultLink
+            Limits={resultLink}
+            handleChange={handleResultLink}
+            handleAdd={handleResultLink}
+            handleRemove={handleRemoveResultLink}
+          />
+
+          <ApplyLink
+            Limits={applyLinks}
+            handleChange={handleApplyLink}
+            handleAdd={handleApplyLink}
+            handleRemove={handleRemoveApplyLink}
+          />
 
           <button
             type="submit"
