@@ -127,7 +127,7 @@ const jobPostSchema = new Schema(
       },
     ],
 
-    AdmissionLink: [
+    admissionLink: [
       {
         label: {
           type: String,
@@ -145,17 +145,17 @@ const jobPostSchema = new Schema(
     ],
 
 
-    multiGrandChild: [
+    InformationSection : [
       {
-        title: {
+        informationName: {
           type: String,
         },
-        titleChild: [
+        informationArray: [
           {
-            titleChildName: {
+            informationLabel: {
               type: String,
             },
-            titleGrandChild: [
+            informationDetails: [
               {
                 type: String,
               },
@@ -176,8 +176,11 @@ const jobPostSchema = new Schema(
 
     lastDate: {
       type: Date,
-      required: true,
     },
+
+    totalPost:{
+      type: String,
+    }
   },
   {
     timestamps: true,

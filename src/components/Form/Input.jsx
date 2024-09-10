@@ -21,7 +21,7 @@ const Input = ({
   return (
     <div className={`w-full py-3 ${inputClass}`}>
       {label && (
-        <label htmlFor={id} className={`text-sm py-2 flex capitalize items-center gap-1 dark:text-text-dark text-text-light font-bold ${labelClass}`}>
+        <label htmlFor={id} className={`text-sm py-2 flex capitalize items-center gap-1 dark:text-text-dark text-text-light font-bold  ${labelClass}`}>
           {required && (<span className="text-red-600">*</span>)}
           {label}
           {!required && <span className={`dark:text-second-text-dark text-second-text-light text-xs ${optionClass}`}> (Optional)</span>}
