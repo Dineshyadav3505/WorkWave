@@ -27,10 +27,9 @@ const jobPostSchema = new Schema(
       {
         label: {
           type: String,
-          required: true,
         },
         date: {
-          type: Date,
+          type: String,
         },
       },
     ],
@@ -39,10 +38,9 @@ const jobPostSchema = new Schema(
       {
         cast: {
           type: String,
-          required: true,
         },
         fees: {
-          type: Date,
+          type: String,
         },
       },
     ],
@@ -51,10 +49,9 @@ const jobPostSchema = new Schema(
       {
         label: {
           type: String,
-          required: true,
         },
         age: {
-          type: Date,
+          type: String,
         },
       },
     ],
@@ -66,12 +63,6 @@ const jobPostSchema = new Schema(
         },
         link: {
           type: String,
-          validate: {
-            validator: function (v) {
-              return /^https?:\/\//.test(v);
-            },
-            message: (props) => `${props.value} is not a valid URL!`,
-          },
         },
       },
     ],
@@ -83,12 +74,6 @@ const jobPostSchema = new Schema(
         },
         link: {
           type: String,
-          validate: {
-            validator: function (v) {
-              return /^https?:\/\//.test(v);
-            },
-            message: (props) => `${props.value} is not a valid URL!`,
-          },
         },
       },
     ],
@@ -100,12 +85,6 @@ const jobPostSchema = new Schema(
         },
         link: {
           type: String,
-          validate: {
-            validator: function (v) {
-              return /^https?:\/\//.test(v);
-            },
-            message: (props) => `${props.value} is not a valid URL!`,
-          },
         },
       },
     ],
@@ -117,12 +96,6 @@ const jobPostSchema = new Schema(
         },
         link: {
           type: String,
-          validate: {
-            validator: function (v) {
-              return /^https?:\/\//.test(v);
-            },
-            message: (props) => `${props.value} is not a valid URL!`,
-          },
         },
       },
     ],
@@ -134,12 +107,6 @@ const jobPostSchema = new Schema(
         },
         link: {
           type: String,
-          validate: {
-            validator: function (v) {
-              return /^https?:\/\//.test(v);
-            },
-            message: (props) => `${props.value} is not a valid URL!`,
-          },
         },
       },
     ],

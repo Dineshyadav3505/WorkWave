@@ -1,22 +1,34 @@
-import jwt from 'jsonwebtoken';
-import { NextResponse } from 'next/server';
+import { v2 as cloudinary } from "cloudinary";
 
-export default async function auth(req) {
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+  api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET,
+});
 
-  const cookies = req.cookies;
-  
-  const accessToken =
-    cookies.get("accessToken")?.value ||
-    req.headers.get("Authorization")?.replace("Bearer ", "");
+export default cloudinary;
 
-  if (!accessToken) {
-    return NextResponse.json(
-      { message: "You are not authorized to access this route" },
-      { status: 401 }
-    );
-  }
+export const uploadOnCloudinary = async (file, folder) => {
+  console.log("file", file);
 
-  const decoded = jwt.verify(accessToken, process.env.NEXT_PUBLIC_JWT_SECRET);
+  const buffer = await file.arrayBuffer();
+  const bites = Buffer.from(buffer);
 
-  return decoded.id;
-}
+  return new Promise(async (resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          resource_type: "auto",
+          folder: folder,
+        },
+        async (err, result) => {
+          if (err) {
+            console.error("Error while uploading image to cloudinary", err);
+            return reject("Error", err.message);
+          }
+          return resolve(result);
+        }
+      )
+      .end(bites);
+  });
+};
