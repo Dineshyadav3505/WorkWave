@@ -10,6 +10,7 @@ import Heading from "@/components/Form/Heading";
 import ImportantDate from "@/components/Form/ImportantDate";
 import Input from "@/components/Form/Input";
 import React, { useState } from "react";
+import OtherDetails from "@/components/Form/OtherDetails";
 
 const Page = () => {
   const [image, setImage] = useState(null);
@@ -199,30 +200,107 @@ const Page = () => {
     }
   };
 
+  const handleAddInformationSection = () => {
+    setInformationSection([
+      ...informationSection,
+      {
+        informationName: "",
+        informationArray: [{ informationLabel: "", informationDetails: [""] }],
+      },
+    ]);
+  };
+
+  const handleRemoveInformationSection = (index) => {
+    const newInformation = [...informationSection];
+    if (newInformation.length > 1) {
+      newInformation.splice(index, 1);
+      setInformationSection(newInformation);
+    }
+  };
+
+  const handleAddInformationArray = (sectionIndex) => {
+    const newInformation = [...informationSection];
+    newInformation[sectionIndex].informationArray.push({
+      informationLabel: "",
+      informationDetails: [""],
+    });
+    setInformationSection(newInformation);
+  };
+
+  const handleRemoveInformationArray = (sectionIndex, arrayIndex) => {
+    const newInformation = [...informationSection];
+    if (newInformation[sectionIndex].informationArray.length > 1) {
+      newInformation[sectionIndex].informationArray.splice(arrayIndex, 1);
+      setInformationSection(newInformation);
+    }
+  };
+
+  const handleAddInformationDetail = (sectionIndex, arrayIndex) => {
+    const newInformation = [...informationSection];
+    newInformation[sectionIndex].informationArray[
+      arrayIndex
+    ].informationDetails.push("");
+    setInformationSection(newInformation);
+  };
+
+  const handleRemoveInformationDetail = (
+    sectionIndex,
+    arrayIndex,
+    detailIndex
+  ) => {
+    const newInformation = [...informationSection];
+    if (
+      newInformation[sectionIndex].informationArray[arrayIndex]
+        .informationDetails.length > 1
+    ) {
+      newInformation[sectionIndex].informationArray[
+        arrayIndex
+      ].informationDetails.splice(detailIndex, 1);
+      setInformationSection(newInformation);
+    }
+  };
+
   // Form submit handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Image:", image);
-    console.log("Post Name:", postName);
-    console.log("Notification Link:", notificationLink);
-    console.log("State:", state);
-    console.log("Total Post:", totalPost);
-    console.log("Begin Date:", beginDate);
-    console.log("Last Date:", lastDate);
-    console.log("Description:", description);
-    console.log("Important Dates:", importantDates);
-    console.log("Application Fees:", applicationFees);
-    console.log("Age Limits:", ageLimits);
-    console.log("Admit Card Links:", admitCardLink);
-    console.log("Admission Links:", admissionLink);
-    console.log("Answer Key Links:", answerKeyLink);
-    console.log("Result Links:", resultLink);
-    console.log("Apply Links:", applyLinks);
+
+    
+    try {
+
+      console.log(postName, description, image, notificationLink, importantDates, applicationFees, ageLimits, applyLinks, resultLink, admitCardLink, answerKeyLink, admissionLink, state, beginDate, lastDate, totalPost, informationSection);
+      const formData = new FormData();
+      formData.append("postName", postName);
+      formData.append("description", description);
+      formData.append("image", image);
+      formData.append("notificationLink", notificationLink);
+      formData.append("importantDates", JSON.stringify(importantDates));
+      formData.append("applicationFee", JSON.stringify(applicationFees));
+      formData.append("ageLimit", JSON.stringify(ageLimits));
+      formData.append("applyLink", JSON.stringify(applyLinks));
+      formData.append("resultLink", JSON.stringify(resultLink));
+      formData.append("admitCardLink", JSON.stringify(admitCardLink));
+      formData.append("answerKeyLink", JSON.stringify(answerKeyLink));
+      formData.append("admissionLink", JSON.stringify(admissionLink));
+      formData.append("state", state);
+      formData.append("beginDate", beginDate);
+      formData.append("lastDate", lastDate);
+      formData.append("totalPost", totalPost);
+      formData.append("informationSection", JSON.stringify(informationSection));
+  
+      const response = await fetch("/api/post", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await response.json();
+      console.log("Data:", data);
+    } catch (error) {
+      console.error("Error while creating job post", error);
+    }
   };
 
   return (
-    <div className="min-h-screen w-full py-44">
+    <div className="min-h-screen w-full py-44 dark:bg-bg-dark bg-bg-light">
       <div className="mx-auto px-5 lg:w-1/2">
         <form onSubmit={handleSubmit}>
           <Heading label="Post Information" />
@@ -247,7 +325,7 @@ const Page = () => {
             />
           </div>
           <Input
-            type="text"
+            type="textarea"
             name="description"
             id="description"
             label="Description"
@@ -280,7 +358,6 @@ const Page = () => {
               label="Total Post"
               value={totalPost}
               onChange={handlePostChange}
-              required={true}
             />
           </div>
 
@@ -361,9 +438,20 @@ const Page = () => {
             handleRemove={handleRemoveApplyLink}
           />
 
+          <OtherDetails
+            informationSection={informationSection}
+            setInformationSection={setInformationSection}
+            handleAddInformationSection={handleAddInformationSection}
+            handleRemoveInformationSection={handleRemoveInformationSection}
+            handleAddInformationArray={handleAddInformationArray}
+            handleRemoveInformationArray={handleRemoveInformationArray}
+            handleAddInformationDetail={handleAddInformationDetail}
+            handleRemoveInformationDetail={handleRemoveInformationDetail}
+          />
+
           <button
             type="submit"
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+            className="mt-4 w-full dark:bg-bg-button-dark bg-bg-button-light dark:text-text-button-dark text-text-button-light py-1 text-sm md:text-base rounded"
           >
             Submit
           </button>
