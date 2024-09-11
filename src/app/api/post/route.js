@@ -1,8 +1,9 @@
-import JobPost from "@/model/JobPost.Modele";
+import JobPost from "@/model/JobPost.Model";
 import { dbConnect } from "@/lib/dbConfig";
 import auth from "@/lib/auth";
 import { NextResponse } from "next/server";
 import User from "@/model/user.model";
+import {uploadOnCloudinary} from "@/lib/cloudnery";
 
 // Create a new job post
 export async function POST(req) {
@@ -10,6 +11,7 @@ export async function POST(req) {
   await dbConnect();
 
   try {
+    
     if (!id) {
       return NextResponse.json(
         { message: "You are not authorized to access this route" },
@@ -18,6 +20,7 @@ export async function POST(req) {
     }
  
     const dataBaseUser = await User.findById(id);
+
     if (!dataBaseUser || dataBaseUser.role !== "admin") {
       return NextResponse.json(
         { message: "You are not authorized to access this route" },
@@ -37,14 +40,13 @@ export async function POST(req) {
       applyLink,
       resultLink,
       admitCardLink,
-      answerkeyLink,
+      answerKeyLink,
       AdmissionLink,
-      multiChild,
-      multiGrandChild,
-      multiGrandChild2,
+      InformationSection,
       state,
       beginDate,
       lastDate,
+      totalPost,
     } = {
       postName: formData.get("postName"),
       description: formData.get("description"),
@@ -56,25 +58,25 @@ export async function POST(req) {
       applyLink: JSON.parse(formData.get("applyLink")),
       resultLink: JSON.parse(formData.get("resultLink")),
       admitCardLink: JSON.parse(formData.get("admitCardLink")),
-      answerkeyLink: JSON.parse(formData.get("answerkeyLink")),
-      AdmissionLink: JSON.parse(formData.get("AdmissionLink")),
-      multiChild: JSON.parse(formData.get("multiChild")),
-      multiGrandChild: JSON.parse(formData.get("multiGrandChild")),
-      multiGrandChild2: JSON.parse(formData.get("multiGrandChild2")),
+      answerKeyLink: JSON.parse(formData.get("answerKeyLink")),
+      admissionLink: JSON.parse(formData.get("AdmissionLink")),
+      InformationSection: JSON.parse(formData.get("informationSection")),
       state: formData.get("state"),
       beginDate: new Date(formData.get("beginDate")),
       lastDate: new Date(formData.get("lastDate")),
+      totalPost: formData.get("totalPost"),
     };
+    console.log(answerKeyLink, AdmissionLink, InformationSection, state);
 
     // Validate required fields
-    if (!postName || !description || !image || !notificationLink || !beginDate || !lastDate) {
+    if (!postName || !description || !image || !notificationLink || !beginDate) {
       return NextResponse.json(
         { message: "Please fill all the required fields" },
         { status: 400 }
       );
     }
 
-    const img = await uploadOnCloudinary(image, "PostImage");
+    const img = await uploadOnCloudinary(image, "NaukriVacancy");
 
     const jobPost = new JobPost({
       postName,
@@ -87,11 +89,9 @@ export async function POST(req) {
       applyLink,
       resultLink,
       admitCardLink,
-      answerkeyLink,
+      answerKeyLink,
       AdmissionLink,
-      multiChild,
-      multiGrandChild,
-      multiGrandChild2,
+      InformationSection,
       state,
       beginDate,
       lastDate,
@@ -172,7 +172,7 @@ export async function PUT(req) {
         "applyLink",
         "resultLink",
         "admitCardLink",
-        "answerkeyLink",
+        "answerKeyLink",
         "AdmissionLink",
         "multiChild",
         "multiGrandChild",
@@ -228,6 +228,7 @@ export async function DELETE(req) {
     }
 
     const dataBaseUser = await User.findById(id);
+    
     if (!dataBaseUser || dataBaseUser.role !== "admin") {
       return NextResponse.json(
         { message: "You are not authorized to access this route" },
@@ -235,7 +236,9 @@ export async function DELETE(req) {
       );
     }
 
-    const jobPostId = req.query.id; // Assuming the ID is passed as a query parameter
+    const query = req.url;
+    const url = new URL(query, `http://${req.headers.host}`);
+    const jobPostId = url.searchParams.get('id');
     const deletedJobPost = await JobPost.findByIdAndDelete(jobPostId);
 
     if (!deletedJobPost) {
