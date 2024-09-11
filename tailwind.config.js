@@ -12,7 +12,7 @@ module.exports = {
         'text-light': '#44ffd1',
         'second-text-dark':'#AAB0B9',
         'second-text-light':'#AAB0B9',
-        'bg-dark': '#F4F5F8',
+        'bg-dark': '#000',
         'bg-light': '#F4F5F8',
         'bg-button-light':'#01756A',
         'bg-button-dark':'#01756A',
