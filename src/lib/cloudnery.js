@@ -9,7 +9,6 @@ cloudinary.config({
 export default cloudinary;
 
 export const uploadOnCloudinary = async (file, folder) => {
-  console.log("file", file);
 
   const buffer = await file.arrayBuffer();
   const bites = Buffer.from(buffer);

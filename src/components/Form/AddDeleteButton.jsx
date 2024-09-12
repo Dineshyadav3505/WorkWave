@@ -3,7 +3,7 @@ import React from "react";
 const AddDeleteButton = ({handleAdd, handleRemove}) => {
   return (
     <div className=" absolute top-2 right-4">
-      <button type="button" onClick={handleAdd} className="p-2">
+      <button type="button" onClick={handleAdd} className="p-2" aria-label="Add Item">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -19,7 +19,7 @@ const AddDeleteButton = ({handleAdd, handleRemove}) => {
           />
         </svg>
       </button>
-      <button type="button" onClick={handleRemove} className="p-2">
+      <button type="button" onClick={handleRemove} className="p-2" aria-label="Remove Item">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
