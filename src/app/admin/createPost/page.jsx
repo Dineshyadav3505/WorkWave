@@ -293,9 +293,11 @@ const Page = () => {
       });
   
       const data = await response.json();
-      console.log("Data:", data);
+      alert("File uploaded successfully!");
+      
     } catch (error) {
       console.error("Error while creating job post", error);
+      alert("Error while creating job post", error);
     }
   };
 
