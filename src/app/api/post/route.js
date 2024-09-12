@@ -78,6 +78,13 @@ export async function POST(req) {
 
     const img = await uploadOnCloudinary(image, "NaukriVacancy");
 
+    if (!img) {
+      return NextResponse.json(
+        { message: "There was an error uploading the file." },
+        { status: 500 }
+      );
+    };
+
     const jobPost = new JobPost({
       postName,
       description,
