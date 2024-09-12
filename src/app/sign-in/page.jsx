@@ -8,7 +8,6 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null); // State to hold any error messages
   const [loading, setLoading] = useState(false); // State to manage loading
-  const [user, setUser] = useState(null); // State to hold the user data
   const router = useRouter();
 
   const handleSubmit = async (e) => {
