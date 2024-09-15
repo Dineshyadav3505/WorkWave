@@ -1,3 +1,4 @@
+import InformationSection from "@/components/Form/OtherDetails";
 import mongoose, { Schema, model, models } from "mongoose";
 
 const jobPostSchema = new Schema(
@@ -111,26 +112,15 @@ const jobPostSchema = new Schema(
       },
     ],
 
-
-    InformationSection : [
-      {
-        informationName: {
-          type: String,
-        },
-        informationArray: [
-          {
-            informationLabel: {
-              type: String,
-            },
-            informationDetails: [
-              {
-                type: String,
-              },
-            ],
+    InformationSection: [{
+      Information:[
+        {
+          value: {
+            type: String,
           },
-        ],
-      },
-    ],
+        }
+      ]
+    }],
 
     state: {
       type: String,
@@ -145,9 +135,9 @@ const jobPostSchema = new Schema(
       type: Date,
     },
 
-    totalPost:{
+    totalPost: {
       type: String,
-    }
+    },
   },
   {
     timestamps: true,
@@ -157,3 +147,7 @@ const jobPostSchema = new Schema(
 const JobPost = models?.JobPost || model("JobPost", jobPostSchema);
 
 export default JobPost;
+
+
+
+
