@@ -14,10 +14,13 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.6.1",
     "next": "14.2.8",
+    "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.8",
     "postcss": "^8",

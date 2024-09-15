@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,16 +9,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'text-dark': '#6153cc',
-        'text-light': '#44ffd1',
+        'text-dark': '#FFFFFF',
+        'text-light': '#000000',
         'second-text-dark':'#AAB0B9',
         'second-text-light':'#AAB0B9',
-        'bg-dark': '#000',
-        'bg-light': '#F4F5F8',
+        'bg-dark': '#616161',
+        'bg-light': '#EBF8FF',
         'bg-button-light':'#01756A',
         'bg-button-dark':'#01756A',
         'text-button-light':'#FFFFFF',
         'text-button-dark':'#FFFFFF',
+      },
+      fontFamily: {
+        roboto: ['Roboto'],
+        Kalnia: ['Kalnia'],
       },
     },
   },
