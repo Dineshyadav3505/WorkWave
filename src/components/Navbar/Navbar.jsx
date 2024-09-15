@@ -96,6 +96,7 @@ const Navbar = () => {
             {menuLinks.map(({ name, url, icon }) => (
               <Link
                 href={url}
+                key={url}
                 className="flex w-64 md:w-[455px] text-[#ffffff] justify-between items-center border-b-[1px]  border-[#E9E5E5] py-3 "
               >
                 <span className=" flex gap-2 items-center">
