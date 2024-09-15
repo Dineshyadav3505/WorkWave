@@ -2,16 +2,18 @@ import Link from "next/link";
 import React from "react";
 
 const SocialMedia = ({ divClass, iconClass, size = 5 }) => {
+
+
   return (
     <div
-      className={`w-full flex gap-3 justify-center items-center text-black ${divClass}`}
+      className={`w-full flex gap-6 justify-center items-center text-black ${divClass}`}
     >
       {SocialLink.map(({ url, icon }) => (
         <Link
           key={url}
           href={url}
           target="_blank"
-          className={`${iconClass} text-[#ffffff] p-1 border-[.1px] rounded`}
+          className={`${iconClass} text-[#ffffff] p-1 border-[.1px] rounded hover:scale-125 duration-300`}
         >
           {React.cloneElement(icon, { className: `size-${size}` })}
         </Link>
