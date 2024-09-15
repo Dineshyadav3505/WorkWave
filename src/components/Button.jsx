@@ -1,14 +1,16 @@
+import Link from 'next/link';
 import React from 'react';
 
-const Button = ({ onClick }) => {
+const Button = ({link, divClass, innerClass, text  }) => {
   return (
-    <button
+    <div className={` flex justify-center items-center w-full py-10 ${divClass}`}>
+    <Link href={link}
       type="button"
-      className="bg-violet-500 px-5 py-1 rounded mb-10"
-      onClick={onClick}
+      className={`bg-[#023E8A] px-5 py-1 rounded-full text-sm ${innerClass} `}
     >
-      Add Important Date
-    </button>
+      {text}
+    </Link>
+    </div>
   );
 };
 
