@@ -75,11 +75,11 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* menu */}
+      {/* md Menu */}
       {isMenuOpen && (
         <motion.div
           initial={{ width: 0 }}
-          animate={{ width: "auto"}}
+          animate={{ width: "auto" }}
           transition={{ duration: 0.5 }}
           className=" absolute flex flex-col min-h-96 items-end  dark:bg-[#000000] bg-[#023E8A] top-0 right-0 py-[20px] px-[17px] pb-16 rounded-bl-lg"
         >
@@ -134,6 +134,20 @@ const Navbar = () => {
           </motion.div>
         </motion.div>
       )}
+
+      {/* Phone Menu */}
+      <div className="h-20 md:hidden w-full flex justify-around items-center fixed left-0 right-0 bottom-2 rounded-full dark:bg-[#000000] bg-[#FFFFFF] px-1">
+        {links.map(({ name, url, icon }) => (
+          <Link
+            href={url}
+            key={url}
+            className="flex flex-col justify-center items-center text-xs gap-1"
+          >
+            {icon}
+            {name}
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 };
@@ -194,25 +208,6 @@ const MenuIcon = () => (
     />
   </svg>
 );
-
-const links = [
-  {
-    name: "Latest job",
-    url: "/",
-  },
-  {
-    name: "Result",
-    url: "/result",
-  },
-  {
-    name: "State Job",
-    url: "/state-job",
-  },
-  {
-    name: "Admit Card",
-    url: "/admit-card",
-  },
-];
 
 const LatestJob = (
   <svg
@@ -281,6 +276,80 @@ const answerKey = (
     />
   </svg>
 );
+
+const result = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="size-6"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"
+    />
+  </svg>
+);
+
+const stateJob = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="size-6"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 0 0-8.862 12.872M12.75 3.031a9 9 0 0 1 6.69 14.036m0 0-.177-.529A2.25 2.25 0 0 0 17.128 15H16.5l-.324-.324a1.453 1.453 0 0 0-2.328.377l-.036.073a1.586 1.586 0 0 1-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 0 1-5.276 3.67m0 0a9 9 0 0 1-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25"
+    />
+  </svg>
+);
+
+const admitCard = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="size-6"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
+    />
+  </svg>
+);
+
+const links = [
+  {
+    name: "Latest job",
+    url: "/",
+    icon: LatestJob,
+  },
+  {
+    name: "Result",
+    url: "/result",
+    icon: result,
+  },
+  {
+    name: "State Job",
+    url: "/state-job",
+    icon: stateJob,
+  },
+  {
+    name: "Admit Card",
+    url: "/admit-card",
+    icon: admitCard,
+  },
+];
 
 const menuLinks = [
   {
