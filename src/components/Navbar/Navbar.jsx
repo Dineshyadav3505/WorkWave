@@ -126,7 +126,7 @@ const Navbar = () => {
               link="sign-in"
               text="Sign In"
               innerClass={
-                " font-bold py-1.5 px-11 dark:bg-[#023E8A] bg-[#ffffff]"
+                " font-bold py-1.5 px-12 bg-[#64C8FA] "
               }
             />
 
@@ -137,7 +137,7 @@ const Navbar = () => {
       )}
 
       {/* Phone Menu */}
-      <div className="h-20 md:hidden w-full flex justify-around items-center fixed left-0 right-0 bottom-2 rounded-full dark:bg-[#000000] bg-[#FFFFFF] px-1">
+      <div className="py-3 md:hidden w-full flex justify-around items-center fixed left-0 right-0 bottom-2 rounded-full dark:bg-[#000000] bg-[#FFFFFF] px-1">
         {links.map(({ name, url, icon }) => (
           <Link
             href={url}
