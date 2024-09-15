@@ -35,8 +35,7 @@ const Page = () => {
   const [admissionLink, setAdmissionLink] = useState([{ label: "", link: "" }]);
   const [informationSection, setInformationSection] = useState([
     {
-      informationName: "",
-      informationArray: [{ informationLabel: "", informationDetails: [""] }],
+      Information: [{ value: "" }],
     },
   ]);
 
@@ -200,65 +199,8 @@ const Page = () => {
     }
   };
 
-  const handleAddInformationSection = () => {
-    setInformationSection([
-      ...informationSection,
-      {
-        informationName: "",
-        informationArray: [{ informationLabel: "", informationDetails: [""] }],
-      },
-    ]);
-  };
 
-  const handleRemoveInformationSection = (index) => {
-    const newInformation = [...informationSection];
-    if (newInformation.length > 1) {
-      newInformation.splice(index, 1);
-      setInformationSection(newInformation);
-    }
-  };
 
-  const handleAddInformationArray = (sectionIndex) => {
-    const newInformation = [...informationSection];
-    newInformation[sectionIndex].informationArray.push({
-      informationLabel: "",
-      informationDetails: [""],
-    });
-    setInformationSection(newInformation);
-  };
-
-  const handleRemoveInformationArray = (sectionIndex, arrayIndex) => {
-    const newInformation = [...informationSection];
-    if (newInformation[sectionIndex].informationArray.length > 1) {
-      newInformation[sectionIndex].informationArray.splice(arrayIndex, 1);
-      setInformationSection(newInformation);
-    }
-  };
-
-  const handleAddInformationDetail = (sectionIndex, arrayIndex) => {
-    const newInformation = [...informationSection];
-    newInformation[sectionIndex].informationArray[
-      arrayIndex
-    ].informationDetails.push("");
-    setInformationSection(newInformation);
-  };
-
-  const handleRemoveInformationDetail = (
-    sectionIndex,
-    arrayIndex,
-    detailIndex
-  ) => {
-    const newInformation = [...informationSection];
-    if (
-      newInformation[sectionIndex].informationArray[arrayIndex]
-        .informationDetails.length > 1
-    ) {
-      newInformation[sectionIndex].informationArray[
-        arrayIndex
-      ].informationDetails.splice(detailIndex, 1);
-      setInformationSection(newInformation);
-    }
-  };
 
   // Form submit handler
   const handleSubmit = async (e) => {
@@ -441,14 +383,7 @@ const Page = () => {
           />
 
           <OtherDetails
-            informationSection={informationSection}
-            setInformationSection={setInformationSection}
-            handleAddInformationSection={handleAddInformationSection}
-            handleRemoveInformationSection={handleRemoveInformationSection}
-            handleAddInformationArray={handleAddInformationArray}
-            handleRemoveInformationArray={handleRemoveInformationArray}
-            handleAddInformationDetail={handleAddInformationDetail}
-            handleRemoveInformationDetail={handleRemoveInformationDetail}
+          
           />
 
           <button
