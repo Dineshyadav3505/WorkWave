@@ -6,7 +6,7 @@ const Button = ({link, divClass, innerClass, text  }) => {
     <div className={` flex justify-center items-center w-full py-10 ${divClass}`}>
     <Link href={link}
       type="button"
-      className={`bg-[#023E8A] px-5 py-1 rounded-full text-sm ${innerClass} `}
+      className={`bg-[#023E8A] py-1 rounded-full px-12 text-sm ${innerClass} `}
     >
       {text}
     </Link>

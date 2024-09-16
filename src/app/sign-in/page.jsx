@@ -43,12 +43,12 @@ const SignIn = () => {
     } catch (error) {
       setError(error.message); // Set the error message to state
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
   return (
-    <div className="h-screen w-full flex justify-center items-center">
+    <div className="h-screen w-full flex justify-center items-center font-roboto">
       <div className="relative p-4 md:p-8 flex flex-col gap-10 w-full">
         <div className="md:w-1/2 px-5 md:mx-auto py-28">
           <h1 className="text-3xl font-bold">Sign In</h1>
@@ -57,7 +57,7 @@ const SignIn = () => {
           {/* Display error message */}
           {error && <p className="text-red-500 ">{error}</p>}{" "}
 
-          <form onSubmit={handleSubmit} encType="multipart/form-data" className="mt-10">
+          <form onSubmit={handleSubmit} encType="multipart/form-data" className="mt-10 flex flex-col">
             <Input
               type="text"
               name="email"
@@ -78,7 +78,7 @@ const SignIn = () => {
             />
             <button
               type="submit"
-              className="btn px-5 py-1 bg-violet-500 my-10"
+              className="btn px-12 py-1m mx-auto rounded-md py-1 bg-[#033E8A] text-[#ffffff] my-10"
               disabled={loading}
             >
               {loading ? "Signing In..." : "Sign In"}

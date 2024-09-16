@@ -97,6 +97,7 @@ const Navbar = () => {
               <Link
                 href={url}
                 key={url}
+                onClick={toggleMenu}
                 className="flex w-64 md:w-[455px] text-[#ffffff] justify-between items-center border-b-[1px]  border-[#E9E5E5] py-3 "
               >
                 <span className=" flex gap-2 items-center">
@@ -125,6 +126,7 @@ const Navbar = () => {
             <Button
               link="sign-in"
               text="Sign In"
+              onClick={toggleMenu}
               innerClass={
                 " font-bold py-1.5 px-12 bg-[#64C8FA] "
               }
