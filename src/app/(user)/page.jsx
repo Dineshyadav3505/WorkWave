@@ -3,9 +3,9 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div  className='min-h-screen p-5 '>
+    <div  className='min-h-screen p-4 '>
     
-    <div className=" grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div className=" grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-5">
     <Card/>
     <Card/>
     <Card/>

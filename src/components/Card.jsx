@@ -3,18 +3,47 @@ import React from "react";
 
 const Card = () => {
   return (
-    <div className="w- full overflow-hidden shadow-lg h-52 ">
-      <div className=" rounded-lg dark:bg-black bg-white p-2 flex flex-col relative ">
-        <div className=" border-b-[1px] pb-3 flex items-start ">
+    <div className="w- full overflow-hidden h-52 relative">
+
+      {/* New */}
+      <div className="h-6 w-6 absolute top-0 right-0 z-10 flex justify-center items-center">
+        <h1 className="text-[10px] rotate-45 bg-red-500 leading-none px-10">
+          new
+        </h1>
+      </div>
+
+      {/* Image, PostName and Share button */}
+      <div className=" rounded-lg dark:bg-black bg-white p-2 shadow-lg flex flex-col relative ">
+        <div className=" border-b-[1px] pb-3 flex items-center p-2 gap-4 ">
           <img
             className="h-14 w-14 rounded-full"
             src="https://images.unsplash.com/photo-1719937206498-b31844530a96?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
           />
-          <h1 className="text-lg font-bold">John Doe</h1>
-          <button>share</button>
+          <h1 className="text-sm w-full flex flex-wrap font-bold h-10 dark:text-white text-[#023E8A] overflow-hidden">
+            John Doe jaf iqsfd hsdfbsakhdchsafjkas dsfg dfgh xfghxcv dfhg dtyhnf
+            dtyhfgnb rtdhtyn{" "}
+          </h1>
+          <button className="text-[#64C8FA]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
+              />
+            </svg>
+          </button>
         </div>
-        <div className="my-4 py-2 dark:bg-white rounded-full flex justify-around items-center px-5 dark:text-text-light text-text-dark capitalize font-bold text-sm">
+
+        {/* Begin Date and Last Date */}
+        <div className=" my-3 py-1 dark:bg-white bg-[#F4F4F4] rounded-full flex justify-around items-center px-5 text-text-light capitalize font-bold text-sm">
           <h6 className=" ">Begin : 10/09/2024</h6>
           <span>
             <svg
@@ -36,10 +65,17 @@ const Card = () => {
             Last date : <span className="text-green-700"> 10/09/2024 </span>{" "}
           </h6>
         </div>
+
+        {/* days Left  */}
         <p className="text-red-600 text-sm mx-auto mb-4">13 days left</p>
 
+
+        {/* Link */}
         <div className=" absolute -bottom-3  w-full flex justify-center ">
-          <Link href="/user/1" className="flex gap-1 bg-[#64C8FA] px-5 rounded-full text-base justify-center items-center leading-7">
+          <Link
+            href="/user/1"
+            className="flex gap-1 bg-[#023E8A] text-white px-5 rounded-full text-base justify-center items-center leading-7"
+          >
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
