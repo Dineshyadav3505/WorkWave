@@ -1,4 +1,3 @@
-
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 
@@ -9,12 +8,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <ThemeProvider attribute="class">
-        <body className="dark:bg-bg-dark dark:text-text-dark bg-bg-light text-text-light font-roboto">
+    <html lang="en"suppressHydrationWarning >
+      <body suppressHydrationWarning>
+        <ThemeProvider attribute="class">
           {children}
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

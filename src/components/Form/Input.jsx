@@ -1,3 +1,4 @@
+"use client";
 import { space } from "postcss/lib/list";
 import React from "react";
 

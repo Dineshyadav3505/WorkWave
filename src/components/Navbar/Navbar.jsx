@@ -45,7 +45,7 @@ const Navbar = () => {
 
       <div className="hidden md:flex justify-between gap-3 items-center text-sm font-normal">
         {links.map(({ name, url }) => (
-          <a
+          <Link
             key={url}
             href={url}
             className={`${
@@ -55,7 +55,7 @@ const Navbar = () => {
             }`}
           >
             {name}
-          </a>
+          </Link>
         ))}
       </div>
 

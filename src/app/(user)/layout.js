@@ -9,14 +9,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <ThemeProvider attribute="class">
-        <body className="dark:bg-bg-dark dark:text-text-dark bg-bg-light text-text-light font-roboto">
+    <html lang="en" suppressHydrationWarning>
+        <body suppressHydrationWarning >
           <Navbar />
           {children}
           <Footer />
         </body>
-      </ThemeProvider>
     </html>
   );
 }

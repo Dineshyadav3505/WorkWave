@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 
@@ -43,7 +44,7 @@ const Card = () => {
         </div>
 
         {/* Begin Date and Last Date */}
-        <div className=" my-3 py-1 dark:bg-white bg-[#F4F4F4] rounded-full flex justify-around items-center px-5 text-text-light capitalize font-bold text-sm">
+        <div className=" my-3 py-1 dark:bg-white bg-[#F4F4F4] rounded-full flex justify-around items-center px-1 text-text-light capitalize font-bold text-sm">
           <h6 className=" ">Begin : 10/09/2024</h6>
           <span>
             <svg
