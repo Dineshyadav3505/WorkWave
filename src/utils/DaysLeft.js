@@ -13,8 +13,8 @@ export default function daysLeft(date) {
     if (diffDays < 0) {
         return "Submissions Closed"; // Last date has passed
     } else if (diffDays === 0) {
-        return "Hurry, Last Day to Apply"; // Today is the last day
+        return "Last Day to Apply"; // Today is the last day
     } else {
-        return `Countdown: ${diffDays} Days Left`; // More than one day remaining
+        return `${diffDays} Days Left`; // More than one day remaining
     }
 }

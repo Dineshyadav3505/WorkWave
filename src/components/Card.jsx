@@ -24,25 +24,25 @@ const Card = ({ data }) => {
   };
 
   return (
-    <div className="w-full overflow-hidden h-52 relative">
+    <div className="w-full overflow-hidden pb-7 relative">
       {/* New Update Indicator */}
       {newUpdateStatus && (
-        <div className="h-6 w-6 absolute top-0 right-0 z-10 flex justify-center items-center">
-          <h1 className="text-[10px] rotate-45 bg-red-500 leading-none px-10">
+        <div className="absolute top-0 right-0 z-10 w-7 h-7 flex justify-center items-center">
+          <h1 className="text-[11px] rotate-45 bg-red-500 leading-none px-10 py-1 font-bold uppercase">
             New
           </h1>
         </div>
       )}
 
       {/* Image, PostName and Share button */}
-      <div className="rounded-lg dark:bg-black bg-white p-2 shadow-lg flex flex-col relative">
-        <div className="border-b-[1px] pb-3 flex items-center p-2 gap-4 w-full ">
-          <div className="relative w-14 h-14 overflow-hidden">
+      <div className="rounded-[21.86px] dark:bg-black bg-white p-2 shadow-md flex flex-col relative">
+        <div className="border-b-[1px] pb-3 flex items-center p-2 gap-4 w-full  ">
+          <div className="relative w-[58.3px] h-[58.3px] overflow-hidden">
             <Image
               src={data.image}
               alt="post"
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="width: 58px"
               style={{ objectFit: "cover" }}
               className="rounded-full"
             />
@@ -58,7 +58,7 @@ const Card = ({ data }) => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth={1.5}
+                strokeWidth={2.5}
                 stroke="currentColor"
                 className="size-6"
               >
@@ -73,7 +73,7 @@ const Card = ({ data }) => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth={1.5}
+                strokeWidth={2.5}
                 stroke="currentColor"
                 className="size-5"
               >
@@ -88,7 +88,7 @@ const Card = ({ data }) => {
         </div>
 
         {/* Begin Date and Last Date */}
-        <div className="my-3 py-1 dark:bg-[#bcbbbb] bg-[#F4F4F4] rounded-full flex justify-around items-center px-1 text-text-light capitalize font-bold text-sm">
+        <div className="my-3 py-1 dark:bg-[#bcbbbb] text-[12px] bg-[#F4F4F4] rounded-full flex justify-around items-center px-1 text-text-light capitalize font-bold ">
           <h6>Begin: {new Date(data.beginDate).toISOString().split("T")[0]}</h6>
           <span>
             <svg
@@ -115,7 +115,7 @@ const Card = ({ data }) => {
         </div>
 
         {/* Days Left */}
-        <p className="text-red-600 text-sm mx-auto mb-4 capitalize">
+        <p className="text-red-600 text-[12px] mx-auto mb-4 capitalize">
           {leftDays}
         </p>
 
@@ -123,16 +123,16 @@ const Card = ({ data }) => {
         <div className="absolute -bottom-3 w-full flex justify-center">
           <Link
             href={`/${link}`}
-            className="flex gap-1 bg-[#023E8A] text-white px-5 rounded-full text-base justify-center items-center leading-7"
+            className="flex gap-1 bg-[#023E8A] text-[12px] font-bold text-white px-5 rounded-full text-base justify-center items-center leading-7"
           >
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth={1.5}
+                strokeWidth={2.5}
                 stroke="currentColor"
-                className="size-5"
+                className="size-4"
               >
                 <path
                   strokeLinecap="round"

@@ -26,8 +26,6 @@ const SignIn = () => {
 
       const data = await response.json(); // Parse the response data
 
-      console.log(data.user);
-
       if (!response.ok) {
         throw new Error(data.message); // Throw an error if the response is not ok
       }

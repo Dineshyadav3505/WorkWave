@@ -112,15 +112,19 @@ const jobPostSchema = new Schema(
       },
     ],
 
-    InformationSection: [{
-      Information:[
-        {
-          value: {
-            type: String,
+    InformationSection: [
+      {
+        Information: [
+          {
+            value: [
+              {
+                type: "String",
+              },
+            ],
           },
-        }
-      ]
-    }],
+        ],
+      },
+    ],
 
     state: {
       type: String,
@@ -147,7 +151,3 @@ const jobPostSchema = new Schema(
 const JobPost = models?.JobPost || model("JobPost", jobPostSchema);
 
 export default JobPost;
-
-
-
-
