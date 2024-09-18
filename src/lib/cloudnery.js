@@ -10,6 +10,10 @@ export default cloudinary;
 
 export const uploadOnCloudinary = async (file, folder) => {
 
+  console.log(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME)
+  console.log(process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY)
+  console.log(process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET)
+
   const buffer = await file.arrayBuffer();
   const bites = Buffer.from(buffer);
 

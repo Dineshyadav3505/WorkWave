@@ -26,7 +26,6 @@ const Page = () => {
             link : "applyLink",
           },
         });
-        console.log(response.data.posts);
         setData(response.data.posts);
         setLoading(false);
       } catch (error) {
