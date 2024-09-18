@@ -1,43 +1,51 @@
 "use client";
-import Card from '@/components/Card'
-import SearchBar from '@/components/SearchBar'
-import React, { useState } from 'react'
+import Card from "@/components/Card";
+import SearchBar from "@/components/SearchBar";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-
-const page = () => {
+const Page = () => {
   const [searchResult, setSearchResult] = useState("");
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
 
   const handleSearch = (input) => {
-    setSearchResult(input); 
+    setSearchResult(input);
   };
 
-  console.log(searchResult)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('/api/post', {
+          params: {
+            searchResult
+          }
+        });
+        setData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchProducts();
+  }, [searchResult]);
+
 
   return (
-    <div  className='min-h-screen p-4 '>
-      <div className="">
-        <SearchBar 
-        placeholder="search for job"
-        onSearch={handleSearch}
-        />
+    <div className="min-h-screen p-4">
+      <div>
+        <SearchBar placeholder="Search for job" onSearch={handleSearch} />
       </div>
-    
-    <div className=" grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-5">
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    <Card/>
-    </div>
-    </div>
-  )
-}
 
-export default page
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-5">
+        {data?.map((job) => (
+          <Card key={job._id} data={job} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Page;
