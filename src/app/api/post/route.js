@@ -41,7 +41,7 @@ export async function POST(req) {
       resultLink,
       admitCardLink,
       answerKeyLink,
-      AdmissionLink,
+      admissionLink,
       InformationSection,
       state,
       beginDate,
@@ -59,14 +59,13 @@ export async function POST(req) {
       resultLink: JSON.parse(formData.get("resultLink")),
       admitCardLink: JSON.parse(formData.get("admitCardLink")),
       answerKeyLink: JSON.parse(formData.get("answerKeyLink")),
-      admissionLink: JSON.parse(formData.get("AdmissionLink")),
+      admissionLink: JSON.parse(formData.get("admissionLink")),
       InformationSection: JSON.parse(formData.get("informationSection")),
       state: formData.get("state"),
       beginDate: new Date(formData.get("beginDate")),
       lastDate: new Date(formData.get("lastDate")),
       totalPost: formData.get("totalPost"),
     };
-    console.log(answerKeyLink, AdmissionLink, InformationSection, state);
 
     // Validate required fields
     if (!postName || !description || !image || !notificationLink || !beginDate) {
@@ -97,7 +96,7 @@ export async function POST(req) {
       resultLink,
       admitCardLink,
       answerKeyLink,
-      AdmissionLink,
+      admissionLink,
       InformationSection,
       state,
       beginDate,
@@ -117,11 +116,58 @@ export async function POST(req) {
 
 // Get all job posts
 export async function GET(req) {
-  await dbConnect();
+  await dbConnect(); // Ensure the database is connected
+  const query = req.url;
+  const url = new URL(query, `http://${req.headers.host}`);
+  
+  // Get searchResult, page, limit, and link parameters from query parameters
+  const searchResult = url.searchParams.get('searchResult');
+  const page = parseInt(url.searchParams.get('page')) || 1; // Default to page 1 if not provided
+  const limit = parseInt(url.searchParams.get('limit')) || 18; // Default to 18 if not provided
+  const sortDirection = url.searchParams.get('sortDirection') === 'asc' ? 1 : -1; // Ascending or descending
+  const linkType = url.searchParams.get('link') || "applyLink"; // Default to "applyLink"
+  const upComingJob = url.searchParams.get('upComingJob') || false;
+  const state = url.searchParams.get('state') || false;
+
+  console.log(`Searching for: ${searchResult}, Page: ${page}, Limit: ${limit}, Sort: ${sortDirection}, Link Type: ${linkType}`);
 
   try {
-    const jobPosts = await JobPost.find();
-    return NextResponse.json(jobPosts);
+    let queryOptions = {};
+    
+    // Filter job posts based on searchResult if it exists
+    if (searchResult) {
+      queryOptions.postName = { $regex: searchResult, $options: 'i' }; // Case-insensitive regex search
+    }
+
+    if(upComingJob === "true"){
+      queryOptions[linkType] = { $exists: true, $elemMatch: { link: {  $eq: '' } } };
+    }
+
+    if(state === "true"){
+      console.log("State Job");
+      queryOptions.state = { $ne: '' };
+    }
+
+      // Check if the specified link type is valid and filter based on non-empty links
+      queryOptions[linkType] = { $exists: true, $elemMatch: { link: { $ne: '' } } };
+    
+
+
+    // Fetch job posts with pagination and sorting
+    const jobPosts = await JobPost.find(queryOptions)
+      .sort({ updatedAt: sortDirection }) // Sort by updatedAt
+      .skip((page - 1) * limit) // Skip posts for pagination
+      .limit(limit); // Limit the number of posts returned
+
+    const totalPosts = await JobPost.countDocuments(queryOptions); // Total number of filtered posts
+    const totalPages = Math.ceil(totalPosts / limit); // Total number of pages
+
+    return NextResponse.json({
+      totalPosts,
+      totalPages,
+      currentPage: page,
+      posts: jobPosts,
+    });
   } catch (error) {
     console.error("Error while fetching job posts", error);
     return NextResponse.json(

@@ -36,22 +36,23 @@ const Card = ({ data }) => {
 
       {/* Image, PostName and Share button */}
       <div className="rounded-lg dark:bg-black bg-white p-2 shadow-lg flex flex-col relative">
-        <div className="border-b-[1px] pb-3 flex items-center p-2 gap-4 h-20 bg-slate-200">
-          <div className="h-full w-14 overflow-hidden relative">
+        <div className="border-b-[1px] pb-3 flex items-center p-2 gap-4 w-full ">
+          <div className="relative w-14 h-14 overflow-hidden">
             <Image
               src={data.image}
               alt="post"
-              width={100}
-              height={100}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              style={{ objectFit: "cover" }}
               className="rounded-full"
             />
           </div>
-          <h1 className="text-sm w-full flex flex-wrap font-bold h-10 dark:text-white text-[#023E8A] overflow-hidden">
+          <h1 className="text-sm w-[73%]  flex flex-wrap font-bold h-10 dark:text-white text-[#023E8A] overflow-hidden">
             {shortenText(data.postName, 10)}
           </h1>
 
           {/* share Button */}
-          <button onClick={share} className="text-[#64C8FA]">
+          <button onClick={share} className="text-[#64C8FA] ">
             {copied === true ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +137,7 @@ const Card = ({ data }) => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M9 12.75L11.25 15l3-5.25m-3-7A11.959,11.959,0,0,1,3.598,6A11.99,11.99,0,0,0,3,9c0,5,.824,9,9,11C17,.332,21,.03,21,.03c-.21-.21-.21-.21-.21-.21s-.21-.21-.21-.21C15,.03,12,.03,9,.03c-.21-.21-.21-.21-.21-.21S12,.03,12,.03c3,.03,6,.03,9,.03c6,.03,9,.03,9,.03c-.21-.21-.21-.21-.21-.21s-.21-.21-.21-.21C15,.03,12,.03,9,.03c6,.03,9,.03c6,.03c6,.03c6,.03c6,.03c6,.03c6,.03c6,.03c6,.03c6,.03c6,.03c6,.03"
+                  d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
                 />
               </svg>
             </span>
