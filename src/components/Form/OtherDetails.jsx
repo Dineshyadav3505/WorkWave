@@ -1,9 +1,8 @@
 "use client";
-
 import React from "react";
 import Heading from "@/components/Form/Heading";
 import AddDeleteButton from "./AddDeleteButton";
-import Input from "./Input";
+import Input from "./Input"; // Importing the custom Input component
 
 const OtherDetails = ({
   informationSections,
@@ -40,68 +39,66 @@ const OtherDetails = ({
       {informationSections.map((section, sectionIndex) => (
         <div
           key={sectionIndex}
-          className="p-4 mb-4 border border-gray-300 rounded-lg shadow-sm bg-white"
+          className="p-4 mb-4 border border-gray-300 rounded-lg shadow-sm "
         >
-          
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Information Name
             </label>
-            <input
+            <Input
               type="text"
               name="informationName"
               value={section.informationName.type}
               onChange={(e) => handleInputChange(sectionIndex, e)}
               placeholder="Information Name (Category Wise Vacancy Details, Vacancy Details Total post)"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              inputClass="border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
 
           {section.Information.map((info, infoIndex) => (
-            <div key={infoIndex} className="mb-4 relative  ">
-              <label className="block text-sm font-medium text-gray-700 ">
+            <div key={infoIndex} className="mb-4 relative">
+              <label className="block text-sm font-medium text-black dark:text-white ">
                 Row {infoIndex + 1}
               </label>
 
               <AddDeleteButton
                 handleAdd={() => addValueField(sectionIndex, infoIndex)}
                 handleRemove={() => deleteValueField(sectionIndex, infoIndex)}
-              />  
+              />
 
               <div className="flex gap-2 relative">
-              {info.values.map((valueArray, arrayIndex) => (
-                <div key={arrayIndex} className="mb-2">
-                  <div className="flex gap-2 flex-col items-center mb-2 relative pt-10">
-                    {valueArray.map((value, valueIndex) => (
-                      <input
-                        key={valueIndex}
-                        type="text"
-                        value={value}
-                        placeholder="Value"
-                        onChange={(e) =>
-                          handleValueChange(
-                            sectionIndex,
-                            infoIndex,
-                            arrayIndex,
-                            valueIndex,
-                            e
-                          )
+                {info.values.map((valueArray, arrayIndex) => (
+                  <div key={arrayIndex} className="mb-2">
+                    <div className="flex gap-2 flex-col items-center mb-2 relative pt-10">
+                      {valueArray.map((value, valueIndex) => (
+                        <Input
+                          key={valueIndex}
+                          type="text"
+                          value={value}
+                          placeholder="Value"
+                          onChange={(e) =>
+                            handleValueChange(
+                              sectionIndex,
+                              infoIndex,
+                              arrayIndex,
+                              valueIndex,
+                              e
+                            )
+                          }
+                          inputClass="border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                      ))}
+                      <AddDeleteButton
+                        handleAdd={() =>
+                          addStringValue(sectionIndex, infoIndex, arrayIndex)
                         }
-                        className="w-full px-3 py-2 mr-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        handleRemove={() =>
+                          deleteStringValue(sectionIndex, infoIndex, arrayIndex)
+                        }
                       />
-                    ))}
-                    <AddDeleteButton
-                      handleAdd={() =>
-                        addStringValue(sectionIndex, infoIndex, arrayIndex)
-                      }
-                      handleRemove={() =>
-                        deleteStringValue(sectionIndex, infoIndex, arrayIndex)
-                      }
-                    />
+                    </div>
                   </div>
-                </div>
-              ))}
- 
+                ))}
               </div>
             </div>
           ))}
@@ -123,7 +120,6 @@ const OtherDetails = ({
           </div>
         </div>
       ))}
-
     </div>
   );
 };

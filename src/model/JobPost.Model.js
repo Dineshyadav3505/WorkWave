@@ -112,14 +112,17 @@ const jobPostSchema = new Schema(
       },
     ],
 
-    InformationSection: [
+    InformationSections: [
       {
+        informationName :{
+          type: String,
+        },
         Information: [
           {
             value: [
               {
-                type: "String",
-              },
+                type: String,
+              }
             ],
           },
         ],

@@ -3,7 +3,7 @@ import React from "react";
 
 const AddDeleteButton = ({handleAdd, handleRemove}) => {
   return (
-    <div className=" absolute top-2 right-4 text-black dark:text-white">
+    <div className=" absolute z-30 top-2 right-4 text-black dark:text-white">
       <button type="button" onClick={handleAdd} className="p-2" aria-label="Add Item">
         <svg
           xmlns="http://www.w3.org/2000/svg"
