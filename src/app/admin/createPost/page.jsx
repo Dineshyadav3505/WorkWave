@@ -34,8 +34,16 @@ const Page = () => {
   const [answerKeyLink, setAnswerKeyLink] = useState([{ label: "", link: "" }]);
   const [admissionLink, setAdmissionLink] = useState([{ label: "", link: "" }]);
   const [informationSection, setInformationSection] = useState([
-    {
-      Information: [{ value: "" }],
+    { 
+    Information: [
+        {
+          value: 
+            {
+              type: "String",
+            },
+          
+        },
+      ],
     },
   ]);
 
@@ -199,17 +207,82 @@ const Page = () => {
     }
   };
 
+  const handleInformationSectionChange = (index, field, value) => {
+    const newSection = [...informationSection];
+    newSection[index][field] = value;
+    setInformationSection(newSection);
+  };
 
+  const handleAddInformationSection = () => {
+    setInformationSection([
+      ...informationSection,
+      { Information: [{ value: [{ type: "String" }] }] },
+    ]);
+  };
 
+  const handleRemoveInformationSection = () => {
+    if (informationSection.length > 1) {
+      setInformationSection(informationSection.slice(0, -1));
+    }
+  };
+
+  const handleAddInformation = (index) => {
+    const newInformation = [...informationSection];
+    newInformation[index].Information.push({ value: [{ type: "String" }] });
+    setInformationSection(newInformation);
+  };
+
+  const handleRemoveInformation = (index) => {
+    const newInformation = [...informationSection];
+    if (newInformation[index].Information.length > 1) {
+      newInformation[index].Information = newInformation[
+        index
+      ].Information.slice(0, -1);
+    }
+    setInformationSection(newInformation);
+  };
+
+  const handleAddValue = (sectionIndex, infoIndex) => {
+    const newInformation = [...informationSection];
+    newInformation[sectionIndex].Information[infoIndex].value.push({
+      type: "String",
+    });
+    setInformationSection(newInformation);
+  };
+
+  const handleRemoveValue = (sectionIndex, infoIndex) => {
+    const newInformation = [...informationSection];
+    if (newInformation[sectionIndex].Information[infoIndex].value.length > 1) {
+      newInformation[sectionIndex].Information[infoIndex].value =
+        newInformation[sectionIndex].Information[infoIndex].value.slice(0, -1);
+    }
+    setInformationSection(newInformation);
+  };
 
   // Form submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
     try {
-
-      console.log(postName, description, image, notificationLink, importantDates, applicationFees, ageLimits, applyLinks, resultLink, admitCardLink, answerKeyLink, admissionLink, state, beginDate, lastDate, totalPost, informationSection);
+      console.log(
+        postName,
+        description,
+        image,
+        notificationLink,
+        importantDates,
+        applicationFees,
+        ageLimits,
+        applyLinks,
+        resultLink,
+        admitCardLink,
+        answerKeyLink,
+        admissionLink,
+        state,
+        beginDate,
+        lastDate,
+        totalPost,
+        informationSection
+      );
       const formData = new FormData();
       formData.append("postName", postName);
       formData.append("description", description);
@@ -228,15 +301,14 @@ const Page = () => {
       formData.append("lastDate", lastDate);
       formData.append("totalPost", totalPost);
       formData.append("informationSection", JSON.stringify(informationSection));
-  
+
       const response = await fetch("/api/post", {
         method: "POST",
         body: formData,
       });
-  
+
       const data = await response.json();
       alert("File uploaded successfully!");
-      
     } catch (error) {
       console.error("Error while creating job post", error);
       alert("Error while creating job post", error);
@@ -383,7 +455,14 @@ const Page = () => {
           />
 
           <OtherDetails
-          
+            informationSection={informationSection}
+            handleChange={handleInformationSectionChange}
+            handleAdd={handleAddInformationSection}
+            handleRemove={handleRemoveInformationSection}
+            handleAddValue={handleAddValue}
+            handleRemoveValue={handleRemoveValue}
+            handleAddInformation={handleAddInformation}
+            handleRemoveInformation={handleRemoveInformation}
           />
 
           <button

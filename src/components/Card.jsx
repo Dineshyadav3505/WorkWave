@@ -28,7 +28,7 @@ const Card = ({ data }) => {
       {/* New Update Indicator */}
       {newUpdateStatus && (
         <div className="absolute top-0 right-0 z-10 w-7 h-7 flex justify-center items-center">
-          <h1 className="text-[11px] rotate-45 bg-red-500 leading-none px-10 py-1 font-bold uppercase">
+          <h1 className="text-[11px] rotate-45 bg-red-600 leading-none px-10 py-1 font-bold uppercase">
             New
           </h1>
         </div>
@@ -115,7 +115,7 @@ const Card = ({ data }) => {
         </div>
 
         {/* Days Left */}
-        <p className="text-red-600 text-[12px] mx-auto mb-4 capitalize">
+        <p className="text-red-600 text-[12px] font-bold mx-auto mb-4 capitalize">
           {leftDays}
         </p>
 
