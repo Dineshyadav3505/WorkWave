@@ -1,138 +1,201 @@
 "use client";
 import React, { useState } from "react";
-import OtherDetails from "@/components/Form/OtherDetails";
-import Heading from "@/components/Form/Heading";
 
-const Page = () => {
-  const [informationSection, setInformationSection] = useState([
+const InformationForm = () => {
+  const [informationSections, setInformationSections] = useState([
     {
       informationName: {
-        label: "String",
+        type: "",
       },
       Information: [
         {
-          value: [
-            {
-            item: "String",
-          }
-        ],
+          values: [[""]], // Initializing with an array of arrays
         },
       ],
     },
   ]);
 
-  // Function to add a new Information entry
-  const addInformation = (sectionIndex) => {
-    const newInformationSection = [...informationSection];
-    newInformationSection[sectionIndex].Information.push({
-      value: {
-        item: {
-          type: "String",
-        },
-      },
-    });
-    setInformationSection(newInformationSection);
-  };
-
-  // Function to remove an Information entry
-  const removeInformation = (sectionIndex, infoIndex) => {
-    const newInformationSection = [...informationSection];
-    if (newInformationSection[sectionIndex].Information.length > 1) {
-      newInformationSection[sectionIndex].Information.splice(infoIndex, 1);
-      setInformationSection(newInformationSection);
-    }
-  };
-
-  // Function to add a new section
   const addInformationSection = () => {
-    setInformationSection([
-      ...informationSection,
+    setInformationSections((prevSections) => [
+      ...prevSections,
       {
         informationName: {
-          type: "String",
+          type: "",
         },
         Information: [
           {
-            value: {
-              item: {
-                type: "String",
-              },
-            },
+            values: [[""]], // Initialize new section with an array of arrays
           },
         ],
       },
     ]);
   };
 
-  // Function to remove a section
-  const removeInformationSection = (index) => {
-    const newInformationSection = [...informationSection];
-    if (newInformationSection.length > 1) {
-      newInformationSection.splice(index, 1);
-      setInformationSection(newInformationSection);
+  const deleteInformationSection = (index) => {
+    setInformationSections((prevSections) =>
+      prevSections.filter((_, i) => i !== index)
+    );
+  };
+
+  const handleInputChange = (sectionIndex, e) => {
+    const { name, value } = e.target;
+    const updatedSections = [...informationSections];
+    if (name === "informationName") {
+      updatedSections[sectionIndex].informationName.type = value;
+    }
+    setInformationSections(updatedSections);
+  };
+
+  const handleValueChange = (sectionIndex, infoIndex, arrayIndex, valueIndex, e) => {
+    const { value } = e.target;
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex][valueIndex] = value;
+    setInformationSections(updatedSections);
+  };
+
+  const addInformationField = (sectionIndex) => {
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information.push({ values: [[""]] }); // New field with an array of arrays
+    setInformationSections(updatedSections);
+  };
+
+  const deleteInformationField = (sectionIndex, infoIndex) => {
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information.splice(infoIndex, 1); // Delete the entire information field
+    setInformationSections(updatedSections);
+  };
+
+  const addValueField = (sectionIndex, infoIndex) => {
+    const updatedSections = [...informationSections];
+    if (updatedSections[sectionIndex].Information[infoIndex].values.length < 10) { // Limit to 10 arrays
+      updatedSections[sectionIndex].Information[infoIndex].values.push([""]); // Add a new array of strings
+      setInformationSections(updatedSections);
     }
   };
 
-  // Handle input changes
-  const handleChange = (sectionIndex, infoIndex, key, value) => {
-    const newInformationSection = [...informationSection];
-    if (infoIndex !== undefined) {
-      newInformationSection[sectionIndex].Information[infoIndex].value[key] = value;
-    } else {
-      newInformationSection[sectionIndex][key] = value;
-    }
-    setInformationSection(newInformationSection);
+  const deleteValueField = (sectionIndex, infoIndex, arrayIndex) => {
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information[infoIndex].values.splice(arrayIndex, 1); // Delete specific array
+    setInformationSections(updatedSections);
   };
 
-  // Form submit handler
-  const handleSubmit = async (e) => {
+  const addStringValue = (sectionIndex, infoIndex, arrayIndex) => {
+    const updatedSections = [...informationSections];
+    if (updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].length < 10) { // Limit to 10 strings in each array
+      updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].push(""); // Add a new string to the nested array
+      setInformationSections(updatedSections);
+    }
+  };
+
+  const deleteStringValue = (sectionIndex, infoIndex, arrayIndex, valueIndex) => {
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].splice(valueIndex, 1); // Delete specific string from the nested array
+    setInformationSections(updatedSections);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      console.log(informationSection);
-      const formData = new FormData();
-      formData.append("informationSection", JSON.stringify(informationSection));
-
-      const response = await fetch("/api/post/chach", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      alert("File uploaded successfully!");
-    } catch (error) {
-      console.error("Error while creating job post", error);
-      alert("Error while creating job post: " + error.message);
-    }
+    console.log(informationSections); // Log the current state for verification
   };
 
   return (
-    <div className="min-h-screen w-full py-44 dark:bg-bg-dark bg-bg-light">
-      <div className="mx-auto px-5 lg:w-1/2">
-        <form onSubmit={handleSubmit}>
-          <Heading label="Post Information" />
-          <OtherDetails 
-            informationSection={informationSection}
-            handleChange={handleChange}
-            handleAdd={addInformation}
-            handleRemove={removeInformation}
-            handleAddSection={addInformationSection}
-            handleRemoveSection={removeInformationSection}
-          />
-          <button
-            type="submit"
-            className="mt-4 w-full dark:bg-bg-button-dark bg-bg-button-light dark:text-text-button-dark text-text-button-light py-1 text-sm md:text-base rounded"
-          >
-            Submit
-          </button>
-        </form>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        {informationSections.map((section, sectionIndex) => (
+          <div key={sectionIndex} className="p-4 mb-4 border border-gray-300 rounded-lg shadow-sm bg-white">
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">Information Name</label>
+              <input
+                type="text"
+                name="informationName"
+                value={section.informationName.type}
+                onChange={(e) => handleInputChange(sectionIndex, e)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+
+            {section.Information.map((info, infoIndex) => (
+              <div key={infoIndex} className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Information {infoIndex + 1}</label>
+                {info.values.map((valueArray, arrayIndex) => (
+                  <div key={arrayIndex} className="mb-2">
+                    <div className="flex items-center mb-2">
+                      {valueArray.map((value, valueIndex) => (
+                        <input
+                          key={valueIndex}
+                          type="text"
+                          value={value}
+                          onChange={(e) =>
+                            handleValueChange(sectionIndex, infoIndex, arrayIndex, valueIndex, e)
+                          }
+                          className="w-full px-3 py-2 mr-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          deleteStringValue(sectionIndex, infoIndex, arrayIndex)
+                        }
+                        className="px-2 py-1 text-sm font-medium text-red-600 bg-red-100 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      >
+                        Delete Array
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => addStringValue(sectionIndex, infoIndex, arrayIndex)}
+                      className="px-3 py-2 text-sm font-medium text-indigo-600 bg-indigo-100 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Add String Value
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => addValueField(sectionIndex, infoIndex)}
+                  className="px-3 py-2 text-sm font-medium text-indigo-600 bg-indigo-100 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Add Value Array
+                </button>
+              </div>
+            ))}
+
+            <div className="flex justify-between">
+              <button
+                type="button"
+                onClick={() => addInformationField(sectionIndex)}
+                className="px-3 py-2 text-sm font-medium text-indigo-600 bg-indigo-100 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Add Information Field
+              </button>
+              <button
+                type="button"
+                onClick={() => deleteInformationField(sectionIndex)}
+                className="px-2 py-1 text-sm font-medium text-red-600 bg-red-100 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                Delete Section
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
+
+      <button
+        type="button"
+        onClick={addInformationSection}
+        className="w-full px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-100 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Add Section
+      </button>
+
+      <button
+        type="submit"
+        className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo600 rounded-md shadow-sm hover:bg-indigo700 focus:outline-none focus:ring=2 focus:ring-offset=2 focus:ring-indigo500"
+      >
+        Submit
+      </button>
+    </form>
   );
 };
 
-export default Page;
+export default InformationForm;

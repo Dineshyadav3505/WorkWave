@@ -33,15 +33,14 @@ const Page = () => {
   const [admitCardLink, setAdmitCardLink] = useState([{ label: "", link: "" }]);
   const [answerKeyLink, setAnswerKeyLink] = useState([{ label: "", link: "" }]);
   const [admissionLink, setAdmissionLink] = useState([{ label: "", link: "" }]);
-  const [informationSection, setInformationSection] = useState([
-    { 
-    Information: [
+  const [informationSections, setInformationSections] = useState([
+    {
+      informationName: {
+        type: "",
+      },
+      Information: [
         {
-          value: 
-            {
-              type: "String",
-            },
-          
+          values: [[""]], // Initializing with an array of arrays
         },
       ],
     },
@@ -207,56 +206,82 @@ const Page = () => {
     }
   };
 
-  const handleInformationSectionChange = (index, field, value) => {
-    const newSection = [...informationSection];
-    newSection[index][field] = value;
-    setInformationSection(newSection);
-  };
-
-  const handleAddInformationSection = () => {
-    setInformationSection([
-      ...informationSection,
-      { Information: [{ value: [{ type: "String" }] }] },
+  const addInformationSection = () => {
+    setInformationSections((prevSections) => [
+      ...prevSections,
+      {
+        informationName: {
+          type: "",
+        },
+        Information: [
+          {
+            values: [[""]], // Initialize new section with an array of arrays
+          },
+        ],
+      },
     ]);
   };
 
-  const handleRemoveInformationSection = () => {
-    if (informationSection.length > 1) {
-      setInformationSection(informationSection.slice(0, -1));
+  const deleteInformationSection = (index) => {
+    setInformationSections((prevSections) =>
+      prevSections.filter((_, i) => i !== index)
+    );
+  };
+
+  const handleInputChange = (sectionIndex, e) => {
+    const { name, value } = e.target;
+    const updatedSections = [...informationSections];
+    if (name === "informationName") {
+      updatedSections[sectionIndex].informationName.type = value;
+    }
+    setInformationSections(updatedSections);
+  };
+
+  const handleValueChange = (sectionIndex, infoIndex, arrayIndex, valueIndex, e) => {
+    const { value } = e.target;
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex][valueIndex] = value;
+    setInformationSections(updatedSections);
+  };
+
+  const addInformationField = (sectionIndex) => {
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information.push({ values: [[""]] }); // New field with an array of arrays
+    setInformationSections(updatedSections);
+  };
+
+  const deleteInformationField = (sectionIndex, infoIndex) => {
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information.splice(infoIndex, 1); // Delete the entire information field
+    setInformationSections(updatedSections);
+  };
+
+  const addValueField = (sectionIndex, infoIndex) => {
+    const updatedSections = [...informationSections];
+    if (updatedSections[sectionIndex].Information[infoIndex].values.length < 10) { // Limit to 10 arrays
+      updatedSections[sectionIndex].Information[infoIndex].values.push([""]); // Add a new array of strings
+      setInformationSections(updatedSections);
     }
   };
 
-  const handleAddInformation = (index) => {
-    const newInformation = [...informationSection];
-    newInformation[index].Information.push({ value: [{ type: "String" }] });
-    setInformationSection(newInformation);
+  const deleteValueField = (sectionIndex, infoIndex, arrayIndex) => {
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information[infoIndex].values.splice(arrayIndex, 1); // Delete specific array
+    setInformationSections(updatedSections);
   };
 
-  const handleRemoveInformation = (index) => {
-    const newInformation = [...informationSection];
-    if (newInformation[index].Information.length > 1) {
-      newInformation[index].Information = newInformation[
-        index
-      ].Information.slice(0, -1);
+  const addStringValue = (sectionIndex, infoIndex, arrayIndex) => {
+    const updatedSections = [...informationSections];
+    if (updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].length < 10) { // Limit to 10 strings in each array
+      updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].push(""); // Add a new string to the nested array
+      setInformationSections(updatedSections);
     }
-    setInformationSection(newInformation);
   };
 
-  const handleAddValue = (sectionIndex, infoIndex) => {
-    const newInformation = [...informationSection];
-    newInformation[sectionIndex].Information[infoIndex].value.push({
-      type: "String",
-    });
-    setInformationSection(newInformation);
-  };
-
-  const handleRemoveValue = (sectionIndex, infoIndex) => {
-    const newInformation = [...informationSection];
-    if (newInformation[sectionIndex].Information[infoIndex].value.length > 1) {
-      newInformation[sectionIndex].Information[infoIndex].value =
-        newInformation[sectionIndex].Information[infoIndex].value.slice(0, -1);
-    }
-    setInformationSection(newInformation);
+  const deleteStringValue = (sectionIndex, infoIndex, arrayIndex, valueIndex) => {
+    const updatedSections = [...informationSections];
+    updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].splice(valueIndex, 1); // Delete specific string from the nested array
+    setInformationSections(updatedSections);
   };
 
   // Form submit handler
@@ -281,7 +306,7 @@ const Page = () => {
         beginDate,
         lastDate,
         totalPost,
-        informationSection
+        informationSections
       );
       const formData = new FormData();
       formData.append("postName", postName);
@@ -300,7 +325,10 @@ const Page = () => {
       formData.append("beginDate", beginDate);
       formData.append("lastDate", lastDate);
       formData.append("totalPost", totalPost);
-      formData.append("informationSection", JSON.stringify(informationSection));
+      formData.append(
+        "informationSections",
+        JSON.stringify(informationSections)
+      );
 
       const response = await fetch("/api/post", {
         method: "POST",
@@ -455,14 +483,18 @@ const Page = () => {
           />
 
           <OtherDetails
-            informationSection={informationSection}
-            handleChange={handleInformationSectionChange}
-            handleAdd={handleAddInformationSection}
-            handleRemove={handleRemoveInformationSection}
-            handleAddValue={handleAddValue}
-            handleRemoveValue={handleRemoveValue}
-            handleAddInformation={handleAddInformation}
-            handleRemoveInformation={handleRemoveInformation}
+            informationSections={informationSections}
+            handleSubmit={handleSubmit}
+            addInformationSection={addInformationSection}
+            deleteInformationSection={deleteInformationSection}
+            handleInputChange={handleInputChange}
+            handleValueChange={handleValueChange}
+            addInformationField={addInformationField}
+            deleteInformationField={deleteInformationField}
+            addValueField={addValueField}
+            deleteValueField={deleteValueField}
+            addStringValue={addStringValue}
+            deleteStringValue={deleteStringValue}
           />
 
           <button

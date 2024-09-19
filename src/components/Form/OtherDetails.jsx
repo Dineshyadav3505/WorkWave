@@ -1,80 +1,129 @@
+"use client";
+
 import React from "react";
 import Heading from "@/components/Form/Heading";
-import Input from "@/components/Form/Input";
+import AddDeleteButton from "./AddDeleteButton";
+import Input from "./Input";
 
 const OtherDetails = ({
-  informationSection,
-  handleChange,
-  handleAdd,
-  handleRemove,
-  handleAddSection,
-  handleRemoveSection,
+  informationSections,
+  handleSubmit,
+  addInformationSection,
+  deleteInformationSection,
+  handleInputChange,
+  handleValueChange,
+  addInformationField,
+  deleteInformationField,
+  addValueField,
+  deleteValueField,
+  addStringValue,
+  deleteStringValue,
 }) => {
+  const addInformation = () => {
+    addInformationSection();
+  };
+
+  const deleteInformation = () => {
+    deleteInformationSection();
+  };
+
   return (
     <div className="mt-6">
-      <div className="relative">
-        <Heading label="Other Details" />
-        <button 
-          type="button" 
-          onClick={handleAddSection} 
-          className="mb-4 bg-blue-500 text-white py-1 px-3 rounded"
-        >
-          Add Section
-        </button>
+      <div className="relative mb-4">
+        <Heading label="Information Section" />
+        <AddDeleteButton
+          handleAdd={addInformation}
+          handleRemove={deleteInformation}
+        />
       </div>
-      
-      {informationSection.map((section, sectionIndex) => (
-        <div key={sectionIndex} className="mb-4 border p-4 rounded shadow">
-          <Input
-            type="text"
-            name={`informationName${sectionIndex}`}
-            id={`informationName${sectionIndex}`}
-            label="Information Name"
-            value={section.informationName.label} // Assuming you want to edit this field
-            onChange={(e) =>
-              handleChange(sectionIndex, undefined, "informationName", { type: e.target.value })
-            }
-          />
+
+      {informationSections.map((section, sectionIndex) => (
+        <div
+          key={sectionIndex}
+          className="p-4 mb-4 border border-gray-300 rounded-lg shadow-sm bg-white"
+        >
           
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Information Name
+            </label>
+            <input
+              type="text"
+              name="informationName"
+              value={section.informationName.type}
+              onChange={(e) => handleInputChange(sectionIndex, e)}
+              placeholder="Information Name (Category Wise Vacancy Details, Vacancy Details Total post)"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
           {section.Information.map((info, infoIndex) => (
-            <div key={infoIndex} className="flex gap-3 mb-2">
-              <Input
-                type="text"
-                name={`itemType${infoIndex}`}
-                id={`itemType${infoIndex}`}
-                label="Item Type"
-                value={info.value.item} // Assuming this is what you want to edit
-                onChange={(e) =>
-                  handleChange(sectionIndex, infoIndex, "item", { type: e.target.value })
-                }
-              />
-              <button 
-                type="button" 
-                onClick={() => handleRemove(sectionIndex, infoIndex)} 
-                className="bg-red-500 text-white py-1 px-2 rounded"
-              >
-                Remove Info
-              </button>
+            <div key={infoIndex} className="mb-4 relative  ">
+              <label className="block text-sm font-medium text-gray-700 ">
+                Row {infoIndex + 1}
+              </label>
+
+              <AddDeleteButton
+                handleAdd={() => addValueField(sectionIndex, infoIndex)}
+                handleRemove={() => deleteValueField(sectionIndex, infoIndex)}
+              />  
+
+              <div className="flex gap-2 relative">
+              {info.values.map((valueArray, arrayIndex) => (
+                <div key={arrayIndex} className="mb-2">
+                  <div className="flex gap-2 flex-col items-center mb-2 relative pt-10">
+                    {valueArray.map((value, valueIndex) => (
+                      <input
+                        key={valueIndex}
+                        type="text"
+                        value={value}
+                        placeholder="Value"
+                        onChange={(e) =>
+                          handleValueChange(
+                            sectionIndex,
+                            infoIndex,
+                            arrayIndex,
+                            valueIndex,
+                            e
+                          )
+                        }
+                        className="w-full px-3 py-2 mr-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    ))}
+                    <AddDeleteButton
+                      handleAdd={() =>
+                        addStringValue(sectionIndex, infoIndex, arrayIndex)
+                      }
+                      handleRemove={() =>
+                        deleteStringValue(sectionIndex, infoIndex, arrayIndex)
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
+ 
+              </div>
             </div>
           ))}
-          
-          <button 
-            type="button" 
-            onClick={() => handleAdd(sectionIndex)} 
-            className="mt-2 bg-green-500 text-white py-1 px-3 rounded"
-          >
-            Add Information
-          </button>
-          
-          <button 
-            type="button" 
-            onClick={() => handleRemoveSection(sectionIndex)} 
-            className="mt-2 bg-red-600 text-white py-1 px-3 rounded"
-          >
-            Remove Section
-          </button>
+          <div className="flex gap-2 justify-between">
+            <button
+              type="button"
+              onClick={() => addInformationField(sectionIndex)}
+              className="px-3 py-2 text-sm font-medium text-indigo-600 bg-indigo-100 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Add Information Field
+            </button>
+            <button
+              type="button"
+              onClick={() => deleteInformationField(sectionIndex)}
+              className="px-2 py-1 text-sm font-medium text-red-600 bg-red-100 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Delete Section
+            </button>
+          </div>
         </div>
       ))}
+
     </div>
   );
 };
