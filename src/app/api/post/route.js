@@ -42,7 +42,7 @@ export async function POST(req) {
       admitCardLink,
       answerKeyLink,
       admissionLink,
-      InformationSection,
+      informationName,
       state,
       beginDate,
       lastDate,
@@ -60,11 +60,12 @@ export async function POST(req) {
       admitCardLink: JSON.parse(formData.get("admitCardLink")),
       answerKeyLink: JSON.parse(formData.get("answerKeyLink")),
       admissionLink: JSON.parse(formData.get("admissionLink")),
-      InformationSection: JSON.parse(formData.get("informationSection")),
+      informationName: JSON.parse(formData.get("informationSections")),
       state: formData.get("state"),
       beginDate: new Date(formData.get("beginDate")),
       lastDate: new Date(formData.get("lastDate")),
       totalPost: formData.get("totalPost"),
+
     };
 
     // Validate required fields
@@ -74,6 +75,9 @@ export async function POST(req) {
         { status: 400 }
       );
     }
+
+    console.log("Information Section", informationName);
+    console.log("Total Post", totalPost);
 
     const img = await uploadOnCloudinary(image, "NaukriVacancy");
 
@@ -97,10 +101,11 @@ export async function POST(req) {
       admitCardLink,
       answerKeyLink,
       admissionLink,
-      InformationSection,
+      informationName,
       state,
       beginDate,
       lastDate,
+      totalPost,
     });
 
     await jobPost.save();
