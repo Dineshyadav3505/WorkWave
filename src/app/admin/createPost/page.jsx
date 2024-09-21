@@ -344,7 +344,7 @@ const Page = () => {
   };
 
   return (
-    <div className="min-h-screen w-full py-44 dark:bg-bg-dark bg-bg-light">
+    <div className="min-h-screen w-full py-16 dark:bg-bg-dark bg-bg-light">
       <div className="mx-auto px-5 lg:w-1/2">
         <form onSubmit={handleSubmit}>
           <Heading label="Post Information" />
@@ -499,7 +499,7 @@ const Page = () => {
 
           <button
             type="submit"
-            className="mt-4 w-full dark:bg-bg-button-dark bg-bg-button-light dark:text-text-button-dark text-text-button-light py-1 text-sm md:text-base rounded"
+            className="mt-4 w-full dark:bg-[#000000] bg-[#033E8A] dark:text-text-button-dark text-text-button-light py-1 text-sm md:text-base rounded"
           >
             Submit
           </button>

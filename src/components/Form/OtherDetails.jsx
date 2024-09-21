@@ -42,16 +42,12 @@ const OtherDetails = ({
           className="p-4 mb-4 border border-gray-300 rounded-lg shadow-sm "
         >
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Information Name
-            </label>
             <Input
               type="text"
+              label={"Information Name"}
               name="informationName"
               value={section.informationName.type}
               onChange={(e) => handleInputChange(sectionIndex, e)}
-              placeholder="Information Name (Category Wise Vacancy Details, Vacancy Details Total post)"
-              inputClass="border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
 
@@ -73,8 +69,8 @@ const OtherDetails = ({
                       {valueArray.map((value, valueIndex) => (
                         <Input
                           key={valueIndex}
+                          label={"value " + (valueIndex + 1)}
                           type="text"
-                          value={value}
                           placeholder="Value"
                           onChange={(e) =>
                             handleValueChange(

@@ -130,7 +130,7 @@ export async function GET(req) {
   const page = parseInt(url.searchParams.get('page')) || 1; // Default to page 1 if not provided
   const limit = parseInt(url.searchParams.get('limit')) || 18; // Default to 18 if not provided
   const sortDirection = url.searchParams.get('sortDirection') === 'asc' ? 1 : -1; // Ascending or descending
-  const linkType = url.searchParams.get('link') || "applyLink"; // Default to "applyLink"
+  const linkType = url.searchParams.get('link');
   const upComingJob = url.searchParams.get('upComingJob') || false;
   const state = url.searchParams.get('state') || false;
 
@@ -153,10 +153,16 @@ export async function GET(req) {
       queryOptions.state = { $ne: '' };
     }
 
-      // Check if the specified link type is valid and filter based on non-empty links
-      queryOptions[linkType] = { $exists: true, $elemMatch: { link: { $ne: '' } } };
-    
+    if (linkType && linkType === 'upcoming-job') {
+      console.log("Upcoming Job");
+      queryOptions["applyLink"] = {
+          $size: 2
+      };
+    }
 
+    if(linkType && linkType !== 'all'){
+      queryOptions[linkType] = { $exists: true, $elemMatch: { link: { $ne: '' } } };
+    }
 
     // Fetch job posts with pagination and sorting
     const jobPosts = await JobPost.find(queryOptions)
