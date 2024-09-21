@@ -57,7 +57,7 @@ const Page = () => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-5">
             {data?.map((job) => (
-              <Card key={job._id} data={job} />
+              <Card key={job._id} data={job} admin={true} />
             ))}
           </div>
           <SimplePagination

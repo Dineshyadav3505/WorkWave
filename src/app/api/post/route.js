@@ -134,33 +134,27 @@ export async function GET(req) {
   const upComingJob = url.searchParams.get('upComingJob') || false;
   const state = url.searchParams.get('state') || false;
 
-  console.log(`Searching for: ${searchResult}, Page: ${page}, Limit: ${limit}, Sort: ${sortDirection}, Link Type: ${linkType}`);
-
   try {
     let queryOptions = {};
     
-    // Filter job posts based on searchResult if it exists
     if (searchResult) {
-      queryOptions.postName = { $regex: searchResult, $options: 'i' }; // Case-insensitive regex search
+      queryOptions.postName = { $regex: searchResult, $options: 'i' };
     }
 
     if(upComingJob === "true"){
-      queryOptions[linkType] = { $exists: true, $elemMatch: { link: {  $eq: '' } } };
-    }
-
-    if(state === "true"){
-      console.log("State Job");
-      queryOptions.state = { $ne: '' };
-    }
-
-    if (linkType && linkType === 'upcoming-job') {
-      console.log("Upcoming Job");
       queryOptions["applyLink"] = {
-          $size: 2
+        $elemMatch: {
+          link: { $eq: "" },
+          label: { $eq: "" }
+        }
       };
     }
 
-    if(linkType && linkType !== 'all'){
+    if(state === "true"){
+      queryOptions.state = { $ne: '' };
+    }
+
+    if(linkType && linkType !== 'all' && upComingJob !== "true"){
       queryOptions[linkType] = { $exists: true, $elemMatch: { link: { $ne: '' } } };
     }
 
