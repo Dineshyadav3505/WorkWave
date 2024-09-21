@@ -57,7 +57,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      <Logo />
+      <Link href={"/admin"}><Logo /></Link>
 
       <div className="flex gap-4">
         <div className="hidden md:flex">

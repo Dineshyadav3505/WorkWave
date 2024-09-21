@@ -41,7 +41,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      <Logo />
+      <Link href={"/"}><Logo /></Link>
 
       <div className="hidden md:flex justify-between gap-3 items-center text-sm font-normal">
         {links.map(({ name, url }) => (
