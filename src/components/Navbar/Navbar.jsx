@@ -5,7 +5,7 @@ import Link from "next/link";
 import Logo from "../Logo";
 import SocialMedia from "../SocialMedia";
 import Button from "../Button";
-import { motion, spring } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const [theme, setTheme] = useState("light");
