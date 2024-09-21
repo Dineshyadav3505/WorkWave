@@ -45,6 +45,10 @@ const Page = () => {
     setCurrentPage(page); // Update the current page
   };
 
+  if(loading){
+    <Loader />
+  }
+
   return (
     <div className=" p-4">
       <div>

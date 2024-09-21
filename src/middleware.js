@@ -1,9 +1,9 @@
 // middleware.js
+import axios from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
-  // Access the cookies
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken");
 
@@ -12,20 +12,20 @@ export async function middleware(request) {
   }
 
   try {
-    const response = await fetch(`${request.nextUrl.origin}/api/user/getUser`, {
-      method: 'POST',
+    const response = await axios.post(`${request.nextUrl.origin}/api/user/getUser`, {
+      token: accessToken.value,
+    }, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken.value}`,
       },
-      body: JSON.stringify({ token: accessToken.value }),
     });
 
-    if (!response.ok) {
+    if (response.status < 200 || response.status >= 300) {
       return NextResponse.redirect(new URL('/', request.url));
     }
 
-    const userData = await response.json();
+    const userData = response.data; 
 
     return NextResponse.next();
 
