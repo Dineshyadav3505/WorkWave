@@ -27,7 +27,7 @@ const Page = () => {
           page: 1,
           limit: 12,
           upComingJob: true,
-          link: "applyLink",
+          link: "upcoming-job",
         },
       });
       setData(response.data.posts);
