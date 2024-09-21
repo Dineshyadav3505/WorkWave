@@ -2,42 +2,40 @@
 import React, { useState } from "react";
 import Input from "@/components/Form/Input";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null); // State to hold any error messages
-  const [loading, setLoading] = useState(false); // State to manage loading
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); 
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true when the form is submitted
-    setError(null); // Reset any previous error
-
+    setLoading(true);
+    setError(null); 
+  
     try {
-      const response = await fetch("/api/user/sign-in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Specify the content type
-        },
-        body: JSON.stringify({ email, password }), // Convert the data to JSON
+      const response = await axios.post("/api/user/sign-in", {
+        email,
+        password,
       });
-
-      const data = await response.json(); // Parse the response data
-
-      if (!response.ok) {
-        throw new Error(data.message); // Throw an error if the response is not ok
+  
+      if (response.status >= 200 && response.status < 300) {
+        const { user } = response.data;
+  
+        if (user.role === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
+  
+        setEmail("");
+        setPassword("");
+      } else {
+        throw new Error("Failed to sign in."); // Handle unexpected status codes
       }
-
-      if(data.user.role === "admin") {
-        router.push("/admin");
-      }else{
-        router.push("/");
-      }
-
-      setEmail("");
-      setPassword("");
     } catch (error) {
       setError(error.message); // Set the error message to state
     } finally {

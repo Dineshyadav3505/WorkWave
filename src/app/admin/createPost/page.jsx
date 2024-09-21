@@ -11,9 +11,12 @@ import ImportantDate from "@/components/Form/ImportantDate";
 import Input from "@/components/Form/Input";
 import React, { useState } from "react";
 import OtherDetails from "@/components/Form/OtherDetails";
+import axios from "axios";
+import Loader from "@/components/Loader";
 
 const Page = () => {
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [postName, setPostName] = useState("");
   const [notificationLink, setNotificationLink] = useState("");
   const [description, setDescription] = useState("");
@@ -287,7 +290,8 @@ const Page = () => {
   // Form submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true); // Set loading to true when the form is submitted
+  
     try {
       console.log(
         postName,
@@ -308,6 +312,7 @@ const Page = () => {
         totalPost,
         informationSections
       );
+  
       const formData = new FormData();
       formData.append("postName", postName);
       formData.append("description", description);
@@ -329,19 +334,27 @@ const Page = () => {
         "informationSections",
         JSON.stringify(informationSections)
       );
-
-      const response = await fetch("/api/post", {
-        method: "POST",
-        body: formData,
+  
+      // Send the FormData directly without wrapping it in an object
+      const response = await axios.post("/api/post", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Set the correct content type for FormData
+        },
       });
-
-      const data = await response.json();
+      setLoading(false); 
       alert("File uploaded successfully!");
     } catch (error) {
-      console.error("Error while creating job post", error);
-      alert("Error while creating job post", error);
+      console.error("Error while creating job post:", error);
+      setLoading(false);
+      alert(`Error while creating job post: ${error.message}`); 
+    } finally {
+      setLoading(false); // Ensure loading is set to false in both success and error cases
     }
   };
+
+  if (loading) {
+    <Loader/>
+  }
 
   return (
     <div className="min-h-screen w-full py-16 dark:bg-bg-dark bg-bg-light">
