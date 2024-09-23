@@ -4,17 +4,16 @@ const Information = ({ data }) => {
   console.log(data);
 
   return (
-    <div className="w-full dark:bg-[#000000] text-sm md:text-sm lg:text-base bg-[#FFFFFF] rounded-md md:flex gap-5 justify-center items-center ">
+    <div className="w-full dark:bg-[#000000] text-sm md:text-sm lg:text-base bg-[#FFFFFF] rounded-md">
       {data.map((info, index) => (
         <div
           key={index}
           className="p-5 dark:bg-[#000000] bg-[#FFFFFF] rounded-md mt-2"
         >
-          <h1 className="text-center font-bold py-5 text-sm md:text-base lg:text-lg">
+          <h1 className="text-center font-bold border border-b-0 py-2 text-sm md:text-base lg:text-lg">
             {info.informationName.type}
           </h1>
-          <hr />
-          <div className="mt-5 overflow-y-auto">
+          <div className="overflow-y-auto">
             <table className="w-full border-collapse border border-gray-300">
               <tbody>
                 {info.Information.map((detail, detailIndex) => (
