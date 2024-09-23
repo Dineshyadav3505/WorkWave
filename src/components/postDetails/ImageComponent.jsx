@@ -21,7 +21,7 @@ const ImageComponent = ({data}) => {
   ];
 
   return (
-    <div className="h-full w-full absolute top-0 right-0 px-4 md:px-16 pt-48 md:pt-60 ">
+  
     <div className="p-7 w-full dark:bg-[#000000] bg-[#FFFFFF] rounded-md md:flex gap-5 justify-center items-center ">
       <div className="h-20 w-20 md:w-24 md:h-24 bg-red-500 rounded-full overflow-hidden mx-auto relative">
         <Image
@@ -55,7 +55,7 @@ const ImageComponent = ({data}) => {
         </div>
       </div>
     </div>
-  </div>
+
   )
 }
 

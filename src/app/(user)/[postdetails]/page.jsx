@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import ImageComponent from "@/components/postDetails/ImageComponent";
+import Information from "@/components/postDetails/Information";
 
 const Post = () => {
   const [data, setData] = useState(null);
@@ -14,10 +15,9 @@ const Post = () => {
         const res = await axios.get(
           "/api/post/details?id=66efd88a1324f42b81c37d63"
         );
-        console.log(res.data.data); 
-        setData(res.data.data); 
+        setData(res.data.data);
       } catch (err) {
-        console.error(err); 
+        console.error(err);
         setError(err);
       }
     };
@@ -33,10 +33,8 @@ const Post = () => {
     return <div>Loading...</div>; // Display loading state while fetching data
   }
 
-
-
   return (
-    <div className="min-h-screen relative">
+    <div className="h-[5000px] relative">
       <div className="w-full h-96 bg-red-100 relative">
         <Image
           src="https://res.cloudinary.com/kodingmonk/image/upload/v1726928078/NaukriVacancy/s8kafnj1f8stxdzcjtth.png"
@@ -47,11 +45,10 @@ const Post = () => {
           style={{ objectFit: "cover" }} // Optional: to cover the area without distortion
         />
       </div>
-      <ImageComponent data={data} />
-
-
-
- 
+      <div className="h-full w-full absolute top-0 right-0 z-10 px-4 md:10 lg:px-16 pt-48 md:pt-60 ">
+          <ImageComponent data={data} />
+          <Information data={data.informationSections} />
+      </div>
     </div>
   );
 };
