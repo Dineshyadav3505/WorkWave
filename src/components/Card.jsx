@@ -170,7 +170,7 @@ const Card = ({ data, admin }) => {
         {/* Link */}
         <div className="absolute -bottom-3 w-full flex justify-center">
           <Link
-          {...(admin ? { href: `/admin/${link}` } : { href: `/${link}` })}
+          {...(admin ? { href: `/admin/${link}/${id}` } : { href: `/${link}/${id}` })}
             className="flex gap-1 bg-[#023E8A] text-[12px] font-bold text-white px-5 rounded-full text-base justify-center items-center leading-7"
           >
             <span>
