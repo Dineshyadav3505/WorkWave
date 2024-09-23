@@ -10,7 +10,6 @@ export async function GET(req) {
     try {
 
         const id = url.searchParams.get("id");
-        console.log("ID", id); 
 
     const singlePost = await JobPost.findById(id);
 

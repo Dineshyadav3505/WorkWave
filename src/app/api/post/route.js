@@ -40,7 +40,7 @@ export async function POST(req) {
       admitCardLink,
       answerKeyLink,
       admissionLink,
-      informationSections, // Changed from informationName
+      informationSections,
       state,
       beginDate,
       lastDate,
@@ -72,6 +72,8 @@ export async function POST(req) {
         { status: 400 }
       );
     }
+
+    console.log("applicationFee", applicationFee);
 
     console.log("Information Sections", informationSections);
     console.log("Total Post", totalPost);
