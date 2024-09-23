@@ -17,7 +17,7 @@ const ImageComponent = ({data}) => {
 
   const details = [
     { label: "Begin", text: "", date: data.beginDate },
-    { label: "Last Date", text: "#049A13", date: data.lastDate },
+    { label: "Last Date", text: "#FF0000", date: data.lastDate },
   ];
 
   return (
@@ -37,11 +37,11 @@ const ImageComponent = ({data}) => {
           {data.postName}
         </h1>
         <hr />
-        <div className="mt-5 md:mt-2 flex flex-col md:flex-row gap-2">
+        <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row gap-2">
           {details.map((detail, index) => (
             <h4
               key={index}
-              className="dark:bg-[#4d4c4c] capitalize bg-[#F4F4F4] text-center font-semibold py-2 px-5 text-sm rounded-full"
+              className="dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#F4F4F4] text-center font-semibold py-2 px-5 text-sm rounded-full"
             >
               {detail.label} :{" "}
               <span style={{ color: detail.text }}>
@@ -49,9 +49,13 @@ const ImageComponent = ({data}) => {
               </span>
             </h4>
           ))}
-          <h4 className="dark:bg-[#4d4c4c] capitalize bg-[#F4F4F4] text-center font-semibold py-2 px-5 text-sm rounded-full">
+
+          <h4 className="dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#F4F4F4] text-center font-semibold py-2 px-5 text-sm rounded-full">
             Time Left: <span className="text-[#FF0000]">{leftDays}</span>
           </h4>
+          <h6 className='dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#F4F4F4] text-center font-semibold py-2 px-5 text-sm rounded-full'>
+          total Vacancy : {data?.totalPost}
+          </h6>
         </div>
       </div>
     </div>

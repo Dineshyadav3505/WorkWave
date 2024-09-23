@@ -13,7 +13,7 @@ const Post = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          "/api/post/details?id=66efd88a1324f42b81c37d63"
+          "/api/post/details?id=66f14ed2c30423dc1363cfce"
         );
         setData(res.data.data);
       } catch (err) {
