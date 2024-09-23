@@ -37,10 +37,10 @@ const jobPostSchema = new Schema(
 
     applicationFee: [
       {
-        cast: {
+        label: {
           type: String,
         },
-        fees: {
+        fee: {
           type: String,
         },
       },
