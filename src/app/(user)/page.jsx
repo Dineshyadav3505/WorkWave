@@ -11,7 +11,7 @@ const Page = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); // State for current page
-  const itemsPerPage = 12; // Define how many items per page
+  const itemsPerPage = 12;
 
   const handleSearch = (input) => {
     setSearchResult(input);
