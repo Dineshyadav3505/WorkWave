@@ -44,7 +44,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="h-screen w-full flex justify-center items-center font-roboto">
+    <div className=" w-full flex justify-center items-center font-roboto">
       <div className="relative p-4 md:p-8 flex flex-col gap-10 w-full">
         <div className="md:w-1/2 px-5 md:mx-auto py-28">
           <h1 className="text-3xl font-bold">Sign In</h1>

@@ -240,10 +240,18 @@ const Page = () => {
     setInformationSections(updatedSections);
   };
 
-  const handleValueChange = (sectionIndex, infoIndex, arrayIndex, valueIndex, e) => {
+  const handleValueChange = (
+    sectionIndex,
+    infoIndex,
+    arrayIndex,
+    valueIndex,
+    e
+  ) => {
     const { value } = e.target;
     const updatedSections = [...informationSections];
-    updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex][valueIndex] = value;
+    updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex][
+      valueIndex
+    ] = value;
     setInformationSections(updatedSections);
   };
 
@@ -261,7 +269,10 @@ const Page = () => {
 
   const addValueField = (sectionIndex, infoIndex) => {
     const updatedSections = [...informationSections];
-    if (updatedSections[sectionIndex].Information[infoIndex].values.length < 10) { // Limit to 10 arrays
+    if (
+      updatedSections[sectionIndex].Information[infoIndex].values.length < 10
+    ) {
+      // Limit to 10 arrays
       updatedSections[sectionIndex].Information[infoIndex].values.push([""]); // Add a new array of strings
       setInformationSections(updatedSections);
     }
@@ -269,21 +280,37 @@ const Page = () => {
 
   const deleteValueField = (sectionIndex, infoIndex, arrayIndex) => {
     const updatedSections = [...informationSections];
-    updatedSections[sectionIndex].Information[infoIndex].values.splice(arrayIndex, 1); // Delete specific array
+    updatedSections[sectionIndex].Information[infoIndex].values.splice(
+      arrayIndex,
+      1
+    ); // Delete specific array
     setInformationSections(updatedSections);
   };
 
   const addStringValue = (sectionIndex, infoIndex, arrayIndex) => {
     const updatedSections = [...informationSections];
-    if (updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].length < 10) { // Limit to 10 strings in each array
-      updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].push(""); // Add a new string to the nested array
+    if (
+      updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex]
+        .length < 10
+    ) {
+      // Limit to 10 strings in each array
+      updatedSections[sectionIndex].Information[infoIndex].values[
+        arrayIndex
+      ].push(""); // Add a new string to the nested array
       setInformationSections(updatedSections);
     }
   };
 
-  const deleteStringValue = (sectionIndex, infoIndex, arrayIndex, valueIndex) => {
+  const deleteStringValue = (
+    sectionIndex,
+    infoIndex,
+    arrayIndex,
+    valueIndex
+  ) => {
     const updatedSections = [...informationSections];
-    updatedSections[sectionIndex].Information[infoIndex].values[arrayIndex].splice(valueIndex, 1); // Delete specific string from the nested array
+    updatedSections[sectionIndex].Information[infoIndex].values[
+      arrayIndex
+    ].splice(valueIndex, 1); // Delete specific string from the nested array
     setInformationSections(updatedSections);
   };
 
@@ -291,7 +318,7 @@ const Page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Set loading to true when the form is submitted
-  
+
     try {
       console.log(
         postName,
@@ -312,7 +339,7 @@ const Page = () => {
         totalPost,
         informationSections
       );
-  
+
       const formData = new FormData();
       formData.append("postName", postName);
       formData.append("description", description);
@@ -334,31 +361,27 @@ const Page = () => {
         "informationSections",
         JSON.stringify(informationSections)
       );
-  
+
       // Send the FormData directly without wrapping it in an object
       const response = await axios.post("/api/post", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Set the correct content type for FormData
+          "Content-Type": "multipart/form-data", // Set the correct content type for FormData
         },
       });
-      setLoading(false); 
+      setLoading(false);
       alert("File uploaded successfully!");
     } catch (error) {
       console.error("Error while creating job post:", error);
       setLoading(false);
-      alert(`Error while creating job post: ${error.message}`); 
+      alert(`Error while creating job post: ${error.message}`);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
-
   return (
-  
     <div className="min-h-screen w-full py-16 dark:bg-bg-dark bg-bg-light">
-      {loading && (
-        <Loader className=" fixed bg-black/30" />
-      )}
+      {loading && <Loader className=" fixed bg-black/30" />}
       <div className="mx-auto px-5 lg:w-1/2">
         <form onSubmit={handleSubmit}>
           <Heading label="Post Information" />
