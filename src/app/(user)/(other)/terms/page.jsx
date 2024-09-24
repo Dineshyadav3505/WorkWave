@@ -10,7 +10,7 @@ const TermsConditions = () => {
 
         <p className="mb-4">
           These terms and conditions outline the rules and regulations for the
-          use of Naukrivacancy.com's Website, located at
+          use of Naukrivacancy.com&#39;s Website, located at
           <a
             href="mailto:Contactnaukrivacancy@gmail.com"
             className="text-blue-500 underline"
@@ -30,15 +30,15 @@ const TermsConditions = () => {
         <h3 className="text-3xl font-semibold mt-6 mb-3">Terminology</h3>
         <p className="mb-4">
           The following terminology applies to these Terms and Conditions,
-          Privacy Statement and Disclaimer Notice and all Agreements: "Client",
-          "You" and "Your" refers to you, the person log on this website and
-          compliant to the Company's terms and conditions. "The Company",
-          "Ourselves", "We", "Our" and "Us", refers to our Company. "Party",
-          "Parties", or "Us", refers to both the Client and ourselves. All terms
+          Privacy Statement and Disclaimer Notice and all Agreements: &quot;Client&quot;,
+          &quot;You&quot; and &quot;Your&quot; refers to you, the person log on this website and
+          compliant to the Company&#39;s terms and conditions. &quot;The Company&quot;,
+          &quot;Ourselves&quot;, &quot;We&quot;, &quot;Our&quot; and &quot;Us&quot;, refers to our Company. &quot;Party&quot;,
+          &quot;Parties&quot;, or &quot;Us&quot;, refers to both the Client and ourselves. All terms
           refer to the offer, acceptance, and consideration of payment necessary
           to undertake the process of our assistance to the Client in the most
-          appropriate manner for the express purpose of meeting the Client's
-          needs in respect of the provision of the Company's stated services, in
+          appropriate manner for the express purpose of meeting the Client&#39;s
+          needs in respect of the provision of the Company&#39;s stated services, in
           accordance with and subject to, prevailing law of Netherlands. Any use
           of the above terminology or other words in the singular, plural,
           capitalization, and/or he/she or they, are taken as interchangeable
@@ -48,7 +48,7 @@ const TermsConditions = () => {
         <h3 className="text-3xl font-semibold mt-6 mb-3">Cookies</h3>
         <p className="mb-4">
           We employ the use of cookies. By accessing Naukrivacancy.com, you
-          agreed to use cookies in agreement with Naukrivacancy.com's Privacy
+          agreed to use cookies in agreement with Naukrivacancy.com&#39;s Privacy
           Policy.
         </p>
 

@@ -10,7 +10,7 @@ const Disclaimer = () => {
 
         <p className="mb-4">
           If you require any more information or have any questions about our
-          site's disclaimer, please feel free to contact us by email at
+          site&#39;s disclaimer, please feel free to contact us by email at
           <a
             href="mailto:Contactnaukrivacancy@gmail.com"
             className="text-blue-500 underline"
@@ -41,14 +41,14 @@ const Disclaimer = () => {
           and nature of these sites. These links to other websites do not imply
           a recommendation for all the content found on these sites. Site owners
           and content may change without notice and may occur before we have the
-          opportunity to remove a link which may have gone 'bad'.
+          opportunity to remove a link which may have gone &#39;bad&#39;.
         </p>
 
         <p className="mb-4">
           Please be also aware that when you leave our website, other sites may
           have different privacy policies and terms which are beyond our
           control. Please be sure to check the Privacy Policies of these sites
-          as well as their "Terms of Service" before engaging in any business or
+          as well as their &quot;Terms of Service&quot; before engaging in any business or
           uploading any information.
         </p>
 

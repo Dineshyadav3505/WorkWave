@@ -24,13 +24,13 @@ const PrivacyPolicy = () => {
         <p className="mb-4">
           Naukrivacancy follows a standard procedure of using log files. These
           files log visitors when they visit websites. All hosting companies do
-          this and a part of hosting services' analytics. The information
+          this and a part of hosting services&#39; analytics. The information
           collected by log files includes internet protocol (IP) addresses,
           browser type, Internet Service Provider (ISP), date and time stamp,
           referring/exit pages, and possibly the number of clicks. These are not
           linked to any information that is personally identifiable. The purpose
           of the information is for analyzing trends, administering the site,
-          tracking user's movement on the website, and gathering demographic
+          tracking user&#39;s movement on the website, and gathering demographic
           information.
         </p>
 
@@ -64,7 +64,7 @@ const PrivacyPolicy = () => {
           Third-party ad servers or ad networks use technologies like cookies,
           JavaScript, or Web Beacons that are used in their respective
           advertisements and links that appear on Naukrivacancy, which are sent
-          directly to user's browser. They automatically receive your IP address
+          directly to user&#39;s browser. They automatically receive your IP address
           when this occurs. These technologies are used to measure the
           effectiveness of their advertising campaigns and/or to personalize the
           advertising content that you see on websites that you visit.
@@ -78,7 +78,7 @@ const PrivacyPolicy = () => {
           Third Party Privacy Policies
         </h2>
         <p className="mb-4">
-          Naukrivacancy's Privacy Policy does not apply to other advertisers or
+          Naukrivacancy&#39;s Privacy Policy does not apply to other advertisers or
           websites. Thus, we are advising you to consult the respective Privacy
           Policies of these third-party ad servers for more detailed
           information. It may include their practices and instructions about how
@@ -87,12 +87,12 @@ const PrivacyPolicy = () => {
         <p className="mb-4">
           You can choose to disable cookies through your individual browser
           options. To know more detailed information about cookie management
-          with specific web browsers, it can be found at the browser's
+          with specific web browsers, it can be found at the browser&#39;s
           respective websites.
         </p>
 
         <h2 className="text-3xl font-semibold mt-6 mb-3">
-          Children's Information
+          Children&#39;s Information
         </h2>
         <p className="mb-4">
           Another part of our priority is adding protection for children while
