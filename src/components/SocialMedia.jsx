@@ -14,7 +14,7 @@ const SocialMedia = ({ divClass, iconClass, size = 5 }) => {
           key={url}
           href={url}
           target="_blank"
-          className={`${iconClass} text-[#ffffff] p-1 border-[.1px] rounded hover:scale-125 duration-300`}
+          className={` text-[#ffffff] p-1 border-[.1px] rounded hover:scale-125 duration-300 ${iconClass}`}
         >
           {React.cloneElement(icon, { className: `size-${size}` })}
         </Link>
