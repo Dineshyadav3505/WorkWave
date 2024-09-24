@@ -52,7 +52,7 @@ const OtherDetails = ({
           </div>
 
           {section.Information.map((info, infoIndex) => (
-            <div key={infoIndex} className="mb-4 relative">
+            <div key={infoIndex} className="mb-4 relative ">
               <label className="block text-sm font-medium text-black dark:text-white ">
                 Row {infoIndex + 1}
               </label>
@@ -62,7 +62,7 @@ const OtherDetails = ({
                 handleRemove={() => deleteValueField(sectionIndex, infoIndex)}
               />
 
-              <div className="flex gap-2 relative">
+              <div className="flex gap-2 relative overflow-auto">
                 {info.values.map((valueArray, arrayIndex) => (
                   <div key={arrayIndex} className="mb-2">
                     <div className="flex gap-2 flex-col items-center mb-2 relative pt-10">
@@ -81,7 +81,7 @@ const OtherDetails = ({
                               e
                             )
                           }
-                          inputClass="border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          inputClass="border-gray-300 w-56 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
                       ))}
                       <AddDeleteButton
@@ -104,14 +104,14 @@ const OtherDetails = ({
               onClick={() => addInformationField(sectionIndex)}
               className="px-3 py-2 text-sm font-medium text-indigo-600 bg-indigo-100 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Add Information Field
+              Add Row
             </button>
             <button
               type="button"
               onClick={() => deleteInformationField(sectionIndex)}
               className="px-2 py-1 text-sm font-medium text-red-600 bg-red-100 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
-              Delete Section
+              Delete Row
             </button>
           </div>
         </div>

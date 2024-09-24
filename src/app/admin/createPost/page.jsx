@@ -12,6 +12,7 @@ import Input from "@/components/Form/Input";
 import React, { useState } from "react";
 import OtherDetails from "@/components/Form/OtherDetails";
 import axios from "axios";
+import Loader from "@/components/Loader";
 
 const Page = () => {
   const [image, setImage] = useState(null);
@@ -353,18 +354,10 @@ const Page = () => {
 
 
   return (
-    <>
-
-    {/* {loading ? (
-      <div className="h-screen w-full absolute bg-transparent top-0 left-0 z-20 flex justify-center items-center">
-        <p className="text-lg font-semibold">Loading...</p>
-      </div>
-    ) : ( */}
+  
     <div className="min-h-screen w-full py-16 dark:bg-bg-dark bg-bg-light">
       {loading && (
-        <div className="h-screen w-full fixed bg-black/30 top-0 left-0 z-20 flex justify-center items-center">
-          <p className="text-lg font-semibold">Loading...</p>
-        </div>
+        <Loader className=" fixed bg-black/30" />
       )}
       <div className="mx-auto px-5 lg:w-1/2">
         <form onSubmit={handleSubmit}>
@@ -527,8 +520,6 @@ const Page = () => {
         </form>
       </div>
     </div>
-    {/* ) } */}
-    </>
   );
 };
 
