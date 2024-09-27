@@ -1,24 +1,24 @@
 /** @type {import('next').NextConfig} */
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+import TerserPlugin from 'terser-webpack-plugin';
 
 const nextConfig = {
   images: {
     domains: ["res.cloudinary.com"], // Add any other domains you need here
   },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.optimization.minimizer = [
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: true,
-            mangle: true,
-            output: {
-              comments: false, // Remove comments
-            },
+  webpack: (config) => {
+    config.optimization.minimizer = [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true, // Remove console logs
           },
-        }),
-      ];
-    }
+          output: {
+            comments: false, // Remove comments
+          },
+        },
+      }),
+    ];
+
     return config;
   },
 };
