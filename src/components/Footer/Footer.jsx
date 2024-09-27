@@ -18,7 +18,7 @@ const Footer = () => {
           </p>
         </div>
         <div className=" flex flex-col w-full md:pl-40">
-          <h3 className="py-3 text-base">Category</h3>
+          <h2 className="py-3 text-base">Category</h2>
           {jobLink.map((item, index) => (
             <Link
               href={item.link}
@@ -30,7 +30,7 @@ const Footer = () => {
           ))}
         </div>
         <div className=" flex flex-col w-full md:pl-40">
-          <h3 className="py-3 text-base">Quick Links</h3>
+          <h2 className="py-3 text-base">Quick Links</h2>
           {link.map((item, index) => (
             <Link
               href={item.link}
