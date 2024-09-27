@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 import TerserPlugin from 'terser-webpack-plugin';
-// import withBundleAnalyzer from '@next/bundle-analyzer';
 
 const nextConfig = {
   images: {
@@ -26,8 +25,3 @@ const nextConfig = {
     return config;
   },
 };
-
-// // Export the configuration with bundle analyzer
-// export default withBundleAnalyzer({
-//   enabled: process.env.ANALYZE === 'true',
-// })(nextConfig);
