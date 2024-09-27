@@ -21,8 +21,9 @@ module.exports = {
         'text-button-dark':'#FFFFFF',
       },
       fontFamily: {
-        roboto: ['Roboto'],
-        Kalnia: ['Kalnia'],
+        roboto: ['Roboto', 'sans-serif'],
+        kalnia: ['Kalnia', 'sans-serif'], 
+
       },
     },
   },

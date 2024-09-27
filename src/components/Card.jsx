@@ -136,7 +136,7 @@ const Card = ({ data, admin }) => {
         </div>
 
         {/* Begin Date and Last Date */}
-        <div className="my-3 py-1 dark:bg-[#bcbbbb] text-[12px] bg-[##FFFFFF] rounded-full flex justify-around items-center px-1 text-text-light capitalize font-bold ">
+        <div className="my-3 py-1 dark:bg-[#bcbbbb] text-[12px] bg-[#f0eeee] rounded-full flex justify-around items-center px-1 text-text-light capitalize font-bold ">
           <h2>Begin: {new Date(data.beginDate).toISOString().split("T")[0]}</h2>
           <span>
             <svg
