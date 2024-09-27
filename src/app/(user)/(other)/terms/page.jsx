@@ -3,7 +3,7 @@ import React from "react";
 const TermsConditions = () => {
   return (
     <div className="px-5">
-      <div className="px-5 py-10 my-10 max-w-3xl mx-auto rounded-lg shadow-lg transition-transform transform hover:scale-105">
+      <div className="px-5 py-10 my-10 max-w-3xl mx-auto rounded-lg shadow-lg transition-transform transform">
         <h2 className="text-4xl font-bold mb-5 text-center">
           Terms and Conditions
         </h2>

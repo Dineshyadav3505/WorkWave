@@ -23,7 +23,7 @@ const ImageComponent = ({data}) => {
   return (
   
     <div className="p-7 w-full dark:bg-[#000000] bg-[#FFFFFF] rounded-md md:flex gap-5 justify-center items-center ">
-      <div className="h-20 w-20 md:w-24 md:h-24 bg-red-500 rounded-full overflow-hidden mx-auto relative">
+      <div className="h-20 w-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto relative">
         <Image
           src={data?.image || "/path/to/placeholder.jpg"}
           alt="Post Image"
