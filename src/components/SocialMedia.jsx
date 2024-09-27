@@ -11,13 +11,14 @@ const SocialMedia = ({ divClass, iconClass, size = 5 }) => {
     >
       {SocialLink.map(({ url, icon }) => (
         <Link
-          key={url}
-          href={url}
-          target="_blank"
-          className={` text-[#ffffff] p-1 border-[.1px] rounded hover:scale-125 duration-300 ${iconClass}`}
-        >
-          {React.cloneElement(icon, { className: `size-${size}` })}
-        </Link>
+        key={url}
+        href={url}
+        target="_blank"
+        aria-label={`Open ${url}`} // Provide an accessible name
+        className={`text-[#ffffff] p-1 border-[.1px] rounded hover:scale-125 duration-300 ${iconClass}`}
+      >
+        {React.cloneElement(icon, { className: `size-${size}` })}
+      </Link>
       ))}
     </div>
   );

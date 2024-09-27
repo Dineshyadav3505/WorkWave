@@ -99,7 +99,7 @@ const Card = ({ data, admin }) => {
               </svg>
             </button>
           ) : (
-            <button onClick={share} className="text-[#64C8FA]">
+            <button onClick={share} className="text-[#64C8FA]" aria-label="Share">
               {copied ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
