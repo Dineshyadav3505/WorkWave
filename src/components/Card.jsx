@@ -136,7 +136,7 @@ const Card = ({ data, admin }) => {
         </div>
 
         {/* Begin Date and Last Date */}
-        <div className="my-3 py-1 dark:bg-[#bcbbbb] text-[12px] bg-[#F4F4F4] rounded-full flex justify-around items-center px-1 text-text-light capitalize font-bold ">
+        <div className="my-3 py-1 dark:bg-[#bcbbbb] text-[12px] bg-[##FFFFFF] rounded-full flex justify-around items-center px-1 text-text-light capitalize font-bold ">
           <h2>Begin: {new Date(data.beginDate).toISOString().split("T")[0]}</h2>
           <span>
             <svg
@@ -156,14 +156,14 @@ const Card = ({ data, admin }) => {
           </span>
           <h2>
             Last date:{" "}
-            <span className="text-green-700">
+            <span className="text-green-800">
               {new Date(data.lastDate).toISOString().split("T")[0]}
             </span>
           </h2>
         </div>
 
         {/* Days Left */}
-        <p className="text-red-600 text-[12px] font-bold mx-auto mb-4 capitalize">
+        <p className="text-[#C62828] text-[12px] font-bold mx-auto mb-4 capitalize">
           {leftDays}
         </p>
 
