@@ -1,6 +1,7 @@
 import React from 'react'
-import Image from 'next/image'
 import daysLeft from '@/utils/DaysLeft'
+import { CldImage } from "next-cloudinary";
+
 
 
 const ImageComponent = ({data}) => {
@@ -23,14 +24,22 @@ const ImageComponent = ({data}) => {
   return (
   
     <div className="p-7 w-full dark:bg-[#000000] bg-[#FFFFFF] rounded-md md:flex gap-5 justify-center items-center ">
-      <div className="h-20 w-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto relative">
-        <Image
-          src={data?.image || "/path/to/placeholder.jpg"}
-          alt="Post Image"
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          style={{ objectFit: "cover" }}
-        />
+      <div className="h-20 w-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto relative p-1">
+      <CldImage
+              src={data.image}
+              alt="post"
+              fill
+              sizes="50vw" // Adjust size as needed
+              style={{ objectFit: "fit" }}
+              className="h-10 w-10 p-3"
+              crop={{
+                type: "auto",
+                source: true,
+                background: "#f0eeee",
+              }}
+              quality="auto"
+              removeSpace
+            />
       </div>
       <div className="mx-auto md:w-[90%]">
         <h1 className="text-center font-bold py-5 md:py-0 text-lg md:text-left md:mb-2">

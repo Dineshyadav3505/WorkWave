@@ -7,6 +7,8 @@ import isNewUpdate, { removeSpace } from "@/utils/NewUpdate";
 import Share from "@/utils/Share";
 import Link from "next/link";
 import axios from "axios";
+import { CldImage } from "next-cloudinary";
+
 
 const Card = ({ data, admin }) => {
   const leftDays = daysLeft(data.lastDate);
@@ -26,12 +28,14 @@ const Card = ({ data, admin }) => {
   };
 
   const deletePost = async () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-    
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+
     if (!confirmDelete) {
       return; // Exit if the user cancels
     }
-  
+
     try {
       const response = await axios.delete("/api/post", {
         params: {
@@ -41,8 +45,7 @@ const Card = ({ data, admin }) => {
 
       if (response.status >= 200 && response.status < 300) {
         console.log("Post deleted successfully:", response.data);
-        window.location.reload(); 
-
+        window.location.reload();
       } else {
         throw new Error("Failed to delete the post."); // Handle unexpected status codes
       }
@@ -65,14 +68,21 @@ const Card = ({ data, admin }) => {
       {/* Image, PostName and Share button */}
       <div className="rounded-[21.86px] dark:bg-black bg-white p-2 shadow-md flex flex-col relative">
         <div className="border-b-[1px] pb-3 flex items-center p-2 gap-4 w-full  ">
-          <div className="relative w-[58.3px] h-[58.3px] overflow-hidden">
-            <Image
+          <div className="relative w-[58.3px] flex items-center justify-center p-4 overflow-hidden">
+            <CldImage
               src={data.image}
               alt="post"
               fill
-              sizes="width: 58px"
-              style={{ objectFit: "cover" }}
-              className="rounded-full"
+              sizes="50vw" // Adjust size as needed
+              style={{ objectFit: "fit" }}
+              className="h-10 w-10 px-1"
+              crop={{
+                type: "auto",
+                source: true,
+                background: "#f0eeee",
+              }}
+              quality="auto"
+              removeSpace
             />
           </div>
           <h1 className="text-sm w-[73%]  flex flex-wrap font-bold h-10 dark:text-white text-[#023E8A] overflow-hidden">
@@ -99,7 +109,11 @@ const Card = ({ data, admin }) => {
               </svg>
             </button>
           ) : (
-            <button onClick={share} className="text-[#64C8FA]" aria-label="Share">
+            <button
+              onClick={share}
+              className="text-[#64C8FA]"
+              aria-label="Share"
+            >
               {copied ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +184,9 @@ const Card = ({ data, admin }) => {
         {/* Link */}
         <div className="absolute -bottom-3 w-full flex justify-center">
           <Link
-          {...(admin ? { href: `/admin/${link}/${id}` } : { href: `/${link}/${id}` })}
+            {...(admin
+              ? { href: `/admin/${link}/${id}` }
+              : { href: `/${link}/${id}` })}
             className="flex gap-1 bg-[#023E8A] text-[12px] font-bold text-white px-5 rounded-full text-base justify-center items-center leading-7"
           >
             <span>

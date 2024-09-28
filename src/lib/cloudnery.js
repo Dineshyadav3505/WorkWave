@@ -14,6 +14,7 @@ export const uploadOnCloudinary = async (file, folder) => {
   const bites = Buffer.from(buffer);
 
   return new Promise(async (resolve, reject) => {
+    
     cloudinary.uploader
       .upload_stream(
         {
