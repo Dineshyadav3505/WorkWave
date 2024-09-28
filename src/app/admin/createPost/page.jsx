@@ -460,6 +460,7 @@ const Page = () => {
               label="Last Date"
               value={lastDate}
               onChange={handleLastDateChange}
+              required={true}
             />
           </div>
 

@@ -82,7 +82,6 @@ const Card = ({ data, admin }) => {
                 background: "#f0eeee",
               }}
               quality="auto"
-              removeSpace
             />
           </div>
           <h1 className="text-sm w-[73%]  flex flex-wrap font-bold h-10 dark:text-white text-[#023E8A] overflow-hidden">

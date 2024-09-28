@@ -51,7 +51,7 @@ const Post = () => {
                 priority // Prioritizes loading this image for performance
                 sizes="(max-width: 500px) 100px, 50vw" // Adjust size based on viewport width
                 style={{ objectFit: "fill" }} // Ensures the image covers the area while maintaining aspect ratio
-                className="absolute" 
+                className="absolute"
               />
             </div>
           </div>
@@ -62,7 +62,14 @@ const Post = () => {
             <ApplicationFee data={data.applicationFee} />
             <AgeLimit data={data.ageLimit} />
             <Information data={data.informationSections} />
-            <ApplyLink data={data} />
+            <ApplyLink
+              applyLink={data.applyLink}
+              answerKeyLink={data.answerKeyLink}
+              resultLink={data.resultLink}
+              admissionLink={data.admissionLink}
+              admitCardLink={data.admitCardLink}
+              notificationLink={data.notificationLink}
+            />
           </div>
         </>
       )}
