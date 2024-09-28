@@ -22,7 +22,7 @@ module.exports = {
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
-        kalnia: ['Kalnia', 'sans-serif'], 
+        kalnia: ['Kalnia'], 
 
       },
     },
