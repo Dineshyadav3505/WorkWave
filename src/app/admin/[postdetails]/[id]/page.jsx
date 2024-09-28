@@ -3,10 +3,43 @@ import React, { useEffect, useState, memo } from "react";
 import Image from "next/image";
 import axios from "axios";
 import Loader from "@/components/Loader";
+import Information from "@/components/AdminPostDetails/Information";
+import ImportantDates from "@/components/AdminPostDetails/ImportantDates";
+import ApplicationFee from "@/components/AdminPostDetails/ApplicationFee";
+import AgeLimit from "@/components/AdminPostDetails/AgeLimit";
+import ApplyLink from "@/components/AdminPostDetails/ApplyLink";
+import Description from "@/components/AdminPostDetails/Description";
+import { CldImage } from "next-cloudinary";
+import Input from "@/components/Form/Input";
+import { format } from "date-fns";
+import AdmitCardLink from "@/components/AdminPostDetails/AdmitCardLink";
+import AdmissionLink from "@/components/AdminPostDetails/AdmissionLink";
+import AnswerKeyLink from "@/components/AdminPostDetails/AnswerKeyLink";
+import ResultLink from "@/components/AdminPostDetails/ResultLink";
 
 const Post = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const { pathname } = new URL(location.href);
+    const id = pathname.substring(pathname.lastIndexOf("/") + 1);
+
+    const fetchData = async () => {
+      if (!id) return;
+
+      try {
+        const res = await axios.get(`/api/post/details?id=${id}`);
+        setData(res.data.data);
+      } catch (err) {
+        console.error(err);
+        setError(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [postName, setPostName] = useState("");
@@ -308,7 +341,7 @@ const Post = () => {
 
   useEffect(() => {
     const { pathname } = new URL(location.href);
-    const id = pathname.substring(pathname.lastIndexOf('/') + 1);
+    const id = pathname.substring(pathname.lastIndexOf("/") + 1);
 
     const fetchData = async () => {
       if (!id) return;
@@ -325,7 +358,6 @@ const Post = () => {
 
     fetchData();
   }, []);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -391,29 +423,200 @@ const Post = () => {
     }
   };
 
+  const formattedDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return format(date, "MMMM dd, yyyy");
+  };
+
   return (
-    <div className="h-[5000px] relative">
+    <div className="h-full relative ">
       {error ? (
         <div>Error: {error.message}</div>
       ) : !data ? (
-        <Loader/>
+        <Loader />
       ) : (
         <>
-          <div className="w-full h-96 relative">
-            <Image
-              src="https://res.cloudinary.com/kodingmonk/image/upload/v1726928078/NaukriVacancy/s8kafnj1f8stxdzcjtth.png"
-              alt="Post cover image"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              style={{ objectFit: "cover" }}
-            />
-          </div>
-          <div className="h-full w-full absolute top-0 right-0 z-10 px-4 md:10 lg:px-16 pt-48 md:pt-60 space-y-4">
-          <form onSubmit={handleSubmit}>
-            
-          </form>
+          <div className=" mb-10 relative">
+            <div className="w-full h-full absolute -z-10 md:h-96  flex justify-center items-center py-1">
+              <div className="w-[70%] lg:w-[52%] h-full  relative flex justify-center items-center">
+                <Image
+                  src="http://res.cloudinary.com/kodingmonk/image/upload/v1727506934/NaukriVacancy/bwuqdzdatwetl2yhhz1n.png"
+                  alt="Post cover image"
+                  fill // This allows the image to fill its parent container
+                  priority // Prioritizes loading this image for performance
+                  sizes="(max-width: 500px) 100px, 50vw" // Adjust size based on viewport width
+                  style={{ objectFit: "fill" }} // Ensures the image covers the area while maintaining aspect ratio
+                  className="absolute"
+                />
+              </div>
+            </div>
 
+            <div className="h-full w-full px-4 md:10 lg:px-16 pt-48 md:pt-60 space-y-4">
+              {/* Image Section */}
+              <div className="p-7 w-full dark:bg-[#000000] bg-[#FFFFFF] rounded-md md:flex gap-5 justify-center items-center ">
+                <div className="h-20 w-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto relative p-1 relative">
+                  <CldImage
+                    src={data.image}
+                    alt="post"
+                    fill
+                    sizes="50vw" // Adjust size as needed
+                    style={{ objectFit: "fit" }}
+                    className="h-10 w-10 p-3"
+                    crop={{
+                      type: "auto",
+                      source: true,
+                      background: "#f0eeee",
+                    }}
+                    quality="auto"
+                  />
+                  <Input
+                    type="file"
+                    name="image"
+                    id="image"
+                    label="Upload Image"
+                    onChange={handleImageChange}
+                    required={true}
+                    inputClass={" absolute top-0 left-0 opacity-0"}
+                  />
+                </div>
+                <div className="mx-auto md:w-[90%]">
+                  <Input
+                    type="text"
+                    name="postName"
+                    id="postName"
+                    label="Post Name"
+                    value={postName}
+                    onChange={handlePostNameChange}
+                    required={true}
+                    placeholder={data.postName}
+                  />
+                  <hr />
+                  <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row gap-2">
+                    <Input
+                      type="date"
+                      name="beginDate"
+                      id="beginDate"
+                      label={`Begin Date (${formattedDate(data.beginDate)})`}
+                      value={beginDate}
+                      onChange={handleBeginDateChange}
+                      placeholder={data.beginDate}
+                    />
+
+                    <Input
+                      type="date"
+                      name="lastDate"
+                      id="lastDate"
+                      label={`Last Date (${formattedDate(data.lastDate)})`}
+                      value={lastDate}
+                      onChange={handleLastDateChange}
+                    />
+                    <Input
+                      type="text"
+                      name="totalPost"
+                      id="totalPost"
+                      label="Total Post"
+                      value={totalPost}
+                      onChange={handlePostChange}
+                      placeholder={data.totalPost}
+                    />
+                    <Input
+                      type="text"
+                      name="state"
+                      id="state"
+                      label="State Name"
+                      value={state}
+                      onChange={handleStateChange}
+                      placeholder={data.state}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Description Section */}
+              <div className="w-full dark:bg-[#000000] px-3 py-2 text-sm md:text-sm lg:text-base bg-[#FFFFFF] p-2 rounded-md mt-5">
+                <Input
+                  type="textarea"
+                  name="description"
+                  id="description"
+                  label="Description"
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  required={true}
+                  placeholder={data.description}
+                />
+              </div>
+
+              {/* ImportantDates */}
+              <ImportantDates
+                Limits={importantDates}
+                handleChange={handleImportantDateChange}
+                handleAdd={handleAddImportantDate}
+                handleRemove={handleRemoveImportantDate}
+                data={data.importantDates}
+              />
+
+              {/* ApplicationFee */}
+              <ApplicationFee
+                Limits={applicationFees}
+                handleChange={handleApplicationFeeChange}
+                handleAdd={handleAddApplicationFee}
+                handleRemove={handleRemoveApplicationFee}
+                data={data.applicationFee}
+              />
+
+              <AgeLimit
+                Limits={ageLimits}
+                handleChange={handleAgeLimitChange}
+                handleAdd={handleAddAgeLimit}
+                handleRemove={handleRemoveAgeLimit}
+                data={data.ageLimit}
+              />
+
+              <AdmitCardLink
+                links={admitCardLink}
+                handleChange={handleAdmitCardLinkChange}
+                handleAdd={handleAddAdmitCardLink}
+                handleRemove={handleRemoveAdmitCardLink}
+                data={data.admitCardLink}
+              />
+
+              <AdmissionLink 
+                links={admissionLink}
+                handleChange={handleAdmissionLinkChange}
+                handleAdd={handleAddAdmissionLink}
+                handleRemove={handleRemoveAdmissionLink}
+                data={data.admissionLink}
+              />
+
+              <AnswerKeyLink
+                links={answerKeyLink}
+                handleChange={handleAnswerKeyLinkChange}
+                handleAdd={handleAddAnswerKeyLink}
+                handleRemove={handleRemoveAnswerKeyLink}
+                data={data.answerKeyLink}
+              />
+
+              <ResultLink
+                links={resultLink}
+                handleChange={handleResultLinkChange}
+                handleAdd={handleAddResultLink}
+                handleRemove={handleRemoveResultLink}
+                data={data.resultLink}
+              />
+
+              <ApplyLink
+                links={applyLinks}
+                handleChange={handleApplyLinkChange}
+                handleAdd={handleAddApplyLink}
+                handleRemove={handleRemoveApplyLink}
+                data={data.applyLink}
+              />
+
+
+              <Information data={data.informationSections} />
+
+            </div>
           </div>
         </>
       )}
