@@ -8,6 +8,8 @@ import ImportantDates from "@/components/postDetails/ImportantDates";
 import ApplicationFee from "@/components/postDetails/ApplicationFee";
 import AgeLimit from "@/components/postDetails/AgeLimit";
 import ApplyLink from "@/components/postDetails/ApplyLink";
+import Disclaimer from "../../(other)/help/page";
+import Desc from "@/components/postDetails/Description";
 
 const Post = () => {
   const [data, setData] = useState(null);
@@ -15,7 +17,7 @@ const Post = () => {
 
   useEffect(() => {
     const { pathname } = new URL(location.href);
-    const id = pathname.substring(pathname.lastIndexOf('/') + 1);
+    const id = pathname.substring(pathname.lastIndexOf("/") + 1);
 
     const fetchData = async () => {
       if (!id) return;
@@ -40,18 +42,22 @@ const Post = () => {
         <div>Loading...</div>
       ) : (
         <>
-          <div className="w-full h-96 bg-red-100 relative">
-            <Image
-              src="https://res.cloudinary.com/kodingmonk/image/upload/v1726928078/NaukriVacancy/s8kafnj1f8stxdzcjtth.png"
-              alt="Post cover image"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              style={{ objectFit: "cover" }}
-            />
+          <div className="w-full h-60 md:h-96  flex justify-center items-center py-1">
+            <div className="w-[70%] lg:w-[52%] h-full  relative flex justify-center items-center">
+              <Image
+                src="http://res.cloudinary.com/kodingmonk/image/upload/v1727506934/NaukriVacancy/bwuqdzdatwetl2yhhz1n.png"
+                alt="Post cover image"
+                fill // This allows the image to fill its parent container
+                priority // Prioritizes loading this image for performance
+                sizes="(max-width: 500px) 100px, 50vw" // Adjust size based on viewport width
+                style={{ objectFit: "fill" }} // Ensures the image covers the area while maintaining aspect ratio
+                className="absolute" 
+              />
+            </div>
           </div>
           <div className="h-full w-full absolute top-0 right-0 z-10 px-4 md:10 lg:px-16 pt-48 md:pt-60 space-y-4">
             <ImageComponent data={data} />
+            <Desc data={data.description} />
             <ImportantDates data={data.importantDates} />
             <ApplicationFee data={data.applicationFee} />
             <AgeLimit data={data.ageLimit} />

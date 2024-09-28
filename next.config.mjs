@@ -3,7 +3,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 
 const nextConfig = {
   images: {
-    domains: ["res.cloudinary.com"], // Add any other domains you need here
+    domains: ['res.cloudinary.com'], // Correctly specify the domains as an array of strings
   },
   webpack: (config) => {
     // Ensure that we are modifying the existing minimizer
@@ -25,3 +25,5 @@ const nextConfig = {
     return config;
   },
 };
+
+export default nextConfig; // Ensure you're exporting the configuration

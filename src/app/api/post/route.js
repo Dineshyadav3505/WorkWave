@@ -73,12 +73,10 @@ export async function POST(req) {
       );
     }
 
-    console.log("applicationFee", applicationFee);
-
-    console.log("Information Sections", informationSections);
-    console.log("Total Post", totalPost);
 
     const img = await uploadOnCloudinary(image, "NaukriVacancy");
+
+    console.log(img);
 
     if (!img) {
       return NextResponse.json(
