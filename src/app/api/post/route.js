@@ -3,7 +3,7 @@ import { dbConnect } from "@/lib/dbConfig";
 import auth from "@/lib/auth";
 import { NextResponse } from "next/server";
 import User from "@/model/user.model";
-import {uploadOnCloudinary} from "@/lib/cloudnery";
+import { uploadOnCloudinary } from "@/lib/cloudnery";
 
 export async function POST(req) {
   const id = await auth(req);
@@ -66,13 +66,18 @@ export async function POST(req) {
     };
 
     // Validate required fields
-    if (!postName || !description || !image || !notificationLink || !beginDate) {
+    if (
+      !postName ||
+      !description ||
+      !image ||
+      !notificationLink ||
+      !beginDate
+    ) {
       return NextResponse.json(
         { message: "Please fill all the required fields" },
         { status: 400 }
       );
     }
-
 
     const img = await uploadOnCloudinary(image, "NaukriVacancy");
 
@@ -105,13 +110,14 @@ export async function POST(req) {
       totalPost,
     });
 
+
     await jobPost.save();
     return NextResponse.json(jobPost, { status: 201 });
   } catch (error) {
     console.error("Error while creating job post", error);
     return NextResponse.json(
-        { message: "Error while creating job post" },
-        { status: 500 }
+      { message: "Error while creating job post" },
+      { status: 500 }
     );
   }
 }
@@ -121,38 +127,42 @@ export async function GET(req) {
   await dbConnect(); // Ensure the database is connected
   const query = req.url;
   const url = new URL(query, `http://${req.headers.host}`);
-  
+
   // Get searchResult, page, limit, and link parameters from query parameters
-  const searchResult = url.searchParams.get('searchResult');
-  const page = parseInt(url.searchParams.get('page')) || 1; // Default to page 1 if not provided
-  const limit = parseInt(url.searchParams.get('limit')) || 18; // Default to 18 if not provided
-  const sortDirection = url.searchParams.get('sortDirection') === 'asc' ? 1 : -1; // Ascending or descending
-  const linkType = url.searchParams.get('link');
-  const upComingJob = url.searchParams.get('upComingJob') || false;
-  const state = url.searchParams.get('state') || false;
+  const searchResult = url.searchParams.get("searchResult");
+  const page = parseInt(url.searchParams.get("page")) || 1; // Default to page 1 if not provided
+  const limit = parseInt(url.searchParams.get("limit")) || 18; // Default to 18 if not provided
+  const sortDirection =
+    url.searchParams.get("sortDirection") === "asc" ? 1 : -1; // Ascending or descending
+  const linkType = url.searchParams.get("link");
+  const upComingJob = url.searchParams.get("upComingJob") || false;
+  const state = url.searchParams.get("state") || false;
 
   try {
     let queryOptions = {};
-    
+
     if (searchResult) {
-      queryOptions.postName = { $regex: searchResult, $options: 'i' };
+      queryOptions.postName = { $regex: searchResult, $options: "i" };
     }
 
-    if(upComingJob === "true"){
+    if (upComingJob === "true") {
       queryOptions["applyLink"] = {
         $elemMatch: {
           link: { $eq: "" },
-          label: { $eq: "" }
-        }
+          label: { $eq: "" },
+        },
       };
     }
 
-    if(state === "true"){
-      queryOptions.state = { $ne: '' };
+    if (state === "true") {
+      queryOptions.state = { $ne: "" };
     }
 
-    if(linkType && linkType !== 'all' && upComingJob !== "true"){
-      queryOptions[linkType] = { $exists: true, $elemMatch: { link: { $ne: '' } } };
+    if (linkType && linkType !== "all" && upComingJob !== "true") {
+      queryOptions[linkType] = {
+        $exists: true,
+        $elemMatch: { link: { $ne: "" } },
+      };
     }
 
     // Fetch job posts with pagination and sorting
@@ -181,93 +191,133 @@ export async function GET(req) {
 
 // Update a job post by ID
 export async function PUT(req) {
-    const id = await auth(req);
-    await dbConnect();
-  
-    try {
-      if (!id) {
-        return NextResponse.json(
-          { message: "You are not authorized to access this route" },
-          { status: 401 }
-        );
-      }
-  
-      const dataBaseUser = await User.findById(id);
-      if (!dataBaseUser || dataBaseUser.role !== "admin") {
-        return NextResponse.json(
-          { message: "You are not authorized to access this route" },
-          { status: 401 }
-        );
-      }
-  
-      const formData = await req.formData();
-      const jobPostId = formData.get("id"); // Assuming the ID is sent in the form data
-  
-      // Retrieve the existing job post
-      const existingJobPost = await JobPost.findById(jobPostId);
-      if (!existingJobPost) {
-        return NextResponse.json(
-          { message: "Job post not found" },
-          { status: 404 }
-        );
-      }
-  
-      // Create an object to hold the updated fields
-      const updateData = {};
-  
-      // Only update fields that have changed
-      const fieldsToUpdate = [
-        "postName",
-        "description",
-        "image",
-        "notificationLink",
-        "importantDates",
-        "applicationFee",
-        "ageLimit",
-        "applyLink",
-        "resultLink",
-        "admitCardLink",
-        "answerKeyLink",
-        "AdmissionLink",
-        "multiChild",
-        "multiGrandChild",
-        "multiGrandChild2",
-        "state",
-        "beginDate",
-        "lastDate",
-      ];
-  
-      fieldsToUpdate.forEach((field) => {
-        const newValue = formData.get(field);
-        if (newValue !== null && newValue !== "") {
-          // If the new value is different from the existing one, update it
-          if (Array.isArray(existingJobPost[field])) {
-            // Handle array fields
-            const parsedNewValue = JSON.parse(newValue);
-            if (JSON.stringify(existingJobPost[field]) !== JSON.stringify(parsedNewValue)) {
-              updateData[field] = parsedNewValue;
-            }
-          } else if (existingJobPost[field] !== newValue) {
-            updateData[field] = newValue;
-          }
-        }
-      });
-  
-      // Update the job post with the new values
-      const updatedJobPost = await JobPost.findByIdAndUpdate(jobPostId, updateData, {
-        new: true,
-        runValidators: true,
-      });
-  
-      return NextResponse.json(updatedJobPost);
-    } catch (error) {
-      console.error("Error while updating job post", error);
+  const id = await auth(req);
+  await dbConnect();
+
+  try {
+    // Check if the user is authorized
+    if (!id) {
       return NextResponse.json(
-        { message: "Error while updating job post" },
-        { status: 500 }
+        { message: "You are not authorized to access this route" },
+        { status: 401 }
       );
     }
+
+    const dataBaseUser = await User.findById(id);
+    if (!dataBaseUser || dataBaseUser.role !== "admin") {
+      return NextResponse.json(
+        { message: "You are not authorized to access this route" },
+        { status: 401 }
+      );
+    }
+
+    const formData = await req.formData();
+    
+    // Retrieve the job post ID from form data
+    const jobPostId = formData.get("id");
+
+    // Retrieve the existing job post
+    const existingJobPost = await JobPost.findById(jobPostId);
+    if (!existingJobPost) {
+      return NextResponse.json(
+        { message: "Job post not found" },
+        { status: 404 }
+      );
+    }
+
+    // Create an object to hold the updated fields
+    const updateData = {};
+
+    // Define fields to check for updates
+    const fieldsToUpdate = [
+      "postName",
+      "description",
+      "image",
+      "notificationLink",
+      "importantDates",
+      "applicationFee",
+      "ageLimit",
+      "applyLink",
+      "resultLink",
+      "admitCardLink",
+      "answerKeyLink",
+      "admissionLink",
+      "informationSections",
+      "state",
+      "beginDate",
+      "lastDate",
+      "totalPost"
+    ];
+
+    // Iterate over each field and check for changes
+    for (const field of fieldsToUpdate) {
+      const newValue = formData.get(field);
+
+      // Only add to updateData if the new value exists
+      if (newValue !== null && newValue !== undefined && newValue !== '') {
+        let parsedValue;
+
+        // Handle specific parsing for JSON fields and dates
+        if (["importantDates", "applicationFee", "ageLimit", 
+             "applyLink", "resultLink", "admitCardLink", 
+             "answerKeyLink", "admissionLink", 
+             "informationSections"].includes(field)) {
+          parsedValue = newValue ? JSON.parse(newValue) : null; // Handle null case
+        } else if (field === 'beginDate' || field === 'lastDate') {
+          parsedValue = newValue ? new Date(newValue) : null; // Handle null case
+        } else {
+          parsedValue = newValue;
+        }
+
+        // Only add to updateData if the value has changed
+        if (existingJobPost[field] !== parsedValue) {
+          updateData[field] = parsedValue;
+        }
+      }
+    }
+
+    // Handle image upload separately if a new image is provided
+    const imageFile = formData.get("image");
+    
+    if (imageFile && imageFile.size > 0) {  // Check if image file is valid
+      const imgUploadResult = await uploadOnCloudinary(imageFile, "NaukriVacancy");
+      
+      if (!imgUploadResult) {
+        return NextResponse.json(
+          { message: "There was an error uploading the file." },
+          { status: 500 }
+        );
+      }
+      
+      updateData.image = imgUploadResult.secure_url; // Assuming imgUploadResult contains the new image URL
+    }
+
+    console.log(updateData); // Log updated data for debugging
+
+    // Only proceed with the update if there are changes
+    if (Object.keys(updateData).length > 0) {
+      const updatedJobPost = await JobPost.findByIdAndUpdate(
+        jobPostId,
+        { $set: updateData }, 
+        { new: true, runValidators: false } // Prevent validation errors for missing required fields
+      );
+
+      return NextResponse.json(updatedJobPost);
+    } else {
+      return NextResponse.json(
+        { message: "No changes detected" },
+        { status: 204 } // No Content
+      );
+    }
+  } catch (error) {
+    console.error("Error while updating job post", error);
+    
+    return NextResponse.json(
+      { message: error.message || "Error while updating job post" }, 
+      { status: 500 }
+    );
   }
+}
 
 // Delete a job post by ID
 export async function DELETE(req) {
@@ -283,7 +333,7 @@ export async function DELETE(req) {
     }
 
     const dataBaseUser = await User.findById(id);
-    
+
     if (!dataBaseUser || dataBaseUser.role !== "admin") {
       return NextResponse.json(
         { message: "You are not authorized to access this route" },
@@ -293,7 +343,7 @@ export async function DELETE(req) {
 
     const query = req.url;
     const url = new URL(query, `http://${req.headers.host}`);
-    const jobPostId = url.searchParams.get('id');
+    const jobPostId = url.searchParams.get("id");
     const deletedJobPost = await JobPost.findByIdAndDelete(jobPostId);
 
     if (!deletedJobPost) {

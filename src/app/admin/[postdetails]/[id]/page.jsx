@@ -364,25 +364,23 @@ const Post = () => {
     setLoading(true); // Set loading to true when the form is submitted
 
     try {
-      console.log(
-        postName,
-        description,
-        image,
-        notificationLink,
-        importantDates,
-        applicationFees,
-        ageLimits,
-        applyLinks,
-        resultLink,
-        admitCardLink,
-        answerKeyLink,
-        admissionLink,
-        state,
-        beginDate,
-        lastDate,
-        totalPost,
-        informationSections
-      );
+      console.log("postName", postName);
+      console.log("description", description);
+      console.log("image", image);
+      console.log("notificationLink", notificationLink);
+      console.log("importantDates", importantDates);
+      console.log("applicationFees", applicationFees);
+      console.log("ageLimits", ageLimits);
+      console.log("applyLinks", applyLinks);
+      console.log("resultLink", resultLink);
+      console.log("admitCardLink", admitCardLink);
+      console.log("answerKeyLink", answerKeyLink);
+      console.log("admissionLink", admissionLink);
+      console.log("state", state);
+      console.log("beginDate", beginDate);
+      console.log("lastDate", lastDate);
+      console.log("totalPost", totalPost);
+      console.log("informationSections", informationSections);
 
       const formData = new FormData();
       formData.append("postName", postName);
@@ -405,11 +403,12 @@ const Post = () => {
         "informationSections",
         JSON.stringify(informationSections)
       );
+      formData.append("id", data._id);
 
       // Send the FormData directly without wrapping it in an object
       const response = await axios.put("/api/post", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // Set the correct content type for FormData
+          "Content-Type": "multipart/form-data",
         },
       });
       setLoading(false);
@@ -438,185 +437,213 @@ const Post = () => {
       ) : (
         <>
           <div className=" mb-10 relative">
-            <div className="w-full h-full absolute -z-10 md:h-96  flex justify-center items-center py-1">
-              <div className="w-[70%] lg:w-[52%] h-full  relative flex justify-center items-center">
-                <Image
-                  src="http://res.cloudinary.com/kodingmonk/image/upload/v1727506934/NaukriVacancy/bwuqdzdatwetl2yhhz1n.png"
-                  alt="Post cover image"
-                  fill // This allows the image to fill its parent container
-                  priority // Prioritizes loading this image for performance
-                  sizes="(max-width: 500px) 100px, 50vw" // Adjust size based on viewport width
-                  style={{ objectFit: "fill" }} // Ensures the image covers the area while maintaining aspect ratio
-                  className="absolute"
-                />
-              </div>
-            </div>
-
-            <div className="h-full w-full px-4 md:10 lg:px-16 pt-48 md:pt-60 space-y-4">
-              {/* Image Section */}
-              <div className="p-7 w-full dark:bg-[#000000] bg-[#FFFFFF] rounded-md md:flex gap-5 justify-center items-center ">
-                <div className="h-20 w-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto relative p-1 relative">
-                  <CldImage
-                    src={data.image}
-                    alt="post"
-                    fill
-                    sizes="50vw" // Adjust size as needed
-                    style={{ objectFit: "fit" }}
-                    className="h-10 w-10 p-3"
-                    crop={{
-                      type: "auto",
-                      source: true,
-                      background: "#f0eeee",
-                    }}
-                    quality="auto"
-                  />
-                  <Input
-                    type="file"
-                    name="image"
-                    id="image"
-                    label="Upload Image"
-                    onChange={handleImageChange}
-                    required={true}
-                    inputClass={" absolute top-0 left-0 opacity-0"}
+            <form onSubmit={handleSubmit}>
+              <div className="w-full h-full absolute -z-10 md:h-96  flex justify-center items-center py-1">
+                <div className="w-[70%] lg:w-[52%] h-full  relative flex justify-center items-center">
+                  <Image
+                    src="http://res.cloudinary.com/kodingmonk/image/upload/v1727506934/NaukriVacancy/bwuqdzdatwetl2yhhz1n.png"
+                    alt="Post cover image"
+                    fill // This allows the image to fill its parent container
+                    priority // Prioritizes loading this image for performance
+                    sizes="(max-width: 500px) 100px, 50vw" // Adjust size based on viewport width
+                    style={{ objectFit: "fill" }} // Ensures the image covers the area while maintaining aspect ratio
+                    className="absolute"
                   />
                 </div>
-                <div className="mx-auto md:w-[90%]">
-                  <Input
-                    type="text"
-                    name="postName"
-                    id="postName"
-                    label="Post Name"
-                    value={postName}
-                    onChange={handlePostNameChange}
-                    required={true}
-                    placeholder={data.postName}
-                  />
-                  <hr />
-                  <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row gap-2">
-                    <Input
-                      type="date"
-                      name="beginDate"
-                      id="beginDate"
-                      label={`Begin Date (${formattedDate(data.beginDate)})`}
-                      value={beginDate}
-                      onChange={handleBeginDateChange}
-                      placeholder={data.beginDate}
-                    />
+              </div>
 
-                    <Input
-                      type="date"
-                      name="lastDate"
-                      id="lastDate"
-                      label={`Last Date (${formattedDate(data.lastDate)})`}
-                      value={lastDate}
-                      onChange={handleLastDateChange}
+              <div className="h-full w-full px-4 md:10 lg:px-16 pt-48 md:pt-60 space-y-4">
+                {/* Image Section */}
+                <div className="p-7 w-full dark:bg-[#000000] bg-[#FFFFFF] rounded-md md:flex gap-5 justify-center items-center ">
+                  <div className="h-20 w-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto relative p-1 relative">
+                    <CldImage
+                      src={data.image}
+                      alt="post"
+                      fill
+                      sizes="50vw" // Adjust size as needed
+                      style={{ objectFit: "fit" }}
+                      className="h-10 w-10 p-3"
+                      crop={{
+                        type: "auto",
+                        source: true,
+                        background: "#f0eeee",
+                      }}
+                      quality="auto"
                     />
                     <Input
-                      type="text"
-                      name="totalPost"
-                      id="totalPost"
-                      label="Total Post"
-                      value={totalPost}
-                      onChange={handlePostChange}
-                      placeholder={data.totalPost}
-                    />
-                    <Input
-                      type="text"
-                      name="state"
-                      id="state"
-                      label="State Name"
-                      value={state}
-                      onChange={handleStateChange}
-                      placeholder={data.state}
+                      type="file"
+                      name="image"
+                      id="image"
+                      label="Upload Image"
+                      onChange={handleImageChange}
+                      inputClass={" absolute top-0 left-0 opacity-0"}
                     />
                   </div>
-                </div>
-              </div>
+                  <div className="mx-auto md:w-[90%]">
+                    <Input
+                      type="text"
+                      name="postName"
+                      id="postName"
+                      label="Post Name"
+                      value={postName}
+                      onChange={handlePostNameChange}
+                      placeholder={data.postName}
+                    />
+                    <hr />
+                    <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row gap-2">
+                      <Input
+                        type="date"
+                        name="beginDate"
+                        id="beginDate"
+                        label={`Begin Date (${formattedDate(data.beginDate)})`}
+                        value={beginDate}
+                        onChange={handleBeginDateChange}
+                        placeholder={data.beginDate}
+                      />
 
-              {/* Description Section */}
-              <div className="w-full dark:bg-[#000000] px-3 py-2 text-sm md:text-sm lg:text-base bg-[#FFFFFF] p-2 rounded-md mt-5">
-                <Input
-                  type="textarea"
-                  name="description"
-                  id="description"
-                  label="Description"
-                  value={description}
-                  onChange={handleDescriptionChange}
-                  required={true}
-                  placeholder={data.description}
+                      <Input
+                        type="date"
+                        name="lastDate"
+                        id="lastDate"
+                        label={`Last Date (${formattedDate(data.lastDate)})`}
+                        value={lastDate}
+                        onChange={handleLastDateChange}
+                      />
+                      <Input
+                        type="text"
+                        name="totalPost"
+                        id="totalPost"
+                        label="Total Post"
+                        value={totalPost}
+                        onChange={handlePostChange}
+                        placeholder={data.totalPost}
+                      />
+                      <Input
+                        type="text"
+                        name="state"
+                        id="state"
+                        label="State Name"
+                        value={state}
+                        onChange={handleStateChange}
+                        placeholder={data.state}
+                      />
+                      <Input
+                        type="text"
+                        name="notificationLink"
+                        id="notificationLink"
+                        label="Notification Link"
+                        value={notificationLink}
+                        onChange={handleNotificationLinkChange}
+                        placeholder={data.notificationLink}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Description Section */}
+                <div className="w-full dark:bg-[#000000] px-3 py-2 text-sm md:text-sm lg:text-base bg-[#FFFFFF] p-2 rounded-md mt-5">
+                  <Input
+                    type="textarea"
+                    name="description"
+                    id="description"
+                    label="Description"
+                    value={description}
+                    onChange={handleDescriptionChange}
+                    placeholder={data.description}
+                  />
+                </div>
+
+                {/* ImportantDates */}
+                <ImportantDates
+                  Limits={importantDates}
+                  handleChange={handleImportantDateChange}
+                  handleAdd={handleAddImportantDate}
+                  handleRemove={handleRemoveImportantDate}
+                  data={data.importantDates}
+                />
+
+                {/* ApplicationFee */}
+                <ApplicationFee
+                  Limits={applicationFees}
+                  handleChange={handleApplicationFeeChange}
+                  handleAdd={handleAddApplicationFee}
+                  handleRemove={handleRemoveApplicationFee}
+                  data={data.applicationFee}
+                />
+
+                <AgeLimit
+                  Limits={ageLimits}
+                  handleChange={handleAgeLimitChange}
+                  handleAdd={handleAddAgeLimit}
+                  handleRemove={handleRemoveAgeLimit}
+                  data={data.ageLimit}
+                />
+
+                <AdmitCardLink
+                  links={admitCardLink}
+                  handleChange={handleAdmitCardLinkChange}
+                  handleAdd={handleAddAdmitCardLink}
+                  handleRemove={handleRemoveAdmitCardLink}
+                  data={data.admitCardLink}
+                />
+
+                <AdmissionLink
+                  links={admissionLink}
+                  handleChange={handleAdmissionLinkChange}
+                  handleAdd={handleAddAdmissionLink}
+                  handleRemove={handleRemoveAdmissionLink}
+                  data={data.admissionLink}
+                />
+
+                <AnswerKeyLink
+                  links={answerKeyLink}
+                  handleChange={handleAnswerKeyLinkChange}
+                  handleAdd={handleAddAnswerKeyLink}
+                  handleRemove={handleRemoveAnswerKeyLink}
+                  data={data.answerKeyLink}
+                />
+
+                <ResultLink
+                  links={resultLink}
+                  handleChange={handleResultLinkChange}
+                  handleAdd={handleAddResultLink}
+                  handleRemove={handleRemoveResultLink}
+                  data={data.resultLink}
+                />
+
+                <ApplyLink
+                  links={applyLinks}
+                  handleChange={handleApplyLinkChange}
+                  handleAdd={handleAddApplyLink}
+                  handleRemove={handleRemoveApplyLink}
+                  data={data.applyLink}
+                />
+
+                <Information
+                  informationSections={informationSections}
+                  handleSubmit={handleSubmit}
+                  addInformationSection={addInformationSection}
+                  deleteInformationSection={deleteInformationSection}
+                  handleInputChange={handleInputChange}
+                  handleValueChange={handleValueChange}
+                  addInformationField={addInformationField}
+                  deleteInformationField={deleteInformationField}
+                  addValueField={addValueField}
+                  deleteValueField={deleteValueField}
+                  addStringValue={addStringValue}
+                  deleteStringValue={deleteStringValue}
+                  data={data.informationSections}
                 />
               </div>
-
-              {/* ImportantDates */}
-              <ImportantDates
-                Limits={importantDates}
-                handleChange={handleImportantDateChange}
-                handleAdd={handleAddImportantDate}
-                handleRemove={handleRemoveImportantDate}
-                data={data.importantDates}
-              />
-
-              {/* ApplicationFee */}
-              <ApplicationFee
-                Limits={applicationFees}
-                handleChange={handleApplicationFeeChange}
-                handleAdd={handleAddApplicationFee}
-                handleRemove={handleRemoveApplicationFee}
-                data={data.applicationFee}
-              />
-
-              <AgeLimit
-                Limits={ageLimits}
-                handleChange={handleAgeLimitChange}
-                handleAdd={handleAddAgeLimit}
-                handleRemove={handleRemoveAgeLimit}
-                data={data.ageLimit}
-              />
-
-              <AdmitCardLink
-                links={admitCardLink}
-                handleChange={handleAdmitCardLinkChange}
-                handleAdd={handleAddAdmitCardLink}
-                handleRemove={handleRemoveAdmitCardLink}
-                data={data.admitCardLink}
-              />
-
-              <AdmissionLink 
-                links={admissionLink}
-                handleChange={handleAdmissionLinkChange}
-                handleAdd={handleAddAdmissionLink}
-                handleRemove={handleRemoveAdmissionLink}
-                data={data.admissionLink}
-              />
-
-              <AnswerKeyLink
-                links={answerKeyLink}
-                handleChange={handleAnswerKeyLinkChange}
-                handleAdd={handleAddAnswerKeyLink}
-                handleRemove={handleRemoveAnswerKeyLink}
-                data={data.answerKeyLink}
-              />
-
-              <ResultLink
-                links={resultLink}
-                handleChange={handleResultLinkChange}
-                handleAdd={handleAddResultLink}
-                handleRemove={handleRemoveResultLink}
-                data={data.resultLink}
-              />
-
-              <ApplyLink
-                links={applyLinks}
-                handleChange={handleApplyLinkChange}
-                handleAdd={handleAddApplyLink}
-                handleRemove={handleRemoveApplyLink}
-                data={data.applyLink}
-              />
-
-
-              <Information data={data.informationSections} />
-
-            </div>
+              <div className="w-full flex justify-center items-center mt-5">
+                <button
+                  type="submit"
+                  className="bg-[#FBBF24] text-white py-2 px-4 rounded-md"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
         </>
       )}

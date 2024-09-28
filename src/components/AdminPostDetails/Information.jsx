@@ -1,7 +1,20 @@
 import React from "react";
 
-const Information = ({ data }) => {
-
+const Information = ({
+  data,
+  informationSections,
+  handleSubmit,
+  addInformationSection,
+  deleteInformationSection,
+  handleInputChange,
+  handleValueChange,
+  addInformationField,
+  deleteInformationField,
+  addValueField,
+  deleteValueField,
+  addStringValue,
+  deleteStringValue,
+}) => {
   return (
     <div className="w-full dark:bg-[#000000] text-sm md:text-sm lg:text-base bg-[#FFFFFF] rounded-md">
       {data.map((info, index) => (
