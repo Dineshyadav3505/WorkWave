@@ -124,7 +124,7 @@ const Navbar = () => {
             ))}
 
             <Button
-              link="sign-in"
+              link="/sign-in"
               text="Sign In"
               onClick={toggleMenu}
               innerClass={

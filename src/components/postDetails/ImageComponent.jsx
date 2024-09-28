@@ -38,7 +38,6 @@ const ImageComponent = ({data}) => {
                 background: "#f0eeee",
               }}
               quality="auto"
-              removeSpace
             />
       </div>
       <div className="mx-auto md:w-[90%]">
