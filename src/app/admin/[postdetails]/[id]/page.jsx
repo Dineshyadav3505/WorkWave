@@ -480,6 +480,7 @@ const Post = () => {
                     />
                   </div>
                   <div className="mx-auto md:w-[90%]">
+                    <div className="flex gap-2">
                     <Input
                       type="text"
                       name="postName"
@@ -488,7 +489,19 @@ const Post = () => {
                       value={postName}
                       onChange={handlePostNameChange}
                       placeholder={data.postName}
+                      inputClass={"w-3/4"}
                     />
+                    <Input
+                      type="text"
+                      name="state"
+                      id="state"
+                      label="State Name"
+                      value={state}
+                      onChange={handleStateChange}
+                      placeholder={data.state}
+                      inputClass={"w-1/4"}
+                    />
+                    </div>
                     <hr />
                     <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row gap-2">
                       <Input
@@ -517,15 +530,6 @@ const Post = () => {
                         value={totalPost}
                         onChange={handlePostChange}
                         placeholder={data.totalPost}
-                      />
-                      <Input
-                        type="text"
-                        name="state"
-                        id="state"
-                        label="State Name"
-                        value={state}
-                        onChange={handleStateChange}
-                        placeholder={data.state}
                       />
                       <Input
                         type="text"

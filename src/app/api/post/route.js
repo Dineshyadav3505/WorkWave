@@ -253,8 +253,10 @@ export async function PUT(req) {
     for (const field of fieldsToUpdate) {
       const newValue = formData.get(field);
 
-      // Only add to updateData if the new value exists
-      if (newValue !== null && newValue !== undefined && newValue !== '') {
+      // If newValue is null or undefined, keep existing value; if it's empty string, replace with existing value
+      if (newValue === null || newValue === undefined || newValue === '') {
+        updateData[field] = existingJobPost[field];
+      } else {
         let parsedValue;
 
         // Handle specific parsing for JSON fields and dates
@@ -279,7 +281,8 @@ export async function PUT(req) {
     // Handle image upload separately if a new image is provided
     const imageFile = formData.get("image");
     
-    if (imageFile && imageFile.size > 0) {  // Check if image file is valid
+    if (imageFile !== "null" && imageFile !== undefined && imageFile !== null) {
+      console.log("Uploading image...");
       const imgUploadResult = await uploadOnCloudinary(imageFile, "NaukriVacancy");
       
       if (!imgUploadResult) {
@@ -290,9 +293,9 @@ export async function PUT(req) {
       }
       
       updateData.image = imgUploadResult.secure_url; // Assuming imgUploadResult contains the new image URL
+    } else {
+      updateData.image = existingJobPost.image; // Keep existing image if no new image is uploaded
     }
-
-    console.log(updateData); // Log updated data for debugging
 
     // Only proceed with the update if there are changes
     if (Object.keys(updateData).length > 0) {
