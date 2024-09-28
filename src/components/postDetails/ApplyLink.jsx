@@ -1,5 +1,5 @@
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
 
 const ApplyLink = ({
   applyLink,
@@ -9,11 +9,6 @@ const ApplyLink = ({
   admitCardLink,
   notificationLink
 }) => {
-  console.log(applyLink);
-  console.log(answerKeyLink);
-  console.log(resultLink);
-  console.log(admissionLink);
-  console.log(admitCardLink);
 
   return (
     <div className="w-full dark:bg-[#000000] text-sm md:text-sm lg:text-base bg-[#FFFFFF] px-10 py-5 rounded-md flex flex-col gap-2 md:flex-row flex-wrap">
