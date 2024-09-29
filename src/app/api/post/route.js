@@ -81,8 +81,6 @@ export async function POST(req) {
 
     const img = await uploadOnCloudinary(image, "NaukriVacancy");
 
-    console.log(img);
-
     if (!img) {
       return NextResponse.json(
         { message: "There was an error uploading the file." },
