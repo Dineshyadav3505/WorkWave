@@ -45,7 +45,7 @@ const ImageComponent = ({data}) => {
           {data.postName}
         </h1>
         <hr />
-        <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row gap-2">
+        <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row flex-wrap gap-2">
           {details.map((detail, index) => (
             <h4
               key={index}

@@ -494,7 +494,7 @@ const Post = () => {
                     />
                     </div>
                     <hr />
-                    <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row gap-2">
+                    <div className="mt-5 md:mt-2 flex flex-col items-center md:flex-row flex-wrap gap-2">
                       <Input
                         type="date"
                         name="beginDate"
@@ -503,6 +503,7 @@ const Post = () => {
                         value={beginDate}
                         onChange={handleBeginDateChange}
                         placeholder={data.beginDate}
+                        inputClass={"md:w-1/2 lg:w-1/4"}
                       />
 
                       <Input
@@ -512,6 +513,7 @@ const Post = () => {
                         label={`Last Date (${formattedDate(data.lastDate)})`}
                         value={lastDate}
                         onChange={handleLastDateChange}
+                        inputClass={"md:w-1/2 lg:w-1/4"}
                       />
                       <Input
                         type="text"
@@ -521,6 +523,7 @@ const Post = () => {
                         value={totalPost}
                         onChange={handlePostChange}
                         placeholder={data.totalPost}
+                        inputClass={"md:w-1/2 lg:w-1/4"}
                       />
                       <Input
                         type="text"
@@ -530,6 +533,7 @@ const Post = () => {
                         value={notificationLink}
                         onChange={handleNotificationLinkChange}
                         placeholder={data.notificationLink}
+                        inputClass={"md:w-1/2 lg:w-1/4"}
                       />
                     </div>
                   </div>
