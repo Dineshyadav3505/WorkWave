@@ -16,6 +16,7 @@ import AdmitCardLink from "@/components/AdminPostDetails/AdmitCardLink";
 import AdmissionLink from "@/components/AdminPostDetails/AdmissionLink";
 import AnswerKeyLink from "@/components/AdminPostDetails/AnswerKeyLink";
 import ResultLink from "@/components/AdminPostDetails/ResultLink";
+import BackGround from "@/components/BackGround";
 
 const Post = () => {
   const [data, setData] = useState(null);
@@ -438,24 +439,14 @@ const Post = () => {
         <>
           <div className=" mb-10 relative">
             <form onSubmit={handleSubmit}>
-              <div className="w-full h-full absolute -z-10 md:h-96  flex justify-center items-center py-1">
-                <div className="w-[70%] lg:w-[52%] h-full  relative flex justify-center items-center">
-                  <Image
-                    src="http://res.cloudinary.com/kodingmonk/image/upload/v1727506934/NaukriVacancy/bwuqdzdatwetl2yhhz1n.png"
-                    alt="Post cover image"
-                    fill // This allows the image to fill its parent container
-                    priority // Prioritizes loading this image for performance
-                    sizes="(max-width: 500px) 100px, 50vw" // Adjust size based on viewport width
-                    style={{ objectFit: "fill" }} // Ensures the image covers the area while maintaining aspect ratio
-                    className="absolute"
-                  />
-                </div>
-              </div>
+            <div className=" relative">
+            <BackGround />
+            </div>
 
               <div className="h-full w-full px-4 md:10 lg:px-16 pt-48 md:pt-60 space-y-4">
                 {/* Image Section */}
                 <div className="p-7 w-full dark:bg-[#000000] bg-[#FFFFFF] rounded-md md:flex gap-5 justify-center items-center ">
-                  <div className="h-20 w-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto relative p-1 relative">
+                  <div className="h-20 w-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto relative p-1">
                     <CldImage
                       src={data.image}
                       alt="post"
