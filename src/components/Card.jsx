@@ -70,6 +70,7 @@ const Card = ({ data, admin }) => {
         <div className="border-b-[1px] pb-3 flex items-center p-2 gap-4 w-full  ">
           <div className="relative w-[58.3px] flex items-center justify-center p-4 overflow-hidden">
             <CldImage
+              loading="lazy"
               src={data.image}
               alt="post"
               fill
@@ -88,8 +89,7 @@ const Card = ({ data, admin }) => {
             {shortenText(data.postName, 10)}
           </h1>
 
-          {/* share Button */}
-
+          {/* Share Button && Delete Button */}
           {admin ? (
             <button onClick={deletePost} className="text-[#64C8FA]">
               <svg
