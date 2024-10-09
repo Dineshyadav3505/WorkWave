@@ -108,7 +108,6 @@ export async function POST(req) {
       totalPost,
     });
 
-
     await jobPost.save();
     return NextResponse.json(jobPost, { status: 201 });
   } catch (error) {
@@ -122,6 +121,7 @@ export async function POST(req) {
 
 // Get all job posts
 export async function GET(req) {
+  console.log(req)
   await dbConnect(); // Ensure the database is connected
   const query = req.url;
   const url = new URL(query, `http://${req.headers.host}`);
@@ -135,6 +135,9 @@ export async function GET(req) {
   const linkType = url.searchParams.get("link");
   const upComingJob = url.searchParams.get("upComingJob") || false;
   const state = url.searchParams.get("state") || false;
+  const stateName = url.searchParams.get("stateName") || "All";
+
+  console.log("GET request query params: ", stateName);
 
   try {
     let queryOptions = {};
@@ -153,6 +156,10 @@ export async function GET(req) {
     }
 
     if (state === "true") {
+      if(stateName !== "All") {
+        queryOptions.state = { $ne: stateName };
+        console.log("State name: ", stateName);
+      }
       queryOptions.state = { $ne: "" };
     }
 
@@ -178,6 +185,7 @@ export async function GET(req) {
       currentPage: page,
       posts: jobPosts,
     });
+    
   } catch (error) {
     console.error("Error while fetching job posts", error);
     return NextResponse.json(
@@ -210,7 +218,7 @@ export async function PUT(req) {
     }
 
     const formData = await req.formData();
-    
+
     // Retrieve the job post ID from form data
     const jobPostId = formData.get("id");
 
@@ -244,7 +252,7 @@ export async function PUT(req) {
       "state",
       "beginDate",
       "lastDate",
-      "totalPost"
+      "totalPost",
     ];
 
     // Iterate over each field and check for changes
@@ -252,18 +260,27 @@ export async function PUT(req) {
       const newValue = formData.get(field);
 
       // If newValue is null or undefined, keep existing value; if it's empty string, replace with existing value
-      if (newValue === null || newValue === undefined || newValue === '') {
+      if (newValue === null || newValue === undefined || newValue === "") {
         updateData[field] = existingJobPost[field];
       } else {
         let parsedValue;
 
         // Handle specific parsing for JSON fields and dates
-        if (["importantDates", "applicationFee", "ageLimit", 
-             "applyLink", "resultLink", "admitCardLink", 
-             "answerKeyLink", "admissionLink", 
-             "informationSections"].includes(field)) {
+        if (
+          [
+            "importantDates",
+            "applicationFee",
+            "ageLimit",
+            "applyLink",
+            "resultLink",
+            "admitCardLink",
+            "answerKeyLink",
+            "admissionLink",
+            "informationSections",
+          ].includes(field)
+        ) {
           parsedValue = newValue ? JSON.parse(newValue) : null; // Handle null case
-        } else if (field === 'beginDate' || field === 'lastDate') {
+        } else if (field === "beginDate" || field === "lastDate") {
           parsedValue = newValue ? new Date(newValue) : null; // Handle null case
         } else {
           parsedValue = newValue;
@@ -278,18 +295,21 @@ export async function PUT(req) {
 
     // Handle image upload separately if a new image is provided
     const imageFile = formData.get("image");
-    
+
     if (imageFile !== "null" && imageFile !== undefined && imageFile !== null) {
       console.log("Uploading image...");
-      const imgUploadResult = await uploadOnCloudinary(imageFile, "NaukriVacancy");
-      
+      const imgUploadResult = await uploadOnCloudinary(
+        imageFile,
+        "NaukriVacancy"
+      );
+
       if (!imgUploadResult) {
         return NextResponse.json(
           { message: "There was an error uploading the file." },
           { status: 500 }
         );
       }
-      
+
       updateData.image = imgUploadResult.secure_url; // Assuming imgUploadResult contains the new image URL
     } else {
       updateData.image = existingJobPost.image; // Keep existing image if no new image is uploaded
@@ -299,7 +319,7 @@ export async function PUT(req) {
     if (Object.keys(updateData).length > 0) {
       const updatedJobPost = await JobPost.findByIdAndUpdate(
         jobPostId,
-        { $set: updateData }, 
+        { $set: updateData },
         { new: true, runValidators: false } // Prevent validation errors for missing required fields
       );
 
@@ -312,9 +332,9 @@ export async function PUT(req) {
     }
   } catch (error) {
     console.error("Error while updating job post", error);
-    
+
     return NextResponse.json(
-      { message: error.message || "Error while updating job post" }, 
+      { message: error.message || "Error while updating job post" },
       { status: 500 }
     );
   }

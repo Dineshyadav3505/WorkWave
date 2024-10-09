@@ -17,7 +17,7 @@ const SearchBar = ({ onSearch , placeholder = "Search for anything" }) => {
   };
 
   return (
-    <div className="py-2 dark:bg-black bg-white rounded-full flex items-center px-4 mb-5 shadow-md">
+    <div className="py-2 dark:bg-black bg-white rounded-full flex items-center px-4 mb-5 shadow-md w-full">
       <span className="text-gray-600 mr-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
