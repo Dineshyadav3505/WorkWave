@@ -41,7 +41,7 @@ export async function POST(req) {
       answerKeyLink,
       admissionLink,
       informationSections,
-      state,
+      state = state.toLowerCase(),
       beginDate,
       lastDate,
       totalPost,
@@ -121,7 +121,7 @@ export async function POST(req) {
 
 // Get all job posts
 export async function GET(req) {
-  console.log(req)
+
   await dbConnect(); // Ensure the database is connected
   const query = req.url;
   const url = new URL(query, `http://${req.headers.host}`);
@@ -135,9 +135,7 @@ export async function GET(req) {
   const linkType = url.searchParams.get("link");
   const upComingJob = url.searchParams.get("upComingJob") || false;
   const state = url.searchParams.get("state") || false;
-  const stateName = url.searchParams.get("stateName") || "All";
-
-  console.log("GET request query params: ", stateName);
+  const stateName = (url.searchParams.get("stateName") || "all").toLowerCase();
 
   try {
     let queryOptions = {};
@@ -156,11 +154,13 @@ export async function GET(req) {
     }
 
     if (state === "true") {
-      if(stateName !== "All") {
-        queryOptions.state = { $ne: stateName };
-        console.log("State name: ", stateName);
+      if(stateName !== "all") {
+        queryOptions.state = { $eq: stateName };
       }
-      queryOptions.state = { $ne: "" };
+      else{
+        console.log("first")
+        queryOptions.state = { $ne: "" };
+      }
     }
 
     if (linkType && linkType !== "all" && upComingJob !== "true") {
