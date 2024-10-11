@@ -195,79 +195,86 @@ export async function GET(req) {
   }
 }
 
-// Update a job post by ID
-export async function PUT(req) {
-  const id = await auth(req);
-  await dbConnect();
+  export async function PUT(req) {
+    const id = await auth(req);
+    await dbConnect();
 
-  try {
-    // Check if the user is authorized
-    if (!id) {
-      return NextResponse.json(
-        { message: "You are not authorized to access this route" },
-        { status: 401 }
-      );
-    }
+    try {
+      // Check if the user is authorized
+      if (!id) {
+        return NextResponse.json(
+          { message: "You are not authorized to access this route" },
+          { status: 401 }
+        );
+      }
 
-    const dataBaseUser = await User.findById(id);
-    if (!dataBaseUser || dataBaseUser.role !== "admin") {
-      return NextResponse.json(
-        { message: "You are not authorized to access this route" },
-        { status: 401 }
-      );
-    }
+      const dataBaseUser = await User.findById(id);
+      if (!dataBaseUser || dataBaseUser.role !== "admin") {
+        return NextResponse.json(
+          { message: "You are not authorized to access this route" },
+          { status: 401 }
+        );
+      }
 
-    const formData = await req.formData();
+      const formData = await req.formData();
 
-    // Retrieve the job post ID from form data
-    const jobPostId = formData.get("id");
+      // Retrieve the job post ID from form data
+      const jobPostId = formData.get("id");
 
-    // Retrieve the existing job post
-    const existingJobPost = await JobPost.findById(jobPostId);
-    if (!existingJobPost) {
-      return NextResponse.json(
-        { message: "Job post not found" },
-        { status: 404 }
-      );
-    }
+      // Retrieve the existing job post
+      const existingJobPost = await JobPost.findById(jobPostId);
+      if (!existingJobPost) {
+        return NextResponse.json(
+          { message: "Job post not found" },
+          { status: 404 }
+        );
+      }
 
-    // Create an object to hold the updated fields
-    const updateData = {};
+      // Create an object to hold the updated fields
+      const updateData = {};
 
-    // Define fields to check for updates
-    const fieldsToUpdate = [
-      "postName",
-      "description",
-      "image",
-      "notificationLink",
-      "importantDates",
-      "applicationFee",
-      "ageLimit",
-      "applyLink",
-      "resultLink",
-      "admitCardLink",
-      "answerKeyLink",
-      "admissionLink",
-      "informationSections",
-      "state",
-      "beginDate",
-      "lastDate",
-      "totalPost",
-    ];
+      // Define fields to check for updates
+      const fieldsToUpdate = [
+        "postName",
+        "description",
+        "image",
+        "notificationLink",
+        "importantDates",
+        "applicationFee",
+        "ageLimit",
+        "applyLink",
+        "resultLink",
+        "admitCardLink",
+        "answerKeyLink",
+        "admissionLink",
+        "informationSections",
+        "state",
+        "beginDate",
+        "lastDate",
+        "totalPost",
+      ];
 
-    // Iterate over each field and check for changes
-    for (const field of fieldsToUpdate) {
-      const newValue = formData.get(field);
+      // Iterate over each field and check for changes
+      for (const field of fieldsToUpdate) {
+        const newValue = formData.get(field);
 
-      // If newValue is null or undefined, keep existing value; if it's empty string, replace with existing value
-      if (newValue === null || newValue === undefined || newValue === "") {
-        updateData[field] = existingJobPost[field];
-      } else {
+        if (newValue === null || newValue === undefined) {
+          continue; 
+        }
+
+        if (newValue === "") {
+          // If newValue is an empty string, retain existing value for array fields
+          if (Array.isArray(existingJobPost[field])) {
+            continue; // Keep existing array values
+          } else {
+            updateData[field] = existingJobPost[field]; // Keep existing value for non-array fields
+            continue;
+          }
+        }
+
         let parsedValue;
 
-        // Handle specific parsing for JSON fields and dates
-        if (
-          [
+        if ([
             "importantDates",
             "applicationFee",
             "ageLimit",
@@ -276,69 +283,74 @@ export async function PUT(req) {
             "admitCardLink",
             "answerKeyLink",
             "admissionLink",
-            "informationSections",
-          ].includes(field)
-        ) {
-          parsedValue = newValue ? JSON.parse(newValue) : null; // Handle null case
+            "informationSections"
+          ].includes(field)) {
+          try {
+            const newArrayValue = JSON.parse(newValue);
+            parsedValue = Array.isArray(newArrayValue) ? newArrayValue : [newArrayValue];
+            parsedValue = [...new Set([...existingJobPost[field], ...parsedValue])];
+          } catch (error) {
+            console.error(`Error parsing JSON for field ${field}:`, error);
+            return NextResponse.json(
+              { message: `Invalid JSON for field ${field}` },
+              { status: 400 }
+            );
+          }
         } else if (field === "beginDate" || field === "lastDate") {
-          parsedValue = newValue ? new Date(newValue) : null; // Handle null case
+          parsedValue = new Date(newValue);
         } else {
           parsedValue = newValue;
         }
 
         // Only add to updateData if the value has changed
-        if (existingJobPost[field] !== parsedValue) {
+        if (JSON.stringify(existingJobPost[field]) !== JSON.stringify(parsedValue)) {
           updateData[field] = parsedValue;
         }
       }
-    }
 
-    // Handle image upload separately if a new image is provided
-    const imageFile = formData.get("image");
+      // Handle image upload separately if a new image is provided
+      const imageFile = formData.get("image");
 
-    if (imageFile !== "null" && imageFile !== undefined && imageFile !== null) {
-      console.log("Uploading image...");
-      const imgUploadResult = await uploadOnCloudinary(
-        imageFile,
-        "NaukriVacancy"
-      );
+      if (imageFile && imageFile !== 'null') {
+        console.log("Uploading image...");
+        const imgUploadResult = await uploadOnCloudinary(imageFile, "NaukriVacancy");
 
-      if (!imgUploadResult) {
-        return NextResponse.json(
-          { message: "There was an error uploading the file." },
-          { status: 500 }
-        );
+        if (!imgUploadResult) {
+          return NextResponse.json(
+            { message: "There was an error uploading the file." },
+            { status: 500 }
+          );
+        }
+
+        updateData.image = imgUploadResult.secure_url; // Assuming imgUploadResult contains the new image URL
+      } else {
+        updateData.image = existingJobPost.image; // Keep existing image if no new image is uploaded
       }
 
-      updateData.image = imgUploadResult.secure_url; // Assuming imgUploadResult contains the new image URL
-    } else {
-      updateData.image = existingJobPost.image; // Keep existing image if no new image is uploaded
-    }
+      // Only proceed with the update if there are changes
+      if (Object.keys(updateData).length > 0) {
+        const updatedJobPost = await JobPost.findByIdAndUpdate(
+          jobPostId,
+          { $set: updateData },
+          { new: true, runValidators: true } // Run validators to ensure data integrity
+        );
 
-    // Only proceed with the update if there are changes
-    if (Object.keys(updateData).length > 0) {
-      const updatedJobPost = await JobPost.findByIdAndUpdate(
-        jobPostId,
-        { $set: updateData },
-        { new: true, runValidators: false } // Prevent validation errors for missing required fields
-      );
+        return NextResponse.json(updatedJobPost);
+      } else {
+        return NextResponse.json(
+          { message: "No changes detected" },
+          { status: 204 } // No Content
+        );
+      }
+    } catch (error) {
+      console.error("Error while updating job post", error);
 
-      return NextResponse.json(updatedJobPost);
-    } else {
       return NextResponse.json(
-        { message: "No changes detected" },
-        { status: 204 } // No Content
+        { message: error.message || "Error while updating job post" },
+        { status: 500 }
       );
     }
-  } catch (error) {
-    console.error("Error while updating job post", error);
-
-    return NextResponse.json(
-      { message: error.message || "Error while updating job post" },
-      { status: 500 }
-    );
   }
-}
 
 // Delete a job post by ID
 export async function DELETE(req) {

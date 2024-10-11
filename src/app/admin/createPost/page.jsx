@@ -320,26 +320,6 @@ const Page = () => {
     setLoading(true); // Set loading to true when the form is submitted
 
     try {
-      console.log(
-        postName,
-        description,
-        image,
-        notificationLink,
-        importantDates,
-        applicationFees,
-        ageLimits,
-        applyLinks,
-        resultLink,
-        admitCardLink,
-        answerKeyLink,
-        admissionLink,
-        state,
-        beginDate,
-        lastDate,
-        totalPost,
-        informationSections
-      );
-
       const formData = new FormData();
       formData.append("postName", postName);
       formData.append("description", description);
