@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState, memo } from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ImageComponent from "@/components/postDetails/ImageComponent";
 import Information from "@/components/postDetails/Information";
@@ -46,11 +45,13 @@ const Post = () => {
           <div className=" relative">
             <BackGround />
 
-            <div className="h-full w-full px-4 md:10 lg:px-16 pt-48 md:pt-60 lg:pt-64 space-y-4">
+            <div className="h-full w-full mx-auto px-4 mb-10 lg:px-16 pt-48 md:pt-60 lg:pt-64 space-y-4">
               <ImageComponent data={data} />
               <Description data={data.description} />
-              <ImportantDates data={data.importantDates} />
-              <ApplicationFee data={data.applicationFee} />
+              <div className="md:flex gap-5">
+                <ImportantDates data={data.importantDates} />
+                <ApplicationFee data={data.applicationFee} />
+              </div>
               <AgeLimit data={data.ageLimit} />
               <Information data={data.informationSections} />
               <ApplyLink
