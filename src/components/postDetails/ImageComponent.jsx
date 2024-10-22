@@ -49,7 +49,7 @@ const ImageComponent = ({data}) => {
           {details.map((detail, index) => (
             <h4
               key={index}
-              className="dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#F4F4F4] text-center font-semibold py-2 px-5 text-sm rounded-full"
+              className="dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#ECECEC] text-center font-semibold py-2 px-5 text-sm rounded-full"
             >
               {detail.label} :{" "}
               <span style={{ color: detail.text }}>
@@ -58,12 +58,12 @@ const ImageComponent = ({data}) => {
             </h4>
           ))}
 
-          <h4 className="dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#F4F4F4] text-center font-semibold py-2 px-5 text-sm rounded-full">
+          <h4 className="dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#ECECEC] text-center font-semibold py-2 px-5 text-sm rounded-full">
             Time Left: <span className="text-[#FF0000]">{leftDays}</span>
           </h4>
-          <h6 className='dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#F4F4F4] text-center font-semibold py-2 px-5 text-sm rounded-full'>
+          {data.totalPost && <h6 className='dark:bg-[#1d1d1d] capitalize w-full md:w-fit bg-[#ECECEC] text-center font-semibold py-2 px-5 text-sm rounded-full'>
           total Vacancy : {data?.totalPost}
-          </h6>
+          </h6>}
         </div>
       </div>
     </div>
