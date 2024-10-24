@@ -37,10 +37,7 @@ const ApplyLink = ({
   );
 
   const toggleLink = (type) => {
-    setLinkStates((prevStates) => ({
-     ...prevStates,
-      [type]:!prevStates[type],
-    }));
+    setLinkStates((prevStates) => ({...prevStates, [type]:!prevStates[type] }));
   };
 
   const [notification, setNotification] = useState(false);
@@ -54,9 +51,9 @@ const ApplyLink = ({
         Important Links
       </h1>
 
-      <div className="gap-1 md:flex flex-wrap mb-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 justify-items-center mb-3">
         {/* Notification Link outside the loop */}
-        <div className="w-full md:w-[24.7%] px-4 py-1">
+        <div className="w-full md:w-full lg:w-full px-4 py-1">
           <div
             onClick={notificationToggle}
             className="flex justify-between px-3 border rounded py-1 cursor-pointer"
@@ -97,7 +94,7 @@ const ApplyLink = ({
             const links = validatedLinks[type];
             if (links.length > 0) {
               return (
-                <div key={type} className="w-full md:w-[24.7%] px-4 py-1">
+                <div key={type} className="w-full md:w-full lg:w-full px-4 py-1">
                   <div
                     onClick={() => toggleLink(type)}
                     className="flex justify-between px-3 border rounded py-1 cursor-pointer"
